@@ -13,7 +13,7 @@ Education
 ======
 * B.S. in Mathematics, University of Michigan, 2021
 * M.S. in Computer Science, Duke University, 2022
-* Ph.D in Electrical and Computer Engineering, Carnegie Mellon University, 2026 (expected)
+* Ph.D in Electrical and Computer Engineering, Carnegie Mellon University, 2027 (expected)
 
 Work experience
 ======
