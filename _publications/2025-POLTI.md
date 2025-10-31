@@ -4,7 +4,7 @@ collection: publications
 permalink: /publication/2025-POLTI
 #excerpt: 'Autonomous systems must have the ability to quickly adapt to various situations. However, adaptation methods often require strong assumptions about system structures, environmental homogeneity, and multiple rollouts. In this work, we integrate multi-armed bandit and model-based RL to design a fast adaptation algorithm on a single trajectory. Our approach achieves sublinear regret, and the performance guarantee does not require homogeneity of the environment. This regret bound is achieved using a novel prediction error metric that is minimized in the ground-truth MDP. To the best of our knowledge, all existing results with provable guarantees depend on the Bregman divergence between the optimal policies among the MDP's. We show by simulation that our algorithm performs well in puzzle navigation and quadcopter path-tracking.'
 date: 2025-10-08
-venue: 'Neurips 2025'
+venue: 'Neurips'
 paperurl: 'https://arxiv.org/abs/2503.16756'
 #citation: 'Your Name, You. (2015). &quot;Paper Title Number 3.&quot; <i>Journal 1</i>. 1(3).'
 ---
