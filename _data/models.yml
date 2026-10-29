@@ -2,6 +2,24 @@
 # _data/travel.yml, with the files in images/models/ (originals in scaled_models/) and
 # the subtitle saying what the model is.
 
+- file: 2018-04-16-kuri
+  title: Kuri
+  subtitle: Japanese destroyer
+  date: 2018
+  description: A Momi-class destroyer of the Imperial Japanese Navy, built in 1920, with her crew on deck and signal flags flying.
+
+- file: 2018-05-09-suzuya
+  title: Suzuya
+  subtitle: Japanese heavy cruiser
+  date: 2018
+  description: A Mogami-class heavy cruiser of the Imperial Japanese Navy, moored to a buoy with her boats alongside. She was sunk off Samar in October 1944.
+
+- file: 2019-08-14-port-of-fuzhou-1884
+  title: Port of Fuzhou, 1884
+  subtitle: Diorama, Sino-French War
+  date: 2019
+  description: Ships of China's Fujian Fleet in the Min River, and one on the slipway of the navy yard. In August 1884 a French squadron destroyed the fleet here, in the Battle of Fuzhou.
+
 - file: 2023-03-08-hms-salamander
   title: HMS Salamander (1687)
   subtitle: Royal Navy bomb vessel, in wood
