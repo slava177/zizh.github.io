@@ -1,7 +1,10 @@
-{% comment %} Courses from _data/cv.yml. {% endcomment %}
+{% comment %} Courses from _data/cv.yml, with the year at the left. {% endcomment %}
 
-<ul class="plain-list">
+<ul class="timeline">
   {% for course in site.data.cv.teaching %}
-    <li>{{ course | markdownify | remove: "<p>" | remove: "</p>" | strip }}</li>
+    <li>
+      <span class="timeline__when">{{ course.when }}</span>
+      <div class="timeline__what"><strong>{{ course.course }}</strong>{% if course.role %}, {{ course.role }}{% endif %}</div>
+    </li>
   {% endfor %}
 </ul>

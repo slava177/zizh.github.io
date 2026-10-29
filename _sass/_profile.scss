@@ -261,16 +261,6 @@
   text-transform: uppercase;
 }
 
-.plain-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  li {
-    padding: 4px 0;
-  }
-}
-
 .skills {
   display: grid;
   grid-template-columns: max-content minmax(0, 1fr);

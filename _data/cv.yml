@@ -37,7 +37,12 @@ experience:
       - Redesigned the database structure in order to scale up the system's capacity to handle larger number of transactions.
 
 teaching:
-  - "18-667: Algorithms for Large-scale Distributed Machine Learning and Optimization"
+  - when: "2024"
+    course: "18-667: Algorithms for Large-scale Distributed Machine Learning and Optimization"
+    role: Teaching Assistant
+  - when: "2023"
+    course: "10-625: Introduction to Convex Optimization"
+    role: Teaching Assistant
 
 skills:
   - label: Programming languages
