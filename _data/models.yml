@@ -5,6 +5,12 @@
 #   specs        optional details about the model, such as its scale and kit, shown as
 #                a list in the full view
 
+- file: 2017-10-12-wooden-lamp
+  title: Wooden Lamp
+  subtitle: Pendant lamp, in wood
+  date: 2017
+  description: A shade of stacked wooden slats around the bulb.
+
 - file: 2018-04-16-kuri
   title: Kuri
   subtitle: Japanese destroyer

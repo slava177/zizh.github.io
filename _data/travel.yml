@@ -13,6 +13,112 @@
 #
 # No camera settings here, please: the page is about the places, not the photography.
 
+- file: 2017-06-30-jiuzhaigou-nuorilang-waterfall
+  title: Nuorilang Waterfall
+  subtitle: Jiuzhaigou, Sichuan, China
+  date: June 2017
+  description: Water pours in many strands over a long ledge of travertine, with trees growing along its rim.
+  crop: 50% 20%
+
+- file: 2017-06-30-jiuzhaigou-turquoise-water
+  title: Turquoise Water
+  subtitle: Jiuzhaigou, Sichuan, China
+  date: June 2017
+  description: So clear that every stone and sunken branch on the bottom shows.
+
+- file: 2017-07-01-jiuzhaigou-lake
+  title: Mountain Lake
+  subtitle: Jiuzhaigou, Sichuan, China
+  date: July 2017
+  description: Fallen trees lie under the water, and a young tree grows on one of them.
+
+- file: 2017-08-23-antelope-canyon
+  title: Antelope Canyon
+  subtitle: Page, Arizona, USA
+  date: August 2017
+  description: A slot canyon carved through sandstone by flash floods, lit only from the narrow gap above.
+  crop: 50% 35%
+
+- file: 2017-08-23-antelope-canyon-sandstone
+  title: Sandstone Waves
+  subtitle: Antelope Canyon, Arizona, USA
+  date: August 2017
+  description: Sunlight reflected down between the walls makes the sandstone glow.
+  crop: 50% 35%
+
+- file: 2022-05-30-london-cutty-sark
+  title: Cutty Sark
+  subtitle: Greenwich, London, England
+  date: May 2022
+  description: One of the last and fastest tea clippers, launched in 1869, now raised above her dry dock.
+  crop: 50% 65%
+
+- file: 2022-05-30-london-tower-bridge
+  title: Tower Bridge
+  subtitle: London, England
+  date: May 2022
+  description: Opened across the Thames in 1894, with the Shard rising behind it.
+
+- file: 2022-05-31-portsmouth-hms-warrior
+  title: HMS Warrior
+  subtitle: Portsmouth, England
+  date: May 2022
+  description: Britain's first iron-hulled, armoured warship, launched in 1860, seen across the harbour mud at low tide.
+
+- file: 2022-06-01-portsmouth-mary-rose
+  title: The Mary Rose
+  subtitle: Mary Rose Museum, Portsmouth, England
+  date: June 2022
+  description: The surviving starboard side of Henry VIII's warship, which sank in 1545 and was raised in 1982.
+  crop: 50% 40%
+
+- file: 2022-06-02-london-westminster
+  title: Palace of Westminster
+  subtitle: London, England
+  date: June 2022
+  description: The Houses of Parliament and Big Ben, across the Thames.
+
+- file: 2022-06-04-edinburgh-royal-mile
+  title: The Royal Mile
+  subtitle: Edinburgh, Scotland
+  date: June 2022
+  description: The Old Town's main street, running from the castle down to Holyrood Palace.
+  crop: 50% 60%
+
+- file: 2022-06-05-eilean-donan-castle
+  title: Eilean Donan
+  subtitle: Dornie, Scotland
+  date: June 2022
+  description: A castle on a small tidal island where three sea lochs meet, reached by a stone footbridge.
+  crop: 50% 75%
+
+- file: 2022-06-05-skye-portree
+  title: Portree Harbour
+  subtitle: Isle of Skye, Scotland
+  date: June 2022
+  description: The island's main town, with its row of painted houses along the quay.
+
+- file: 2022-06-06-skye-fairy-glen
+  title: The Fairy Glen
+  subtitle: Isle of Skye, Scotland
+  date: June 2022
+  description: Castle Ewen, a rock outcrop among the small grassy hills near Uig.
+  crop: 50% 55%
+
+- file: 2022-06-06-skye-mealt-falls
+  title: Mealt Falls
+  subtitle: Isle of Skye, Scotland
+  date: June 2022
+  description: The waterfall drops straight into the sea from the cliffs by Kilt Rock.
+  crop: 50% 70%
+
+- file: 2022-06-06-skye-trotternish-coast
+  title: Trotternish Coast
+  subtitle: Isle of Skye, Scotland
+  date: June 2022
+  description: Sea cliffs along the east side of the Trotternish peninsula.
+  crop: 50% 75%
+
 - file: 2023-01-03-iceland-reynisfjara-basalt-columns
   title: Basalt Columns
   subtitle: Reynisfjara, Iceland
@@ -35,35 +141,6 @@
   date: January 2023
   description: Steam drifting off the hot springs around the Great Geysir, the spring that gave all geysers their name.
   crop: 50% 45%
-
-- file: 2023-01-04-iceland-hoarfrost
-  title: Frost and Steam
-  subtitle: Iceland
-  date: January 2023
-
-- file: 2023-01-04-iceland-frosted-branches
-  title: Frosted Branches
-  subtitle: Iceland
-  date: January 2023
-
-- file: 2023-01-04-iceland-ice-cave
-  title: Inside a Glacier
-  subtitle: Vatnajökull, Iceland
-  date: January 2023
-  description: An ice cave under Iceland's largest glacier. The caves change every year and can only be entered in winter.
-
-- file: 2023-01-04-iceland-ice-cave-ceiling
-  title: Blue Ice
-  subtitle: Vatnajökull, Iceland
-  date: January 2023
-  description: The cave's ceiling, scalloped by meltwater.
-
-- file: 2023-01-04-iceland-diamond-beach
-  video: true
-  title: Diamond Beach
-  subtitle: Breiðamerkursandur, Iceland
-  date: January 2023
-  description: Black volcanic sand by the glacier lagoon Jökulsárlón; the beach is named for the chunks of ice that wash up on it.
 
 - file: 2023-01-05-stockholm-vasa-scale-model
   title: Vasa, as She Looked in 1628
