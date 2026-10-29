@@ -6,6 +6,7 @@ permalink: /publication/2026-hilbertgen-3d
 date: 2026-10-15
 venue: 'Advances in Neural Information Processing Systems (NeurIPS)'
 paperurl: 'https://arxiv.org/abs/2610.22720'
+cover: '2026-hilbertgen-3d.jpg'
 citation: '<b>Z. Zhang</b>, S. Li, Y. Nakahira, P. Bogdan, and G. Qu. &quot;HilbertGen-3D: Hilbert–Multifractal Conditioning for Topology-Aware 3D Generation.&quot; <i>Advances in Neural Information Processing Systems (NeurIPS)</i>, 2026 (to appear).'
 ---
 

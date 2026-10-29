@@ -6,6 +6,7 @@ permalink: /publication/2020-polyhedra
 date: 2020-11-03
 venue: 'Beiträge zur Algebra und Geometrie / Contributions to Algebra and Geometry'
 paperurl: 'https://link.springer.com/article/10.1007/s13366-020-00543-2'
+cover: '2020-polyhedra.jpg'
 citation: '<b>Z. Zhang</b>. &quot;Polyhedra of small relative mixed volume.&quot; <i>Beiträge zur Algebra und Geometrie / Contributions to Algebra and Geometry</i>, 62(4):773–782, 2021.'
 ---
 

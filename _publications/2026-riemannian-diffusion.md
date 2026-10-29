@@ -6,6 +6,7 @@ permalink: /publication/2026-riemannian-diffusion
 date: 2026-01-05
 venue: 'International Conference on Learning Representations (ICLR)'
 paperurl: 'https://openreview.net/forum?id=lL0FR3UPhZ'
+cover: '2026-riemannian-diffusion.jpg'
 citation: 'X. Xu, <b>Z. Zhang</b>, Y. Nakahira, G. Qu, and Y. Chi. &quot;Polynomial Convergence of Riemannian Diffusion Models.&quot; <i>International Conference on Learning Representations (ICLR)</i>, 2026.'
 ---
 

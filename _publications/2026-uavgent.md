@@ -6,6 +6,7 @@ permalink: /publication/2026-uavgent
 date: 2026-01-18
 venue: 'arXiv preprint arXiv:2602.13212'
 paperurl: 'https://arxiv.org/abs/2602.13212'
+cover: '2026-uavgent.jpg'
 citation: '<b>Z. Zhang</b>, X. Deng, G. Qu, and Y. Nakahira. &quot;UAVGENT: A Language-Guided Distributed Control Framework.&quot; <i>arXiv preprint arXiv:2602.13212</i>, 2026.'
 ---
 

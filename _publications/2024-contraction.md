@@ -6,6 +6,7 @@ permalink: /publication/2024-contraction
 date: 2025-03-08
 venue: 'Transactions on Machine Learning Research (TMLR)'
 paperurl: 'https://openreview.net/forum?id=uObs1YwXjQ'
+cover: '2024-contraction.jpg'
 citation: '<b>Z. Zhang</b>, Y. Nakahira, and G. Qu. &quot;Predictive Control and Regret Analysis of Non-Stationary MDP with Look-ahead Information.&quot; <i>Transactions on Machine Learning Research (TMLR)</i>, 2025.'
 ---
 

@@ -6,6 +6,7 @@ permalink: /publication/2026-fractional-order
 date: 2026-09-16
 venue: 'Advances in Neural Information Processing Systems (NeurIPS)'
 paperurl: 'https://arxiv.org/abs/2609.18127'
+cover: '2026-fractional-order.jpg'
 citation: 'X. Zhang, <b>Z. Zhang</b>, Z. Zhao, S. Tu, G. Qu, Y. Nakahira, and P. Bogdan. &quot;Learning Fractional-Order Dynamics from a Single Trajectory.&quot; <i>Advances in Neural Information Processing Systems (NeurIPS)</i>, 2026 (to appear).'
 ---
 

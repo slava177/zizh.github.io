@@ -6,6 +6,7 @@ permalink: /publication/2025-POLTI
 date: 2025-10-08
 venue: 'Advances in Neural Information Processing Systems (NeurIPS)'
 paperurl: 'https://openreview.net/forum?id=KwHsZJatB8'
+cover: '2025-POLTI.jpg'
 citation: '<b>Z. Zhang</b>, Y. Nakahira, and G. Qu. &quot;Stabilizing LTI Systems under Partial Observability: Sample Complexity and Fundamental Limits.&quot; <i>Advances in Neural Information Processing Systems (NeurIPS)</i>, 2025.'
 ---
 

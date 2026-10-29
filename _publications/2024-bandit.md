@@ -6,6 +6,7 @@ permalink: /publication/2024-bandit
 date: 2025-07-08
 venue: 'American Control Conference (ACC)'
 paperurl: 'https://ieeexplore.ieee.org/abstract/document/11107697'
+cover: '2024-bandit.jpg'
 citation: '<b>Z. Zhang</b>, G. Qu, and Y. Nakahira. &quot;Fast Bandit-based Policy Adaptation in Diverse Environments.&quot; In <i>Proceedings of the American Control Conference (ACC)</i>, pp. 2458–2464, 2025.'
 ---
 
