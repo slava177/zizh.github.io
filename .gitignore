@@ -22,6 +22,11 @@ package-lock.json
 # Ignore files created by MacOS
 .DS_Store
 
+# Original photos and videos for the Travel and Scale Models pages: too big for the
+# repository (one video is 288 MB), and the site uses the smaller copies in images/
+/photography/
+/scaled_models/
+
 # Ignore the main.min.js since it should be built as part of jekyll-build.yml
 assets/js/main.min.js
 .jekyll-cache/

@@ -1,0 +1,55 @@
+# The Scale Models page (_pages/models.md), oldest first. The fields are the same as in
+# _data/travel.yml, with the files in images/models/ (originals in scaled_models/) and
+# the subtitle saying what the model is.
+
+- file: 2023-03-08-hms-salamander
+  title: HMS Salamander (1687)
+  subtitle: Royal Navy bomb vessel, in wood
+  date: 2023
+  description: The hull is built in two parts, upper and lower, set apart to show the decks and the hold with its cargo.
+
+- file: 2023-03-26-chinese-pavilion
+  title: Chinese Pavilion
+  subtitle: Wooden architecture model
+  date: 2023
+  description: A two-story pavilion with sweeping eaves, still on the workbench.
+
+- file: 2024-07-28-mary-rose
+  title: Mary Rose
+  subtitle: Tudor warship, 1:400
+  date: 2024
+  description: Henry VIII's warship, launched in 1511, sunk in the Solent in 1545 and raised in 1982, here under full sail on a sculpted sea.
+  crop: 50% 40%
+  specs:
+    Scale: "1:400"
+    Kit: Airfix
+
+- file: 2024-08-20-mary-rose-workbench
+  title: Mary Rose, Finished
+  subtitle: Tudor warship, 1:400
+  date: 2024
+  specs:
+    Scale: "1:400"
+    Kit: Airfix
+
+- file: 2026-03-05-uss-gerald-r-ford
+  video: true
+  title: USS Gerald R. Ford
+  subtitle: Aircraft carrier, 1:700, with lights
+  date: 2026
+  description: The lead ship of the U.S. Navy's newest class of carriers (CVN&#8209;78), with a full air wing on deck.
+  specs:
+    Scale: "1:700"
+    Kit: Magic Factory
+    Length: 4 sec
+
+- file: 2026-03-21-yamato-tricon
+  title: Yamato
+  subtitle: Battleship, 1:700
+  date: 2026
+  description: The largest battleship ever built. Shown at TRICON 2026, the IPMS Three Rivers model show in Pittsburgh, where it won Best Ship and a Judge's Award.
+  crop: 50% 35%
+  specs:
+    Scale: "1:700"
+    Shown at: TRICON 2026, Pittsburgh
+    Awards: Best Ship, Judge's Award

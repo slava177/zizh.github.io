@@ -189,6 +189,9 @@ exclude:
   - markdown_generator
   - node_modules
   - package.json*
+  - photography      # originals of the Travel page's photos and clips; the site uses images/travel/
+  - scaled_models    # originals of the Scale Models page's; the site uses images/models/
+  - scripts
   - Rakefile
   - README
   - README.md

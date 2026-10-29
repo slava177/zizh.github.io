@@ -14,6 +14,25 @@ GitHub Actions (`.github/workflows/jekyll.yml`) builds and deploys the site on e
 | Publications | one file per paper in `_publications/`; `category:` is `conferences`, `manuscripts` (journals) or `preprints` |
 | Top menu | `_data/navigation.yml` |
 | PDFs and images | `files/`, `images/` |
+| Travel and Scale Models pages | `_data/travel.yml`, `_data/models.yml` (one entry per photo or clip); the format is in `_layouts/gallery.html`, `_sass/layout/_gallery.scss` and `assets/js/gallery.js` |
+
+## Adding to the Travel and Scale Models pages
+
+The originals go in `photography/` (Travel) or `scaled_models/` (Scale Models), named like
+`2023-07-22-machu-picchu.heic`. Both folders are kept out of git and out of the site, which
+uses the smaller copies in `images/travel/` and `images/models/`.
+
+For a photo, run `python3 scripts/gallery_images.py` (macOS, needs Pillow). It makes the copies
+and prints the camera settings; then add an entry for it to the data file, which explains its fields.
+
+For a clip, put an H.264 `.mp4` of about 10 seconds in `images/travel/` or `images/models/`, with
+a still from it saved as a `.jpg` of the same name (shown until the clip loads), and add an entry
+with `video: true`. The built-in
+macOS `avconvert` can trim one, though its files are larger than the current clips (2–4 MB):
+
+```bash
+avconvert --source photography/my-clip.mov --preset Preset960x540 --start 12 --duration 10 --output images/travel/my-clip.mp4
+```
 
 ## Run locally
 

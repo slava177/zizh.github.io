@@ -1,0 +1,477 @@
+/* ==========================================================================
+   GALLERY
+   The Travel and Scale Models pages (_layouts/gallery.html, assets/js/gallery.js)
+   and the two cards that lead to them from the home page. The format follows
+   Yingsi Qin's website (https://yingsiqin.github.io).
+   ========================================================================== */
+
+/*
+   Home page cards: a photo for each page, side by side (one above the other on
+   phones), the page's name over the photo's darkened bottom
+   ========================================================================== */
+
+.elsewhere {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 2em 0 1em;
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+.page__content .elsewhere a {
+  position: relative;
+  display: block;
+  aspect-ratio: 2.12;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  color: #fff;
+  text-decoration: none;
+  transform: translateZ(0);  /* so Safari keeps the zoomed photo inside the round corners */
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  &::after {  /* darker toward the bottom, under the name */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0) 60%);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  &:hover img,
+  &:focus-visible img {
+    transform: scale(1.04);
+  }
+
+  .name {
+    position: absolute;
+    left: 16px;
+    bottom: 11px;
+    z-index: 1;
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+  }
+}
+
+.page__content .credit {
+  font-size: $type-size-6;
+  opacity: 0.75;
+}
+
+/*
+   The page: title, the line under it and the button that flips the order, then the grid
+   ========================================================================== */
+
+/* No pinned footer here: it would cover the bottom of the photos. */
+body:has(.gallery) {
+  padding-bottom: 0;
+
+  .page__footer {
+    position: relative;
+  }
+}
+
+.gallery__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5em 1em;
+  margin-bottom: 1.25em;
+
+  p {
+    margin: 0.5em 0 0;
+    opacity: 0.8;
+  }
+}
+
+.gallery__sort {
+  padding: 0.3em 0.75em;
+  border: 1px solid var(--global-border-color);
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: $type-size-6;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--global-dark-border-color);
+  }
+}
+
+/* --columns photos per row (from the page's front matter), 3 in small windows and 2 on
+   phones, each cropped to 3:2. */
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
+  gap: max(4px, 0.45vw);
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* A tile: on hover the photo zooms in a little under a dark overlay with its name and
+   place. The description and specs only show in the full view. */
+.gallery__item {
+  position: relative;
+  display: block;
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--global-border-color);
+  container-type: inline-size;
+  cursor: pointer;
+
+  img,
+  video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border-radius: 0;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  figcaption {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 8%;
+    background-color: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+
+    > * {
+      transform: translateY(6px);
+      transition: transform 0.4s ease;
+    }
+  }
+
+  h2 {
+    margin: 0 0 0.3em;
+    font-size: clamp(0.85rem, 6.5cqi, 1.4rem);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .gallery__subtitle {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: clamp(0.7rem, 4.2cqi, 0.95rem);
+    line-height: 1.4;
+  }
+
+  .gallery__description,
+  .gallery__specs {
+    display: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    img,
+    video {
+      transform: scale(1.06);
+    }
+
+    figcaption {
+      opacity: 1;
+
+      > * {
+        transform: none;
+      }
+    }
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    figcaption {
+      outline: 1px solid rgba(255, 255, 255, 0.75);
+      outline-offset: -10px;
+    }
+  }
+}
+
+/* Tiles are small on phones: keep only the name. */
+@container (max-width: 200px) {
+  .gallery__item .gallery__subtitle {
+    display: none;
+  }
+}
+
+/* A play mark in the corner of each clip, gone while the overlay shows. */
+.gallery__item--video::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9.5 7.5v9l7-4.5z' fill='white'/%3E%3C/svg%3E") center / 100% no-repeat;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.gallery__item--video:hover::after,
+.gallery__item--video:focus-visible::after {
+  opacity: 0;
+}
+
+/*
+   Full view: opens over the page when a tile is clicked, with the text on the left (a
+   quarter of the width) and the photo, uncropped, on the right; on small screens the
+   photo is on top and the text under it
+   ========================================================================== */
+
+html.gallery-detail-open {
+  overflow: hidden;
+}
+
+.gallery-detail {
+  --gutter: clamp(16px, 2.5vw, 40px);
+  position: fixed;
+  inset: 0;
+  z-index: 30;  /* over the masthead */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--global-bg-color);
+  color: var(--global-text-color);
+  animation: gallery-detail-in 0.3s ease both;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+@keyframes gallery-detail-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.gallery-detail__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1em var(--gutter);
+  font-weight: 700;
+}
+
+.gallery-detail__close {
+  padding: 0.3em 0.9em;
+  border: 1px solid var(--global-border-color);
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: normal;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--global-dark-border-color);
+  }
+}
+
+.gallery-detail__body {
+  position: relative;
+  flex: 1 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  grid-template-areas: "info media";
+  gap: clamp(24px, 3vw, 56px);
+  padding: 0 calc(var(--gutter) + 48px) var(--gutter);  /* room for the arrows at the sides */
+}
+
+.gallery-detail__info {
+  grid-area: info;
+  align-self: center;
+
+  h2 {
+    margin: 0 0 0.4em;
+    font-size: clamp(1.4rem, 2.1vw, 2rem);
+    line-height: 1.15;
+  }
+
+  p {
+    margin: 0 0 0.75em;
+  }
+
+  .gallery__subtitle {
+    opacity: 0.7;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    align-items: baseline;
+    gap: 0.5em 1.25em;
+    margin: 1.5em 0 0;
+    padding-top: 1.25em;
+    border-top: 1px solid var(--global-border-color);
+  }
+
+  dt {
+    opacity: 0.6;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+  }
+}
+
+.gallery-detail__media {
+  grid-area: media;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 5.5em);
+    max-height: calc(100dvh - 5.5em);
+    object-fit: contain;
+  }
+}
+
+/* Previous and next, at the left and right edges, level with the middle of the photo. */
+.gallery-detail__arrow {
+  position: absolute;
+  top: calc(50% - 22px - var(--gutter) / 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:hover {
+    opacity: 1;
+    background-color: rgba(127, 127, 127, 0.15);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &--previous {
+    left: calc(var(--gutter) - 12px);
+  }
+
+  &--next {
+    right: calc(var(--gutter) - 12px);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .gallery-detail__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "media" "info";
+    align-content: start;
+    gap: 1.25em;
+    padding: 0 0 var(--gutter);
+  }
+
+  .gallery-detail__info {
+    padding: 0 var(--gutter);
+  }
+
+  .gallery-detail__media {
+    img,
+    video {
+      max-height: calc(100vh - 8em);
+      max-height: calc(100svh - 8em);
+    }
+  }
+
+  /* Over the photo's edges, on a round backing the photo shows through. */
+  .gallery-detail__arrow {
+    position: static;
+    grid-area: media;
+    align-self: center;
+    margin: 0 8px;
+    background-color: rgba(0, 0, 0, 0.35);
+    color: #fff;
+    opacity: 1;
+
+    &--previous {
+      justify-self: start;
+    }
+
+    &--next {
+      justify-self: end;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page__content .elsewhere img,
+  .gallery__item img,
+  .gallery__item video,
+  .gallery__item figcaption,
+  .gallery__item figcaption > *,
+  .gallery-detail {
+    transition: none;
+    animation: none;
+  }
+}

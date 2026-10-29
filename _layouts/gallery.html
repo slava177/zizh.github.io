@@ -1,0 +1,59 @@
+---
+layout: default
+---
+
+{% comment %}
+  A grid of photos and short clips, each opening full-screen when clicked: the Travel and
+  Scale Models pages. The format follows Yingsi Qin's photography page
+  (https://yingsiqin.github.io/photography.html).
+
+  The page's front matter says which data file to show (gallery: travel shows
+  _data/travel.yml, with its files in images/travel/) and how many photos go in a row on
+  large screens (columns, 4 by default; small screens get 3, phones 2). The page's own
+  content is the line under the title.
+  Styles: _sass/layout/_gallery.scss. Script: assets/js/gallery.js.
+{% endcomment %}
+
+{% include base_path %}
+{% assign columns = page.columns | default: 4 %}
+{% assign tile_width = 100 | divided_by: columns %}
+{% assign dir = base_path | append: "/images/" | append: page.gallery %}
+
+<div id="main" role="main" class="gallery" style="--columns: {{ columns }}">
+  <header class="gallery__header">
+    <div>
+      <h1 class="page__title">{{ page.title }}</h1>
+      <div class="gallery__lead">{{ content }}</div>
+    </div>
+    <button type="button" class="gallery__sort">Newest first</button>
+  </header>
+
+  <div class="gallery__grid">
+    {% for item in site.data[page.gallery] %}
+      {% if item.video %}
+        {% assign full = dir | append: "/" | append: item.file | append: ".mp4" %}
+      {% else %}
+        {% assign full = dir | append: "/" | append: item.file | append: ".jpg" %}
+      {% endif %}
+      <figure class="gallery__item{% if item.video %} gallery__item--video{% endif %}" tabindex="0" data-full="{{ full }}">
+        {% if item.video %}
+          <video src="{{ full }}" poster="{{ dir }}/{{ item.file }}.jpg" muted loop playsinline preload="none" aria-label="{{ item.title | escape }}"{% if item.crop %} style="object-position: {{ item.crop }}"{% endif %}></video>
+        {% else %}
+          <img src="{{ dir }}/small/{{ item.file }}-800.jpg" srcset="{{ dir }}/small/{{ item.file }}-480.jpg 480w, {{ dir }}/small/{{ item.file }}-800.jpg 800w" sizes="(max-width: 600px) 50vw, (max-width: 900px) 34vw, {{ tile_width }}vw" alt="{{ item.title | escape }}" loading="lazy" decoding="async"{% if item.crop %} style="object-position: {{ item.crop }}"{% endif %}>
+        {% endif %}
+        <figcaption>
+          <h2>{{ item.title }}</h2>
+          <p class="gallery__subtitle">{{ item.subtitle }}{% if item.date %} &middot; {{ item.date }}{% endif %}</p>
+          {% if item.description %}<p class="gallery__description">{{ item.description }}</p>{% endif %}
+          {% if item.specs %}
+            <dl class="gallery__specs">
+              {% for spec in item.specs %}<dt>{{ spec[0] }}</dt><dd>{{ spec[1] }}</dd>{% endfor %}
+            </dl>
+          {% endif %}
+        </figcaption>
+      </figure>
+    {% endfor %}
+  </div>
+</div>
+
+<script src="{{ base_path }}/assets/js/gallery.js" defer></script>

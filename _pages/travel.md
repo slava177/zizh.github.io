@@ -1,0 +1,10 @@
+---
+layout: gallery
+title: "Travel"
+permalink: /travel/
+gallery: travel
+columns: 4
+excerpt: "Photos and short clips from my travels."
+---
+
+Photos and short clips from my travels, 2023–2026.
