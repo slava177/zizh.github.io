@@ -1,0 +1,27 @@
+{% include base_path %}
+
+{% comment %}
+  The menu at the top of every page (_data/navigation.yml), with the name at the left and
+  the light/dark button at the right. A page is under the first menu entry ("/") unless its
+  address starts with another entry's, so the CV and paper pages count as the home page's.
+{% endcomment %}
+
+{% assign current = "/" %}
+{% for link in site.data.navigation.main %}
+  {% if link.url != "/" and page.url contains link.url %}
+    {% assign current = link.url %}
+  {% endif %}
+{% endfor %}
+
+<header class="site-header">
+  <a class="site-header__name" href="{{ base_path }}/">{{ site.author.name }}</a>
+  <nav class="site-header__tabs" aria-label="Pages">
+    {% for link in site.data.navigation.main %}
+      <a href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {% endfor %}
+    <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false" hidden>
+      <svg class="theme-toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+      <svg class="theme-toggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.55 1.55M17.15 17.15l1.55 1.55M5.3 18.7l1.55-1.55M17.15 6.85l1.55-1.55"/></svg>
+    </button>
+  </nav>
+</header>

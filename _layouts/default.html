@@ -2,30 +2,26 @@
 layout: compress
 ---
 
+{% comment %}
+  Every page: the head, the menu along the top (_includes/site-header.html) and the page.
+  The pages with the column of name, photo and links at the left use the profile layout
+  on top of this one; the Travel and Scale Models pages use the gallery layout.
+{% endcomment %}
+
 {% include base_path %}
 
 <!doctype html>
-<html lang="{{ site.locale | slice: 0,2 }}" class="no-js"{% if site.site_theme == "dark" %} data-theme="dark"{% endif %}>
+<html lang="{{ site.locale | slice: 0,2 }}">
   <head>
     {% include head.html %}
-    {% include head/custom.html %}
   </head>
 
   <body>
-
-    {% include browser-upgrade.html %}
-    {% include masthead.html %}
+    {% include site-header.html %}
 
     {{ content }}
 
-    <div class="page__footer">
-      <footer>
-        {% include footer/custom.html %}
-        {% include footer.html %}
-      </footer>
-    </div>
-
-    {% include scripts.html %}
-
+    <script src="{{ base_path }}/assets/js/site.js" defer></script>
+    {% include analytics.html %}
   </body>
 </html>

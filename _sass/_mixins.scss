@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Shared by the other partials (@use "mixins" as *); no styles of its own
+   ========================================================================== */
+
+$wide: 961px;   // from this width up, the profile column sits beside the text
+$phone: 560px;  // up to this width, phone layouts
+
+// Styles for the dark theme: picked with the moon button (data-theme="dark" on <html>), or
+// the system's setting when no theme was picked. Use it inside a selector.
+@mixin dark {
+  :root[data-theme="dark"] & {
+    @content;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) & {
+      @content;
+    }
+  }
+}

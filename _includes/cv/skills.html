@@ -1,0 +1,8 @@
+{% comment %} Skills from _data/cv.yml, each label with its list. {% endcomment %}
+
+<dl class="skills">
+  {% for skill in site.data.cv.skills %}
+    <dt>{{ skill.label }}</dt>
+    <dd>{{ skill.text | markdownify | remove: "<p>" | remove: "</p>" | strip }}</dd>
+  {% endfor %}
+</dl>

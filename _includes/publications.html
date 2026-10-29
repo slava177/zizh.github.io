@@ -1,0 +1,14 @@
+{% comment %}
+  The home page's list of papers, newest first, under a heading for each kind of paper
+  (publication_category: in _config.yml, in that order; a paper's category: says which).
+{% endcomment %}
+
+{% for category in site.publication_category %}
+  {% assign papers = site.publications | where: "category", category[0] | sort: "date" | reverse %}
+  {% if papers.size > 0 %}
+    <h3 class="pub-group">{{ category[1].title }}</h3>
+    {% for paper in papers %}
+      {% include publication.html paper=paper %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}

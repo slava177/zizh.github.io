@@ -1,0 +1,117 @@
+@use "mixins" as *;
+
+/* ==========================================================================
+   PUBLICATIONS
+   The home page's list of papers (_includes/publications.html, publication.html):
+   each paper's cover at the left, its title, authors, venue and buttons at the right;
+   on phones the cover goes above
+   ========================================================================== */
+
+.pub-group {
+  margin: 36px 0 20px;
+  color: var(--muted);
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 400;
+
+  .section__title + &,
+  .section__note + & {
+    margin-top: 0;
+  }
+}
+
+.pub {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 30px;
+
+  @media (max-width: $phone) {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+}
+
+.pub__cover {
+  flex: 0 0 min(240px, 36%);
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transform: translateZ(0);  /* so Safari keeps the zoomed picture inside the round corners */
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.04);
+  }
+
+  @media (max-width: $phone) {
+    flex-basis: auto;
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+.pub__text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pub__title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-color: var(--underline);
+    }
+  }
+}
+
+.pub__authors,
+.pub__venue {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.pub__venue {
+  color: var(--strong);
+  font-weight: 500;
+}
+
+.pub__links {
+  margin: 10px 0 0;
+  line-height: 1;
+}
+
+.pub__abstract {
+  margin-top: 6px;
+  font-size: 16px;
+  line-height: 1.55;
+
+  p {
+    margin: 0 0 0.6em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pub__cover img {
+    transition: none;
+  }
+}

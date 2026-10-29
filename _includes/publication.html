@@ -1,0 +1,27 @@
+{% include base_path %}
+
+{% comment %}
+  One paper in the home page's list (include.paper, a file in _publications/): its cover
+  at the left if it has one (cover:, a file in images/papers/), then its title, which
+  leads to its own page, authors, venue and year, and buttons for its links. Abstract
+  opens the abstract under them (assets/js/site.js).
+{% endcomment %}
+
+{% assign paper = include.paper %}
+{% assign abstract = paper.content | strip %}
+
+<article class="pub" id="{{ paper.slug }}">
+  {% if paper.cover %}
+    <a class="pub__cover" href="{{ base_path }}{{ paper.url }}" tabindex="-1" aria-hidden="true"><img src="{{ base_path }}/images/papers/{{ paper.cover }}" alt="" width="1280" height="720" loading="lazy" decoding="async"></a>
+  {% endif %}
+  <div class="pub__text">
+    <h3 class="pub__title"><a href="{{ base_path }}{{ paper.url }}">{{ paper.title }}</a></h3>
+    <p class="pub__authors">{% include paper-authors.html paper=paper %}</p>
+    <p class="pub__venue">{{ paper.venue }}, {{ paper.date | date: "%Y" }}</p>
+    <p class="pub__links">
+      {% include paper-links.html paper=paper %}
+      {% if abstract != "" %}<button class="pill" type="button" aria-expanded="false" aria-controls="{{ paper.slug }}-abstract" data-opens hidden>Abstract</button>{% endif %}
+    </p>
+    {% if abstract != "" %}<div class="pub__abstract" id="{{ paper.slug }}-abstract" hidden>{{ abstract }}</div>{% endif %}
+  </div>
+</article>

@@ -1,0 +1,4 @@
+{% comment %}
+  A paper's authors (include.paper): its authors: field if it has one, otherwise the start
+  of its citation, up to the title in quotes, without the full stop.
+{% endcomment %}{% if include.paper.authors %}{{ include.paper.authors }}{% else %}{% assign authors = include.paper.citation | split: "&quot;" | first | strip %}{% assign last = authors | slice: -1, 1 %}{% if last == "." %}{% assign length = authors | size | minus: 1 %}{% assign authors = authors | slice: 0, length %}{% endif %}{{ authors }}{% endif %}

@@ -1,0 +1,18 @@
+{% include base_path %}
+
+{% comment %}
+  The CV page's list of papers: each one's citation, newest first, under a heading for each
+  kind of paper, as on the home page.
+{% endcomment %}
+
+{% for category in site.publication_category %}
+  {% assign papers = site.publications | where: "category", category[0] | sort: "date" | reverse %}
+  {% if papers.size > 0 %}
+    <h3 class="pub-group">{{ category[1].title }}</h3>
+    <ul class="citations">
+      {% for paper in papers %}
+        <li>{{ paper.citation }} <a href="{{ base_path }}{{ paper.url }}">More</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endfor %}

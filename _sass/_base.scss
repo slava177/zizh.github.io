@@ -1,0 +1,149 @@
+/* ==========================================================================
+   BASE
+   Colors (light and dark), type, links and the small buttons, for every page.
+   The design follows Yingsi Qin's website (https://yingsiqin.github.io).
+   ========================================================================== */
+
+@mixin dark-colors {
+  color-scheme: dark;
+  --bg: #14161a;
+  --text: #b6b6b6;
+  --strong: #f0f0f0;
+  --muted: #8d8d8d;
+  --rule: rgba(255, 255, 255, 0.13);
+  --tint: rgba(255, 255, 255, 0.08);
+  --tint-hover: rgba(255, 255, 255, 0.14);
+  --underline: rgba(255, 255, 255, 0.3);
+  --island: rgba(30, 32, 37, 0.8);
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  --backdrop-opacity: 0.08;
+}
+
+:root {
+  color-scheme: light;
+  --serif: "Crimson Pro", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --bg: #fff;
+  --text: #595959;                      /* body text */
+  --strong: #111;                       /* names, titles, the current menu item */
+  --muted: #767676;                     /* section headings, dates (the lightest gray that is easy to read) */
+  --rule: rgba(0, 0, 0, 0.12);          /* the line between sections */
+  --tint: rgba(0, 0, 0, 0.06);          /* behind buttons and the current section */
+  --tint-hover: rgba(0, 0, 0, 0.1);
+  --underline: rgba(0, 0, 0, 0.28);     /* under links */
+  --island: rgba(255, 255, 255, 0.8);   /* behind the menu once the page has scrolled */
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --backdrop-opacity: 0.11;             /* the faded photo behind the home, CV and paper pages */
+  --header-height: 64px;
+}
+
+:root[data-theme="dark"] {
+  @include dark-colors;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    @include dark-colors;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-height) + 12px);  /* so a section jumped to isn't under the menu */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--strong);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+strong,
+b {
+  color: var(--strong);
+  font-weight: 600;
+}
+
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--underline);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Small buttons: a paper's links and Abstract, the CV's Download PDF */
+.pill {
+  display: inline-block;
+  margin: 0 0.3em 0.45em 0;
+  padding: 0.2em 0.75em;
+  border: 0;
+  border-radius: 4px;
+  background-color: var(--tint);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &[aria-expanded="true"] {
+    background-color: var(--tint-hover);
+    color: var(--strong);
+  }
+}
+
+.pill--large {
+  padding: 0.4em 1.1em;
+  font-size: 13.5px;
+}

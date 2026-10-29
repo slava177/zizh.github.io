@@ -1,0 +1,22 @@
+{% comment %}
+  Jobs from _data/cv.yml: when at the left, then the role and place and the points. With
+  brief=true (the home page) only the first point of each.
+{% endcomment %}
+
+<ul class="timeline">
+  {% for job in site.data.cv.experience %}
+    <li>
+      <span class="timeline__when">{{ job.when }}</span>
+      <div class="timeline__what">
+        <strong>{{ job.role }}</strong>, {{ job.where }}
+        {% if include.brief %}
+          <p>{{ job.points | first | markdownify | remove: "<p>" | remove: "</p>" | strip }}</p>
+        {% else %}
+          <ul>
+            {% for point in job.points %}<li>{{ point | markdownify | remove: "<p>" | remove: "</p>" | strip }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </li>
+  {% endfor %}
+</ul>

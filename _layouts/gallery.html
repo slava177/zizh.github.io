@@ -11,7 +11,7 @@ layout: default
   _data/travel.yml, with its files in images/travel/) and how many photos go in a row on
   large screens (columns, 4 by default; small screens get 3, phones 2). The page's own
   content is the line under the title.
-  Styles: _sass/layout/_gallery.scss. Script: assets/js/gallery.js.
+  Styles: _sass/_gallery.scss. Script: assets/js/gallery.js.
 {% endcomment %}
 
 {% include base_path %}
@@ -19,10 +19,10 @@ layout: default
 {% assign tile_width = 100 | divided_by: columns %}
 {% assign dir = base_path | append: "/images/" | append: page.gallery %}
 
-<div id="main" role="main" class="gallery" style="--columns: {{ columns }}">
+<main id="main" class="gallery" style="--columns: {{ columns }}">
   <header class="gallery__header">
     <div>
-      <h1 class="page__title">{{ page.title }}</h1>
+      <h1 class="gallery__title">{{ page.title }}</h1>
       <div class="gallery__lead">{{ content }}</div>
     </div>
     <button type="button" class="gallery__sort">Newest first</button>
@@ -54,6 +54,8 @@ layout: default
       </figure>
     {% endfor %}
   </div>
-</div>
+
+  {% include footer.html %}
+</main>
 
 <script src="{{ base_path }}/assets/js/gallery.js" defer></script>

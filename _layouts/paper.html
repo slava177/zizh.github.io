@@ -1,0 +1,35 @@
+---
+layout: profile
+---
+
+{% comment %}
+  A paper's own page (/publication/...), from its file in _publications/: the cover, title,
+  authors, venue, links, then the abstract (the file's text) and the citation.
+{% endcomment %}
+
+{% include base_path %}
+{% assign abstract = content | strip %}
+
+<article class="paper">
+  {% if page.cover %}
+    <img class="paper__cover" src="{{ base_path }}/images/papers/{{ page.cover }}" alt="" width="1280" height="720">
+  {% endif %}
+  <h1 class="paper__title">{{ page.title }}</h1>
+  <p class="pub__authors">{% include paper-authors.html paper=page %}</p>
+  <p class="pub__venue">{{ page.venue }}, {{ page.date | date: "%Y" }}</p>
+  <p class="pub__links">{% include paper-links.html paper=page %}</p>
+
+  {% if abstract != "" %}
+    <section class="section" id="abstract">
+      <h2 class="section__title">Abstract</h2>
+      <div class="paper__abstract">{{ abstract }}</div>
+    </section>
+  {% endif %}
+
+  {% if page.citation %}
+    <section class="section" id="citation">
+      <h2 class="section__title">Citation</h2>
+      <p class="paper__citation">{{ page.citation }}</p>
+    </section>
+  {% endif %}
+</article>

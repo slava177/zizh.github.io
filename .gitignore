@@ -27,7 +27,5 @@ package-lock.json
 /photography/
 /scaled_models/
 
-# Ignore the main.min.js since it should be built as part of jekyll-build.yml
-assets/js/main.min.js
 .jekyll-cache/
 .jekyll-metadata

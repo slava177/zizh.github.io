@@ -1,0 +1,7 @@
+{% comment %}
+  The buttons under a paper (include.paper), for those of its links that it has.
+{% endcomment %}
+{% if include.paper.paperurl %}<a class="pill" href="{{ include.paper.paperurl }}">Paper</a>{% endif %}
+{% if include.paper.codeurl %}<a class="pill" href="{{ include.paper.codeurl }}">Code</a>{% endif %}
+{% if include.paper.slidesurl %}<a class="pill" href="{{ include.paper.slidesurl }}">Slides</a>{% endif %}
+{% if include.paper.bibtexurl %}<a class="pill" href="{{ include.paper.bibtexurl }}">BibTeX</a>{% endif %}

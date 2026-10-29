@@ -1,0 +1,10 @@
+{% comment %} Degrees from _data/cv.yml, with the year at the left. {% endcomment %}
+
+<ul class="timeline">
+  {% for degree in site.data.cv.education %}
+    <li>
+      <span class="timeline__when">{{ degree.when }}</span>
+      <div class="timeline__what"><strong>{{ degree.degree }}</strong>, {{ degree.school }}</div>
+    </li>
+  {% endfor %}
+</ul>

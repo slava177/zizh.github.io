@@ -1,0 +1,41 @@
+{% include base_path %}
+
+{% comment %}
+  The column at the left of the home, CV and paper pages: photo, name, position, email and
+  links (all from the author: block of _config.yml), then the page's sections, which light
+  up as each is read (assets/js/site.js). The sections only show when the window is wide
+  enough for the column to sit beside the text.
+{% endcomment %}
+
+{% assign author = site.author %}
+{% if page.sections %}
+  {% assign sections = page.sections %}
+  {% assign section_page = "" %}
+{% else %}
+  {% assign home = site.pages | where: "url", "/" | first %}
+  {% assign sections = home.sections %}
+  {% assign section_page = base_path | append: "/" %}
+{% endif %}
+{% if page.url == "/" %}{% assign name_tag = "h1" %}{% else %}{% assign name_tag = "p" %}{% endif %}
+
+<aside class="profile">
+  <a class="profile__photo" href="{{ base_path }}/" tabindex="-1"><img src="{{ base_path }}/images/{{ author.avatar }}" alt="{{ author.name }}"></a>
+  <{{ name_tag }} class="profile__name">{{ author.name }}</{{ name_tag }}>
+  <p class="profile__position">{{ author.position }}</p>
+  <p class="profile__employer">{{ author.employer }}</p>
+  <p class="profile__email"><a href="mailto:{{ author.email }}">{{ author.email }}</a></p>
+
+  <ul class="profile__links">
+    {% if author.googlescholar %}<li><a href="{{ author.googlescholar }}" title="Google Scholar" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a></li>{% endif %}
+    <li><a href="{{ base_path }}/cv/" title="CV" aria-label="CV"><span class="profile__cv" aria-hidden="true">CV</span></a></li>
+    {% if author.orcid %}<li><a href="{{ author.orcid }}" title="ORCID" aria-label="ORCID"><i class="ai ai-orcid" aria-hidden="true"></i></a></li>{% endif %}
+  </ul>
+
+  {% if sections %}
+    <nav class="profile__sections" aria-label="Sections">
+      {% for section in sections %}
+        <a href="{{ section_page }}#{{ section.id }}">{{ section.title }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
+</aside>

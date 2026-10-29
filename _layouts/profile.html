@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+{% comment %}
+  The home, CV and paper pages: the faded photo behind everything, the column at the left
+  with the photo, name and links (_includes/profile.html), and the page's text at the right.
+  On narrow screens the column goes above the text.
+
+  The list of sections in the left column comes from the page's front matter (sections:,
+  each an id and a title, the id being a <section> on the page). Pages without one, such
+  as the paper pages, list the home page's sections, which then lead back to it.
+{% endcomment %}
+
+{% include base_path %}
+
+{% if site.backdrop %}
+  <div class="backdrop" style="background-image: url('{{ base_path }}/images/{{ site.backdrop }}')" aria-hidden="true"></div>
+{% endif %}
+
+<div class="profile-page">
+  {% include profile.html %}
+
+  <main class="profile-page__main" id="main">
+    {{ content }}
+    {% include footer.html %}
+  </main>
+</div>

@@ -1,88 +1,30 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your entire site, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# `jekyll serve -l -H localhost`. If you change this file, please restart the 
-# server process.
+# Site settings. Jekyll reads this file only when it starts, so restart `jekyll serve`
+# after changing it.
 
-# Basic Site Settings
 locale                   : "en-US"
-site_theme               : "default" # The available themes options are "default", "air", "sunrise", "mint", "dirt" and "contrast"
 title                    : "Ziyi Zhang's Homepage"
 title_separator          : "-"
-name                     : &name "Ziyi Zhang"
-description              : &description "ECE PhD at Carnegie Mellon University"   # Update this with a general description of your site, this is the default if not overridden by a page
-url                      : https://ziyi-zhang.com # The base hostname & protocol for your site e.g. "https://[your GitHub username].github.io",
-                                                           # or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
-baseurl                  : "" # the subpath of your site, e.g. "/blog"
+description              : "ECE PhD at Carnegie Mellon University"   # for search engines, unless a page has its own excerpt
+url                      : https://ziyi-zhang.com
+baseurl                  : ""   # the subpath of the site, e.g. "/blog"
 repository               : "slava177/zizh.github.io"
 
-# Site Author - The following control what appear as part of the author content on the side bar.
-#               If a field is blank the icon and link will not appear, otherwise it will be shown.
-#               Additional customization can be done by editing /_includes/author-profile.html
+# The column at the left of the home, CV and paper pages (_includes/profile.html).
+# Links left blank don't show.
 author:
-  # Biographic information
-  avatar           : "profile_photo.jpg"
+  avatar           : "profile_photo.jpg"   # in images/
   name             : "Ziyi Zhang"
-  pronouns         : # example: "she/her"  
-  bio              : "PhD student at Carnegie Mellon University."
-  location         : "Pittsburgh, PA, USA"
+  position         : "PhD Student"
   employer         : "Carnegie Mellon University"
-  uri              : # URL
-  email            : "ziyizhan@andrew.cmu.edu" 
-
-  # Academic websites
-  academia         : # URL
-  arxiv            : # URL - Update with the correct link to your profile
+  email            : "ziyizhan@andrew.cmu.edu"
   googlescholar    : "https://scholar.google.com/citations?user=w4qggFUAAAAJ"
-  inspire-hep      : # URL
-  impactstory      : # URL
   orcid            : "https://orcid.org/0000-0001-6173-4524"
-  semantic         : # URL
-  ssrn             : # URL
-  pubmed           : # URL
-  researchgate     : # URL
-  scopus           : # URL
-  zotero           : # URL
 
+# The faded photo behind the home, CV and paper pages, in images/; blank for none
+backdrop                 : "models/2024-07-28-mary-rose.jpg"
 
-  # Repositories and software development
-  bitbucket        : # Username - Update with your username on the site
-  codepen          : # Username
-  dribbble         : # Username
-  github           : # Username
-  kaggle           : # Username  
-  stackoverflow    : # User number or user number and name (i.e., use "1" or "1/jeff-atwood")    
-
-  # Social media
-  artstation       : # Username
-  bluesky          : # Username
-  facebook         : # Username
-  flickr           : # Username
-  foursquare       : # Username
-  goodreads        : # Username
-  google_plus      : # Username
-  keybase          : # Username
-  instagram        : # Username
-  lastfm           : # Username
-  linkedin         : # Username
-  mastodon         : # URL
-  medium           : # URL
-  pinterest        : # Username
-  soundcloud       : # Username
-  steam            : # Username
-  telegram         : # URL
-  tumblr           : # Username
-  twitter          : # Username for X / Twitter
-  vine             : # Username
-  weibo            : # Username
-  wikipedia        : # Username
-  xing             : # Username
-  youtube          : # Username
-  zhihu            : # Username
-
-# Publication Category - The following the list of publication categories and their headings
+# The kinds of papers, in the order the home and CV pages list them, with their headings.
+# A paper's category: (in _publications/) is one of these.
 publication_category:
   conferences:
     title: 'Conference Papers'
@@ -91,67 +33,9 @@ publication_category:
   preprints:
     title: 'Preprints'
 
-# Site Settings
-teaser                   :  # filename of teaser fallback teaser image placed in /images/ for social media previews
-breadcrumbs              : false # true, false (default)
-words_per_minute         : 160
-future                   : true
-read_more                : "disabled" # if enabled, adds "Read more" links to excerpts
-talkmap_link             : false      #change to true to add link to talkmap on talks page
-comments:
-  provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
-  disqus:
-    shortname            :
-  discourse:
-    server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
-  facebook:
-    appid                :
-    num_posts            : # 5 (default)
-    colorscheme          : # "light" (default), "dark"
-staticman:
-  allowedFields          : ['name', 'email', 'url', 'message']
-  branch                 : "gh-pages" # "master", "gh-pages"
-  commitMessage          : "New comment."
-  filename               : comment-{@timestamp}
-  format                 : "yml"
-  moderation             : true
-  path                   : "_data/comments/{options.slug}"
-  requiredFields         : ['name', 'email', 'message']
-  transforms:
-    email                : "md5"
-  generatedFields:
-    date:
-      type               : "date"
-      options:
-        format           : "iso8601" # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
-atom_feed:
-  hide                   : true      # change to true to hide the RSS feed in the footer
-  path                   : # blank (default) uses feed.xml
-
-
-# SEO Related
+future                   : true   # list papers dated in the future
+og_image                 : profile_photo.jpg   # the picture when a page is shared on social media, in images/; paper pages use their cover
 google_site_verification :
-bing_site_verification   :
-alexa_site_verification  :
-yandex_site_verification :
-
-
-# Social Sharing
-twitter:
-  username               : &twitter
-facebook:
-  username               :
-  app_id                 :
-  publisher              :
-og_image                 : profile_photo.jpg   # Social media default site image (lives in /images/)
-og_description           :  # Social media default site image description
-# For specifying social profiles
-# - https://developers.google.com/structured-data/customize/social-profiles
-social:
-  type                   : # Person or Organization (defaults to Person)
-  name                   : # If the user or organization name differs from the site's name
-  links: # An array of links to social media profiles
-
 
 # Analytics
 analytics:
@@ -173,9 +57,6 @@ exclude:
   - .github
   - .jekyll-assets-cache
   - .sass-cache
-  - assets/js/_main.js
-  - assets/js/plugins
-  - assets/js/vendor
   - CHANGELOG
   - Capfile
   - config
@@ -225,77 +106,26 @@ kramdown:
   enable_coderay: false
 
 
-# These settings control the types of collections used by the template
+# One file per paper in _publications/, each with its own page at /publication/...
 collections:
-  teaching:
-    output: true
-    permalink: /:collection/:path/
   publications:
     output: true
     permalink: /:collection/:path/
-  portfolio:
-    output: true
-    permalink: /:collection/:path/
-  talks:
-    output: true
-    permalink: /:collection/:path/
 
 
-# These settings control how pages and collections are included in the site
+# Pages get the column at the left (_layouts/profile.html) unless they say otherwise, as
+# the Travel and Scale Models pages do; papers get _layouts/paper.html.
 defaults:
-  # _posts
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: true
-  # _pages
   - scope:
       path: ""
       type: pages
     values:
-      layout: single
-      author_profile: true
-  # _teaching
-  - scope:
-      path: ""
-      type: teaching
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  # _publications
+      layout: profile
   - scope:
       path: ""
       type: publications
     values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  # _portfolio
-  - scope:
-      path: ""
-      type: portfolio
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comment: true
-  # _talks
-  - scope:
-      path: ""
-      type: talks
-    values:
-      layout: talk
-      author_profile: true
-      share: true
+      layout: paper
 
 
 # Sass/SCSS
@@ -306,8 +136,6 @@ sass:
 
 # Outputting
 permalink: /:categories/:title/
-# paginate: 5 # amount of posts to show
-# paginate_path: /page:num/
 timezone: America/New_York # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 
 
@@ -328,35 +156,6 @@ whitelist:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
-
-
-# Archives
-#  Type
-#  - GitHub Pages compatible archive pages built with Liquid ~> type: liquid (default)
-#  - Jekyll Archives plugin archive pages ~> type: jekyll-archives
-#  Path (examples)
-#  - Archive page should exist at path when using Liquid method or you can
-#    expect broken links (especially with breadcrumbs enabled)
-#  - <base_path>/tags/my-awesome-tag/index.html ~> path: /tags/
-#  - <base_path/categories/my-awesome-category/index.html ~> path: /categories/
-#  - <base_path/my-awesome-category/index.html ~> path: /
-category_archive:
-  type: liquid
-  path: /categories/
-tag_archive:
-  type: liquid
-  path: /tags/
-# https://github.com/jekyll/jekyll-archives
-# jekyll-archives:
-#   enabled:
-#     - categories
-#     - tags
-#   layouts:
-#     category: archive-taxonomy
-#     tag: archive-taxonomy
-#   permalinks:
-#     category: /categories/:name/
-#     tag: /tags/:name/
 
 
 # HTML Compression

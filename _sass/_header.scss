@@ -1,0 +1,147 @@
+@use "mixins" as *;
+
+/* ==========================================================================
+   HEADER AND FOOTER
+   The menu along the top of every page (_includes/site-header.html), the footer and
+   the faded photo behind the home, CV and paper pages
+   ========================================================================== */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: var(--backdrop-opacity);
+  pointer-events: none;
+
+  /* Phones show a smaller part of the photo, larger, so it needs to be fainter. */
+  @media (max-width: $phone) {
+    opacity: calc(var(--backdrop-opacity) * 0.7);
+  }
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;  /* under the full view of a photo (_gallery.scss) */
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: var(--header-height);
+  padding: 0 clamp(16px, 3vw, 30px);
+}
+
+.site-header__name {
+  color: var(--strong);
+  font-size: 22px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+
+  /* The profile column shows the name on these pages, and phones have no room for it. */
+  body:has(.profile) & {
+    visibility: hidden;
+  }
+
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
+
+.site-header__tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: auto;
+  padding: 4px;
+  border-radius: 999px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  a {
+    padding: 2px 12px;
+    border-radius: 999px;
+    color: var(--strong);
+    font-size: 16px;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      background-color: var(--tint);
+    }
+
+    &[aria-current="page"] {
+      background-color: var(--tint-hover);
+    }
+  }
+
+  @media (max-width: 400px) {
+    a {
+      padding: 2px 9px;
+      font-size: 15px;
+    }
+  }
+}
+
+/* Once the page has scrolled, the menu sits on a frosted island over the text. */
+.site-header--scrolled .site-header__tabs {
+  background-color: var(--island);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: 2px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--strong);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tint);
+  }
+
+  svg {
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-linecap: round;
+  }
+
+  .theme-toggle__moon {
+    stroke-width: 0;
+  }
+
+  .theme-toggle__sun {
+    display: none;
+    stroke-width: 1.8;
+  }
+
+  @include dark {
+    .theme-toggle__moon {
+      display: none;
+    }
+
+    .theme-toggle__sun {
+      display: block;
+    }
+  }
+}
+
+.site-footer {
+  margin-top: 72px;
+  padding: 24px 0 40px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}

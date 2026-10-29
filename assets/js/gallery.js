@@ -17,7 +17,7 @@
   const grid = gallery.querySelector('.gallery__grid');
   const items = Array.from(grid.children);  // in the data file's order
   const sortButton = gallery.querySelector('.gallery__sort');
-  const pageTitle = gallery.querySelector('.page__title').textContent;
+  const pageTitle = gallery.querySelector('.gallery__title').textContent;
   const documentTitle = document.title;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
