@@ -10,25 +10,23 @@
 #   description  optional, shown in the full view
 #   crop         optional: which part stays in view where the grid crops the photo to 3:2,
 #                as "x% y%" (default "50% 50%", the middle)
-#   specs        optional, shown in the full view; the script prints these for photos
+#
+# No camera settings here, please: the page is about the places, not the photography.
 
-- file: 2023-01-04-iceland-strokkur-geyser
-  title: Strokkur
-  subtitle: Haukadalur, Iceland
+- file: 2023-01-03-iceland-reynisfjara-basalt-columns
+  title: Basalt Columns
+  subtitle: Reynisfjara, Iceland
   date: January 2023
-  description: Strokkur erupts every few minutes, throwing boiling water some twenty meters into the air.
-  crop: 50% 72%
+  description: Columns of basalt, formed as lava cooled and cracked, above the black sand beach near Vík.
+  crop: 70% 50%
 
 - file: 2023-01-01-iceland-strokkur-eruption
   video: true
   title: Strokkur Erupting
   subtitle: Haukadalur, Iceland
   date: January 2023
-  description: The same geyser against the low midwinter sun, from the first bulge of water to the full plume.
+  description: Strokkur erupts every few minutes, throwing boiling water some twenty meters into the air; here against the low midwinter sun.
   crop: 50% 35%
-  specs:
-    Camera: iPhone 13 Pro
-    Length: 10 sec
 
 - file: 2023-01-01-iceland-geysir-steam-vents
   video: true
@@ -37,9 +35,6 @@
   date: January 2023
   description: Steam drifting off the hot springs around the Great Geysir, the spring that gave all geysers their name.
   crop: 50% 45%
-  specs:
-    Camera: iPhone XS Max
-    Length: 10 sec
 
 - file: 2023-01-04-iceland-hoarfrost
   title: Frost and Steam
@@ -69,20 +64,12 @@
   subtitle: Breiðamerkursandur, Iceland
   date: January 2023
   description: Black volcanic sand by the glacier lagoon Jökulsárlón; the beach is named for the chunks of ice that wash up on it.
-  specs:
-    Length: 10 sec
 
 - file: 2023-01-05-stockholm-vasa-scale-model
   title: Vasa, as She Looked in 1628
   subtitle: Vasa Museum, Stockholm, Sweden
   date: January 2023
   description: A 1:10 model in the museum, painted and rigged as the warship was when she set sail.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/29 sec
-    Aperture: f/1.8
-    ISO: 500
 
 - file: 2023-01-05-stockholm-vasa-stern-quarter
   title: Vasa
@@ -90,23 +77,11 @@
   date: January 2023
   description: The Swedish warship sank on her maiden voyage in 1628 and was raised in 1961, almost entirely intact.
   crop: 50% 40%
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/15 sec
-    Aperture: f/1.8
-    ISO: 800
 
 - file: 2023-01-05-stockholm-vasa-bow
   title: Vasa's Bow
   subtitle: Vasa Museum, Stockholm, Sweden
   date: January 2023
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/15 sec
-    Aperture: f/1.8
-    ISO: 1000
 
 - file: 2023-01-05-stockholm-vasa-stern
   title: Vasa's Stern
@@ -114,131 +89,65 @@
   date: January 2023
   description: Carved with the royal coat of arms of Sweden.
   crop: 50% 30%
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/15 sec
-    Aperture: f/1.8
-    ISO: 640
 
 - file: 2023-01-06-stockholm-reindeer-lights
   title: Christmas Reindeer
   subtitle: Stockholm, Sweden
   date: January 2023
   crop: 50% 55%
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 53 mm
-    Shutter speed: 1/33 sec
-    Aperture: f/2.4
-    ISO: 640
 
 - file: 2023-01-09-teotihuacan-avenue-of-the-dead
   title: Avenue of the Dead
   subtitle: Teotihuacan, Mexico
   date: January 2023
   description: The ancient city's main street, leading to the Pyramid of the Moon.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/2545 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-01-09-teotihuacan-pyramid-of-the-sun
   title: Pyramid of the Sun
   subtitle: Teotihuacan, Mexico
   date: January 2023
   description: The largest building in Teotihuacan, raised nearly two thousand years ago.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/4098 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-01-09-teotihuacan-ruins
   title: Ruins of Teotihuacan
   subtitle: Teotihuacan, Mexico
   date: January 2023
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/2309 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-01-11-mexico-city-metropolitan-cathedral
   title: Metropolitan Cathedral
   subtitle: Mexico City, Mexico
   date: January 2023
   description: Built between 1573 and 1813 on the Zócalo, here with both bell towers under scaffolding.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/3521 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-01-14-tulum
   title: Tulum
   subtitle: Quintana Roo, Mexico
   date: January 2023
   description: A walled Maya port on the cliffs above the Caribbean.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 47 mm
-    Shutter speed: 1/3086 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-01-15-chichen-itza
   title: El Castillo
   subtitle: Chichén Itzá, Mexico
   date: January 2023
   description: The Temple of Kukulcán. Its four stairways of 91 steps, plus the top platform, make 365, one for each day of the year.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/2915 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-05-19-mont-saint-michel
   title: Mont-Saint-Michel
   subtitle: Normandy, France
   date: May 2023
   description: The abbey on its tidal island, seen across the sands at low tide.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/4274 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-05-27-rome-castel-sant-angelo
   title: Castel Sant'Angelo
   subtitle: Rome, Italy
   date: May 2023
   description: Built as Emperor Hadrian's tomb and later a papal fortress, seen from the Ponte Sant'Angelo.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/4098 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-05-28-rome-trevi-fountain
   title: Trevi Fountain
   subtitle: Rome, Italy
   date: May 2023
   description: Rome's largest Baroque fountain, finished in 1762.
-  specs:
-    Camera: iPhone XS Max
-    Focal length: 26 mm
-    Shutter speed: 1/4902 sec
-    Aperture: f/1.8
-    ISO: 25
 
 - file: 2023-07-21-peru-rainbow-mountain
   title: Rainbow Mountain
@@ -246,154 +155,76 @@
   date: July 2023
   description: More than 5,000 meters up in the Andes; the stripes are layers of mineral-rich sediment.
   crop: 50% 65%
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/5000 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2023-07-21-peru-red-valley
   title: Red Valley
   subtitle: Vinicunca, Peru
   date: July 2023
   description: The valley next to Rainbow Mountain, colored by iron oxide.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/4762 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2023-07-22-machu-picchu
   title: Machu Picchu
   subtitle: Cusco Region, Peru
   date: July 2023
   description: The 15th-century Inca citadel, with Huayna Picchu rising behind it.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/756 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2023-07-23-machu-picchu-terraces
   title: Morning at Machu Picchu
   subtitle: Cusco Region, Peru
   date: July 2023
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/4184 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2023-07-24-lima-government-palace
   title: Government Palace
   subtitle: Lima, Peru
   date: July 2023
   description: The seat of Peru's president, in the historic center of Lima.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 14 mm
-    Shutter speed: 1/556 sec
-    Aperture: f/2.2
-    ISO: 40
 
 - file: 2023-12-25-barcelona-sagrada-familia
   title: Sagrada Família
   subtitle: Barcelona, Spain
   date: December 2023
   description: Gaudí's basilica, under construction since 1882.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 34 mm
-    Shutter speed: 1/4545 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2023-12-27-lucerne-chapel-bridge
   title: Chapel Bridge
   subtitle: Lucerne, Switzerland
   date: December 2023
   description: The 14th-century covered wooden bridge and its Water Tower, with Mount Pilatus behind.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/4016 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2024-05-31-prague-old-town-square
   title: Old Town Square
   subtitle: Prague, Czech Republic
   date: May 2024
   description: Under the Gothic spires of the Church of Our Lady before Týn.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/7042 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2024-06-01-budapest-buda-castle
   title: Buda Castle at Night
   subtitle: Budapest, Hungary
   date: June 2024
   description: Across the Danube from Pest.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/9 sec
-    Aperture: f/1.78
-    ISO: 1600
 
 - file: 2024-06-02-budapest-parliament
   title: Hungarian Parliament
   subtitle: Budapest, Hungary
   date: June 2024
   description: Seen across the Danube from the Buda side.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 48 mm
-    Shutter speed: 1/7634 sec
-    Aperture: f/1.78
-    ISO: 64
 
 - file: 2025-07-19-mount-rainier
   title: Mount Rainier
   subtitle: Washington, USA
   date: July 2025
   description: From Paradise, on the mountain's south side.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/5000 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2025-07-19-mount-rainier-wildflowers
   title: Wildflowers at Paradise
   subtitle: Mount Rainier, Washington, USA
   date: July 2025
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/7042 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2025-12-24-seattle-light-show
   title: Field of Lights
   subtitle: Seattle, Washington, USA
   date: December 2025
   description: A winter light show on Christmas Eve.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/9 sec
-    Aperture: f/1.78
-    ISO: 5000
 
 - file: 2025-12-24-seattle-light-show-ring
   video: true
@@ -401,32 +232,17 @@
   subtitle: Seattle, Washington, USA
   date: December 2025
   crop: 50% 45%
-  specs:
-    Camera: iPhone 14 Pro
-    Length: 11 sec
 
 - file: 2026-01-02-fairbanks-moonrise
   title: Moonrise
   subtitle: Fairbanks, Alaska, USA
   date: January 2026
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 56 mm
-    Shutter speed: 1/121 sec
-    Aperture: f/1.78
-    ISO: 64
 
 - file: 2026-01-02-fairbanks-aurora
   title: Aurora
   subtitle: Fairbanks, Alaska, USA
   date: January 2026
   description: A faint arc of the northern lights over spruce trees heavy with snow.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 14 mm
-    Shutter speed: 1.1 sec
-    Aperture: f/2.2
-    ISO: 2000
 
 - file: 2026-01-17-honolulu-sea-turtles
   video: true
@@ -434,45 +250,24 @@
   subtitle: Honolulu, Hawaiʻi, USA
   date: January 2026
   description: One turtle resting on the reef while another swims past.
-  specs:
-    Camera: GoPro HERO11 Black
-    Length: 10 sec
 
 - file: 2026-06-20-mauna-kea-sunset
   title: Sunset on Mauna Kea
   subtitle: Hawaiʻi, USA
   date: June 2026
   description: Above the clouds at the summit, about 4,200 meters up, among the observatories.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/12048 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2026-07-25-yosemite-half-dome
   title: Half Dome
   subtitle: Yosemite, California, USA
   date: July 2026
   description: At sunset from Glacier Point, with Vernal and Nevada Falls on the right.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/685 sec
-    Aperture: f/1.78
-    ISO: 80
 
 - file: 2026-08-19-easter-island-ahu-tongariki
   title: Ahu Tongariki
   subtitle: Rapa Nui (Easter Island), Chile
   date: August 2026
   description: Fifteen moai on the island's largest ceremonial platform.
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 48 mm
-    Shutter speed: 1/5556 sec
-    Aperture: f/1.78
-    ISO: 64
 
 - file: 2026-08-21-easter-island-sunrise
   title: Sunrise at Ahu Tongariki
@@ -480,9 +275,3 @@
   date: August 2026
   description: The moai stand with their backs to the sea.
   crop: 50% 75%
-  specs:
-    Camera: iPhone 14 Pro
-    Focal length: 24 mm
-    Shutter speed: 1/121 sec
-    Aperture: f/1.78
-    ISO: 80

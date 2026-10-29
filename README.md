@@ -22,8 +22,10 @@ The originals go in `photography/` (Travel) or `scaled_models/` (Scale Models), 
 `2023-07-22-machu-picchu.heic`. Both folders are kept out of git and out of the site, which
 uses the smaller copies in `images/travel/` and `images/models/`.
 
-For a photo, run `python3 scripts/gallery_images.py` (macOS, needs Pillow). It makes the copies
-and prints the camera settings; then add an entry for it to the data file, which explains its fields.
+For a photo, run `python3 scripts/gallery_images.py` (macOS, needs Pillow) to make the copies,
+then add an entry for it to the data file, which explains its fields. To take a photo off the
+site, delete its entry and its copies, and move the original into a folder inside
+`photography/` or `scaled_models/` (such as `photography/not-on-site/`), which the script skips.
 
 For a clip, put an H.264 `.mp4` of about 10 seconds in `images/travel/` or `images/models/`, with
 a still from it saved as a `.jpg` of the same name (shown until the clip loads), and add an entry

@@ -1,6 +1,9 @@
 # The Scale Models page (_pages/models.md), oldest first. The fields are the same as in
 # _data/travel.yml, with the files in images/models/ (originals in scaled_models/) and
-# the subtitle saying what the model is.
+# the subtitle saying what the model is, plus
+#
+#   specs        optional details about the model, such as its scale and kit, shown as
+#                a list in the full view
 
 - file: 2018-04-16-kuri
   title: Kuri
@@ -59,7 +62,6 @@
   specs:
     Scale: "1:700"
     Kit: Magic Factory
-    Length: 4 sec
 
 - file: 2026-03-21-yamato-tricon
   title: Yamato
