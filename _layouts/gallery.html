@@ -10,7 +10,8 @@ layout: default
   The page's front matter says which data file to show (gallery: travel shows
   _data/travel.yml, with its files in images/travel/) and how many photos go in a row on
   large screens (columns, 4 by default; small screens get 3, phones 2). The page's own
-  content is the line under the title.
+  content is the line under the title. The button that flips the order is in the menu at
+  the top (_includes/site-header.html), so it stays at hand while the photos scroll.
   Styles: _sass/_gallery.scss. Script: assets/js/gallery.js.
 {% endcomment %}
 
@@ -21,11 +22,8 @@ layout: default
 
 <main id="main" class="gallery" style="--columns: {{ columns }}">
   <header class="gallery__header">
-    <div>
-      <h1 class="gallery__title">{{ page.title }}</h1>
-      <div class="gallery__lead">{{ content }}</div>
-    </div>
-    <button type="button" class="gallery__sort">Newest first</button>
+    <h1 class="gallery__title">{{ page.title }}</h1>
+    <div class="gallery__lead">{{ content }}</div>
   </header>
 
   <div class="gallery__grid">

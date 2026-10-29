@@ -39,6 +39,13 @@
   font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  /* Gone once the page has scrolled, so it doesn't run into the photos or the text. */
+  .site-header--scrolled & {
+    opacity: 0;
+    visibility: hidden;
+  }
 
   /* The profile column shows the name on these pages, and phones have no room for it. */
   body:has(.profile) & {
@@ -50,7 +57,10 @@
   }
 }
 
-.site-header__tabs {
+/* The menu, the light/dark button and, on the Travel and Scale Models pages, the button
+   that flips the order of the photos. Once the page has scrolled they sit together on a
+   frosted, see-through island, which the photos or text show through, blurred. */
+.site-header__island {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -58,6 +68,19 @@
   padding: 4px;
   border-radius: 999px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  .site-header--scrolled & {
+    background-color: var(--island);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    -webkit-backdrop-filter: saturate(1.4) blur(16px);
+    backdrop-filter: saturate(1.4) blur(16px);
+  }
+}
+
+.site-header__tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 
   a {
     padding: 2px 12px;
@@ -84,12 +107,39 @@
   }
 }
 
-/* Once the page has scrolled, the menu sits on a frosted island over the text. */
-.site-header--scrolled .site-header__tabs {
-  background-color: var(--island);
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.1);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+/* Newest first / Oldest first, left of the menu. Phones have no room for it there: it sits
+   under the menu, level with the page's title, and goes once the page has scrolled. */
+.site-header .gallery__sort {
+  margin-right: 10px;
+  padding: 2px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: var(--tint);
+    color: var(--strong);
+  }
+
+  @media (max-width: $phone) {
+    position: absolute;
+    top: calc(100% + 16px);
+    right: clamp(16px, 3vw, 30px);
+    margin: 0;
+  }
+}
+
+@media (max-width: $phone) {
+  .site-header--scrolled .gallery__sort {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .theme-toggle {

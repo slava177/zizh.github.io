@@ -14,7 +14,7 @@
   --tint: rgba(255, 255, 255, 0.08);
   --tint-hover: rgba(255, 255, 255, 0.14);
   --underline: rgba(255, 255, 255, 0.3);
-  --island: rgba(30, 32, 37, 0.8);
+  --island: rgba(24, 26, 31, 0.45);
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
   --backdrop-opacity: 0.08;
 }
@@ -31,7 +31,7 @@
   --tint: rgba(0, 0, 0, 0.06);          /* behind buttons and the current section */
   --tint-hover: rgba(0, 0, 0, 0.1);
   --underline: rgba(0, 0, 0, 0.28);     /* under links */
-  --island: rgba(255, 255, 255, 0.8);   /* behind the menu once the page has scrolled */
+  --island: rgba(255, 255, 255, 0.45);  /* behind the menu once the page has scrolled, see-through */
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   --backdrop-opacity: 0.11;             /* the faded photo behind the home, CV and paper pages */
   --header-height: 64px;

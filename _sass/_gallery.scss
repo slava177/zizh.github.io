@@ -69,7 +69,8 @@
 }
 
 /*
-   The page: title, the line under it and the button that flips the order, then the grid
+   The page: title and the line under it, then the grid. The button that flips the order
+   is in the menu at the top (_includes/site-header.html, _header.scss).
    ========================================================================== */
 
 .gallery {
@@ -83,31 +84,11 @@
 }
 
 .gallery__header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.5em 1em;
   margin-bottom: 1.25em;
 
   p {
     margin: 0.5em 0 0;
     opacity: 0.8;
-  }
-}
-
-.gallery__sort {
-  padding: 0.3em 0.75em;
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  background: none;
-  color: inherit;
-  font: inherit;
-  font-size: 14px;
-  cursor: pointer;
-
-  &:hover {
-    border-color: var(--underline);
   }
 }
 
@@ -176,6 +157,7 @@
 
   h2 {
     margin: 0 0 0.3em;
+    color: inherit;  /* white, like the rest of the caption, not the color of headings */
     font-size: clamp(0.85rem, 6.5cqi, 1.4rem);
     font-weight: 600;
     line-height: 1.2;
