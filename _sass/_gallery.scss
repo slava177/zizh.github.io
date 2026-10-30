@@ -92,9 +92,52 @@
   }
 }
 
+/* The row of years over the photos (years: true in the page's front matter), each showing
+   that year's photos only, like the menu's buttons. Smaller on phones, to fit on one line. */
+.gallery__years {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0.9em 0 0 -12px;  /* the first year's text in line with the title */
+
+  button {
+    padding: 2px 12px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: var(--text);
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background-color: var(--tint);
+      color: var(--strong);
+    }
+
+    &[aria-pressed="true"] {
+      background-color: var(--tint-hover);
+      color: var(--strong);
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    margin-left: -8px;
+
+    button {
+      padding: 2px 8px;
+      font-size: 15px;
+    }
+  }
+}
+
 /* --columns photos per row (from the page's front matter), 3 in small windows and 2 on
-   phones, each cropped to 3:2. */
+   phones, each cropped to 3:2. The grid is where copies of the tiles leaving for another
+   year fade out (.gallery__ghost), under the others. */
 .gallery__grid {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
   gap: max(4px, 0.45vw);
@@ -227,6 +270,14 @@
   opacity: 0;
 }
 
+/* A copy of a tile of another year than the one picked, fading out where the tile was while
+   the others glide into place (assets/js/gallery.js sets its place and size). */
+.gallery__ghost {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
 /*
    Full view: opens over the page when a tile is clicked, with the text on the left (a
    quarter of the width) and the photo, uncropped, on the right; on small screens the
@@ -235,6 +286,12 @@
 
 html.gallery-detail-open {
   overflow: hidden;
+}
+
+/* Where scroll bars take up room, keep it for one while the full view is open too, so the
+   grid doesn't widen under it and a photo shrinking back lands on its tile. */
+html:has(.gallery) {
+  scrollbar-gutter: stable;
 }
 
 .gallery-detail {
@@ -253,12 +310,37 @@ html.gallery-detail-open {
   &[hidden] {
     display: none;
   }
+
+  /* With Motion, which fades the view in itself, around the photo growing out of its tile:
+     the background is the backdrop's, which fades while the photo moves. */
+  &--animated {
+    background: none;
+    animation: none;
+  }
+
+  /* While the photo grows or shrinks: no scroll bar for its way across the page. */
+  &--moving {
+    overflow: hidden;
+  }
+
+  /* The moment before it grows, until the photo's size is known. */
+  &--waiting {
+    visibility: hidden;
+  }
 }
 
 @keyframes gallery-detail-in {
   from {
     opacity: 0;
   }
+}
+
+/* The view's background on a layer of its own (with Motion), so it can fade while the photo moves. */
+.gallery-detail__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--bg);
 }
 
 .gallery-detail__bar {
@@ -335,6 +417,7 @@ html.gallery-detail-open {
 }
 
 .gallery-detail__media {
+  position: relative;
   grid-area: media;
   display: flex;
   align-items: center;
@@ -348,6 +431,15 @@ html.gallery-detail-open {
     max-height: calc(100vh - 5.5em);
     max-height: calc(100dvh - 5.5em);
     object-fit: contain;
+    transform-origin: 0 0;  /* for growing out of the tile and shrinking back */
+  }
+
+  /* The photo before, sliding out where it was as the next one comes in. */
+  .gallery-detail__leaving {
+    position: absolute;
+    max-width: none;
+    max-height: none;
+    pointer-events: none;
   }
 }
 
@@ -420,7 +512,9 @@ html.gallery-detail-open {
 
   /* Over the photo's edges, on a round backing the photo shows through. */
   .gallery-detail__arrow {
-    position: static;
+    position: relative;
+    z-index: 1;  /* over the photo, which is positioned for moving */
+    inset: auto;  /* not the offsets of large screens */
     grid-area: media;
     align-self: center;
     margin: 0 8px;

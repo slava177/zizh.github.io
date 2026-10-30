@@ -4,6 +4,7 @@ title: "Travel"
 permalink: /travel/
 gallery: travel
 columns: 4
+years: true
 excerpt: "Photos and short clips from my travels."
 ---
 

@@ -8,11 +8,14 @@ layout: default
   (https://yingsiqin.github.io/photography.html).
 
   The page's front matter says which data file to show (gallery: travel shows
-  _data/travel.yml, with its files in images/travel/) and how many photos go in a row on
-  large screens (columns, 4 by default; small screens get 3, phones 2). The page's own
-  content is the line under the title. The button that flips the order is in the menu at
-  the top (_includes/site-header.html), so it stays at hand while the photos scroll.
-  Styles: _sass/_gallery.scss. Script: assets/js/gallery.js.
+  _data/travel.yml, with its files in images/travel/), how many photos go in a row on
+  large screens (columns, 4 by default; small screens get 3, phones 2) and whether a row
+  of years goes over the photos (years: true), each showing that year's photos only; an
+  entry's year is the start of its file name. The page's own content is the line under
+  the title. The button that flips the order is in the menu at the top
+  (_includes/site-header.html), so it stays at hand while the photos scroll.
+  Styles: _sass/_gallery.scss. Script: assets/js/gallery.js, which moves things with
+  Motion (assets/js/motion.js).
 {% endcomment %}
 
 {% include base_path %}
@@ -24,6 +27,18 @@ layout: default
   <header class="gallery__header">
     <h1 class="gallery__title">{{ page.title }}</h1>
     <div class="gallery__lead">{{ content }}</div>
+    {% if page.years %}
+      {% assign years = "" | split: "" %}
+      {% for item in site.data[page.gallery] %}
+        {% assign year = item.file | slice: 0, 4 %}
+        {% unless years contains year %}{% assign years = years | push: year %}{% endunless %}
+      {% endfor %}
+      {% assign years = years | sort %}
+      <div class="gallery__years" role="group" aria-label="Years">
+        <button type="button" data-year="" aria-pressed="true">All</button>
+        {% for year in years %}<button type="button" data-year="{{ year }}" aria-pressed="false">{{ year }}</button>{% endfor %}
+      </div>
+    {% endif %}
   </header>
 
   <div class="gallery__grid">
@@ -33,7 +48,7 @@ layout: default
       {% else %}
         {% assign full = dir | append: "/" | append: item.file | append: ".jpg" %}
       {% endif %}
-      <figure class="gallery__item{% if item.video %} gallery__item--video{% endif %}" tabindex="0" data-full="{{ full }}">
+      <figure class="gallery__item{% if item.video %} gallery__item--video{% endif %}" tabindex="0" data-full="{{ full }}" data-year="{{ item.file | slice: 0, 4 }}">
         {% if item.video %}
           <video src="{{ full }}" poster="{{ dir }}/{{ item.file }}.jpg" muted loop playsinline preload="none" aria-label="{{ item.title | escape }}"{% if item.crop %} style="object-position: {{ item.crop }}"{% endif %}></video>
         {% else %}
@@ -56,4 +71,5 @@ layout: default
   {% include footer.html %}
 </main>
 
+<script src="{{ base_path }}/assets/js/motion.js" defer></script>
 <script src="{{ base_path }}/assets/js/gallery.js" defer></script>

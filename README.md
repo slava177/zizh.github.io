@@ -16,7 +16,7 @@ GitHub Actions (`.github/workflows/jekyll.yml`) builds and deploys the site on e
 | Publications | one file per paper in `_publications/`; `category:` is `conferences`, `manuscripts` (journals) or `preprints`, and `cover:` is its picture in `images/papers/` |
 | Menu at the top | `_data/navigation.yml` |
 | PDFs and images | `files/`, `images/` |
-| Travel and Scale Models pages | `_data/travel.yml`, `_data/models.yml` (one entry per photo or clip); the format is in `_layouts/gallery.html`, `_sass/_gallery.scss` and `assets/js/gallery.js` |
+| Travel and Scale Models pages | `_data/travel.yml`, `_data/models.yml` (one entry per photo or clip); the format is in `_layouts/gallery.html`, `_sass/_gallery.scss` and `assets/js/gallery.js`, which animates them with [Motion](https://motion.dev) (`assets/js/motion.js`, a cut-down copy remade by `sh scripts/motion.sh`, which needs Node.js) |
 | The look of every page | `_layouts/`, `_includes/`, `_sass/` (colors and fonts in `_sass/_base.scss`) and `assets/js/site.js` |
 
 ## Adding a paper
