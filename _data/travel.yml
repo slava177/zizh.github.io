@@ -8,12 +8,16 @@
 #   subtitle     where it was taken
 #   date         shown after the subtitle
 #   description  optional, shown in the full view
-#   crop         optional: which part stays in view where the grid crops the photo to 3:2,
-#                as "x% y%" (default "50% 50%", the middle)
+#   feature      true for a large tile, two cells wide and two tall, best one landscape
+#                photo a year; otherwise a photo gets one cell (3:2), or two tall for a
+#                portrait, or two wide for a panorama (from _data/photo_sizes.yml)
+#   crop         optional: which part stays in view where its tile crops the photo, as
+#                "x% y%" (default "50% 50%", the middle)
 #
 # No camera settings here, please: the page is about the places, not the photography.
 
 - file: 2017-06-30-jiuzhaigou-nuorilang-waterfall
+  feature: true
   title: Nuorilang Waterfall
   subtitle: Jiuzhaigou, Sichuan, China
   date: June 2017
@@ -54,6 +58,7 @@
   crop: 50% 65%
 
 - file: 2022-05-30-london-tower-bridge
+  feature: true
   title: Tower Bridge
   subtitle: London, England
   date: May 2022
@@ -143,6 +148,7 @@
   crop: 50% 45%
 
 - file: 2023-01-05-stockholm-vasa-scale-model
+  feature: true
   title: Vasa, as She Looked in 1628
   subtitle: Vasa Museum, Stockholm, Sweden
   date: January 2023
@@ -264,6 +270,7 @@
   description: The 14th-century covered wooden bridge and its Water Tower, with Mount Pilatus behind.
 
 - file: 2024-05-31-prague-old-town-square
+  feature: true
   title: Old Town Square
   subtitle: Prague, Czech Republic
   date: May 2024
@@ -282,6 +289,7 @@
   description: Seen across the Danube from the Buda side.
 
 - file: 2025-07-19-mount-rainier
+  feature: true
   title: Mount Rainier
   subtitle: Washington, USA
   date: July 2025
@@ -306,6 +314,7 @@
   crop: 50% 45%
 
 - file: 2026-01-02-fairbanks-moonrise
+  feature: true
   title: Moonrise
   subtitle: Fairbanks, Alaska, USA
   date: January 2026

@@ -9,11 +9,17 @@ layout: default
 
   The page's front matter says which data file to show (gallery: travel shows
   _data/travel.yml, with its files in images/travel/), how many photos go in a row on
-  large screens (columns, 4 by default; small screens get 3, phones 2) and whether a row
-  of years goes over the photos (years: true), each showing that year's photos only; an
-  entry's year is the start of its file name. The page's own content is the line under
-  the title. The button that flips the order is in the menu at the top
-  (_includes/site-header.html), so it stays at hand while the photos scroll.
+  large screens (columns, 4 by default; small screens get 3, phones 2), how the photos are
+  arranged and whether a row of years goes over the photos (years: true), each showing
+  that year's photos only; an entry's year is the start of its file name. The
+  arrangement is a grid of 3:2 tiles by default; arrangement: mosaic shapes the tiles like
+  the photos (portraits two cells tall, panoramas two wide, an entry with feature: true
+  two of each), and arrangement: wall shows the photos whole, framed, with their names
+  beneath. The shapes come from _data/photo_sizes.yml (scripts/gallery_images.py). An
+  entry with more photos (photos: in its data file) shows its first, and the rest in the
+  full view. The page's own content is the line under the title. The button that flips
+  the order is in the menu at the top (_includes/site-header.html), so it stays at hand
+  while the photos scroll.
   Styles: _sass/_gallery.scss. Script: assets/js/gallery.js, which moves things with
   Motion (assets/js/motion.js).
 {% endcomment %}
@@ -22,8 +28,9 @@ layout: default
 {% assign columns = page.columns | default: 4 %}
 {% assign tile_width = 100 | divided_by: columns %}
 {% assign dir = base_path | append: "/images/" | append: page.gallery %}
+{% assign sizes = site.data.photo_sizes[page.gallery] %}
 
-<main id="main" class="gallery" style="--columns: {{ columns }}">
+<main id="main" class="gallery{% if page.arrangement %} gallery--{{ page.arrangement }}{% endif %}" style="--columns: {{ columns }}">
   <header class="gallery__header">
     <h1 class="gallery__title">{{ page.title }}</h1>
     <div class="gallery__lead">{{ content }}</div>
@@ -48,15 +55,40 @@ layout: default
       {% else %}
         {% assign full = dir | append: "/" | append: item.file | append: ".jpg" %}
       {% endif %}
-      <figure class="gallery__item{% if item.video %} gallery__item--video{% endif %}" tabindex="0" data-full="{{ full }}" data-year="{{ item.file | slice: 0, 4 }}">
+
+      {% comment %} Its shape (width over height) and, in a mosaic, its tile's. {% endcomment %}
+      {% assign size = sizes[item.file] %}
+      {% assign ratio = nil %}
+      {% assign shape = "" %}
+      {% if size %}
+        {% assign ratio = size[0] | times: 1.0 | divided_by: size[1] | round: 4 %}
+      {% endif %}
+      {% if page.arrangement == "mosaic" %}
+        {% if item.feature %}
+          {% assign shape = " gallery__item--feature" %}
+        {% elsif ratio and ratio < 0.9 %}
+          {% assign shape = " gallery__item--tall" %}
+        {% elsif ratio and ratio > 2.2 %}
+          {% assign shape = " gallery__item--wide" %}
+        {% endif %}
+      {% endif %}
+      {% if shape == " gallery__item--feature" or shape == " gallery__item--wide" %}
+        {% assign double_width = tile_width | times: 2 %}
+        {% assign tile_sizes = "(max-width: 600px) 100vw, (max-width: 900px) 67vw, " | append: double_width | append: "vw" %}
+      {% else %}
+        {% assign tile_sizes = "(max-width: 600px) 50vw, (max-width: 900px) 34vw, " | append: tile_width | append: "vw" %}
+      {% endif %}
+
+      <figure class="gallery__item{% if item.video %} gallery__item--video{% endif %}{{ shape }}" tabindex="0" data-full="{{ full }}" data-year="{{ item.file | slice: 0, 4 }}"{% if item.photos %} data-photos="{{ item.photos | join: ' ' }}"{% endif %}{% if ratio %} style="--r: {{ ratio }}"{% endif %}>
         {% if item.video %}
           <video src="{{ full }}" poster="{{ dir }}/{{ item.file }}.jpg" muted loop playsinline preload="none" aria-label="{{ item.title | escape }}"{% if item.crop %} style="object-position: {{ item.crop }}"{% endif %}></video>
         {% else %}
-          <img src="{{ dir }}/small/{{ item.file }}-800.jpg" srcset="{{ dir }}/small/{{ item.file }}-480.jpg 480w, {{ dir }}/small/{{ item.file }}-800.jpg 800w" sizes="(max-width: 600px) 50vw, (max-width: 900px) 34vw, {{ tile_width }}vw" alt="{{ item.title | escape }}" loading="lazy" decoding="async"{% if item.crop %} style="object-position: {{ item.crop }}"{% endif %}>
+          <img src="{{ dir }}/small/{{ item.file }}-800.jpg" srcset="{{ dir }}/small/{{ item.file }}-480.jpg 480w, {{ dir }}/small/{{ item.file }}-800.jpg 800w{% if size %}, {{ full }} {{ size[0] }}w{% endif %}" sizes="{{ tile_sizes }}" alt="{{ item.title | escape }}" loading="lazy" decoding="async"{% if item.crop %} style="object-position: {{ item.crop }}"{% endif %}>
         {% endif %}
         <figcaption>
           <h2>{{ item.title }}</h2>
           <p class="gallery__subtitle">{{ item.subtitle }}{% if item.date %} &middot; {{ item.date }}{% endif %}</p>
+          {% if item.photos %}<p class="gallery__count">{{ item.photos.size | plus: 1 }} photos</p>{% endif %}
           {% if item.description %}<p class="gallery__description">{{ item.description }}</p>{% endif %}
           {% if item.specs %}
             <dl class="gallery__specs">

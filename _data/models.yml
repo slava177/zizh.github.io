@@ -1,7 +1,9 @@
-# The Scale Models page (_pages/models.md), oldest first. The fields are the same as in
-# _data/travel.yml, with the files in images/models/ (originals in scaled_models/) and
-# the subtitle saying what the model is, plus
+# The Scale Models page (_pages/models.md), one entry per model, oldest first. The fields
+# are the same as in _data/travel.yml, with the files in images/models/ (originals in
+# scaled_models/) and the subtitle saying what the model is, plus
 #
+#   photos       optional: more photos of the same model, by file name as for file (photos,
+#                not clips), shown after it in the full view; the page shows file
 #   specs        optional details about the model, such as its scale and kit, shown as
 #                a list in the full view
 
@@ -42,19 +44,13 @@
   description: A two-story pavilion with sweeping eaves, still on the workbench.
 
 - file: 2024-07-28-mary-rose
+  photos:
+    - 2024-08-20-mary-rose-workbench
   title: Mary Rose
   subtitle: Tudor warship, 1:400
   date: 2024
   description: Henry VIII's warship, launched in 1511, sunk in the Solent in 1545 and raised in 1982, here under full sail on a sculpted sea.
   crop: 50% 40%
-  specs:
-    Scale: "1:400"
-    Kit: Airfix
-
-- file: 2024-08-20-mary-rose-workbench
-  title: Mary Rose, Finished
-  subtitle: Tudor warship, 1:400
-  date: 2024
   specs:
     Scale: "1:400"
     Kit: Airfix

@@ -3,6 +3,7 @@ layout: gallery
 title: "Scale Models"
 permalink: /models/
 gallery: models
+arrangement: wall
 columns: 3
 excerpt: "Models I have built, mostly ships."
 ---

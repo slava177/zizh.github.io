@@ -3,6 +3,7 @@ layout: gallery
 title: "Travel"
 permalink: /travel/
 gallery: travel
+arrangement: mosaic
 columns: 4
 years: true
 excerpt: "Photos and short clips from my travels."

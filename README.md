@@ -16,7 +16,7 @@ GitHub Actions (`.github/workflows/jekyll.yml`) builds and deploys the site on e
 | Publications | one file per paper in `_publications/`; `category:` is `conferences`, `manuscripts` (journals) or `preprints`, and `cover:` is its picture in `images/papers/` |
 | Menu at the top | `_data/navigation.yml` |
 | PDFs and images | `files/`, `images/` |
-| Travel and Scale Models pages | `_data/travel.yml`, `_data/models.yml` (one entry per photo or clip); the format is in `_layouts/gallery.html`, `_sass/_gallery.scss` and `assets/js/gallery.js`, which animates them with [Motion](https://motion.dev) (`assets/js/motion.js`, a cut-down copy remade by `sh scripts/motion.sh`, which needs Node.js) |
+| Travel and Scale Models pages | `_data/travel.yml` (one entry per photo or clip, shown as a mosaic) and `_data/models.yml` (one entry per model, which can have several photos, shown as a wall of framed prints); the photos' sizes in `_data/photo_sizes.yml`, written by `scripts/gallery_images.py`; the format is in `_layouts/gallery.html`, `_sass/_gallery.scss` and `assets/js/gallery.js`, which animates them with [Motion](https://motion.dev) (`assets/js/motion.js`, a cut-down copy remade by `sh scripts/motion.sh`, which needs Node.js) |
 | The look of every page | `_layouts/`, `_includes/`, `_sass/` (colors and fonts in `_sass/_base.scss`) and `assets/js/site.js` |
 
 ## Adding a paper
@@ -36,14 +36,16 @@ The originals go in `photography/` (Travel) or `scaled_models/` (Scale Models), 
 `2023-07-22-machu-picchu.heic`. Both folders are kept out of git and out of the site, which
 uses the smaller copies in `images/travel/` and `images/models/`.
 
-For a photo, run `python3 scripts/gallery_images.py` (macOS, needs Pillow) to make the copies,
-then add an entry for it to the data file, which explains its fields. To take a photo off the
-site, delete its entry and its copies, and move the original into a folder inside
+For a photo, run `python3 scripts/gallery_images.py` (macOS, needs Pillow) to make the copies
+and record its size, then add an entry for it to the data file, which explains its fields. A
+second photo of a model goes in its entry's `photos:` instead of an entry of its own. To take a
+photo off the site, delete its entry and its copies, and move the original into a folder inside
 `photography/` or `scaled_models/` (such as `photography/not-on-site/`), which the script skips.
 
 For a clip, put an H.264 `.mp4` of about 10 seconds in `images/travel/` or `images/models/`, with
-a still from it saved as a `.jpg` of the same name (shown until the clip loads), and add an entry
-with `video: true`. The built-in
+a still from it saved as a `.jpg` of the same name (shown until the clip loads), run
+`python3 scripts/gallery_images.py --sizes` to record its size, and add an entry with
+`video: true`. The built-in
 macOS `avconvert` can trim one, though its files are larger than the current clips (2–4 MB):
 
 ```bash

@@ -13,6 +13,10 @@ as photography/not-on-site/), this writes three JPEGs into images/travel/ or ima
 Photos whose copies are newer than the original are skipped; pass --force to redo them
 all. Videos are not handled here (see README.md).
 
+Then it writes the width and height of every photo in images/travel/ and images/models/,
+clips' stills included, to _data/photo_sizes.yml, for the pages to lay the photos out by
+their shapes. Pass --sizes to do only that, as after adding a clip.
+
 Needs macOS (sips reads HEIC) and Pillow. Run it from the top of the repository:
 
     python3 scripts/gallery_images.py
@@ -28,6 +32,7 @@ from PIL import Image, ImageOps
 FOLDERS = {"photography": "images/travel", "scaled_models": "images/models"}
 PHOTO_TYPES = {".heic", ".jpg", ".jpeg", ".png"}
 FULL_SIZE = 1600
+SIZES = Path("_data/photo_sizes.yml")
 SMALL_WIDTHS = (480, 800)
 
 
@@ -52,10 +57,31 @@ def save(image, out, size, icc, quality):
     copy.save(out, "JPEG", quality=quality, optimize=True, progressive=True, icc_profile=icc)
 
 
+def write_sizes():
+    """Every web copy's width and height, by page and name, into _data/photo_sizes.yml."""
+    lines = [
+        "# The width and height of each photo in images/travel/ and images/models/ (for a clip,",
+        "# its still), written by scripts/gallery_images.py: don't edit it by hand. The Travel",
+        "# and Scale Models pages lay the photos out by their shapes (_layouts/gallery.html).",
+    ]
+    for web_dir in FOLDERS.values():
+        lines += ["", f"{Path(web_dir).name}:"]
+        for path in sorted(Path(web_dir).glob("*.jpg")):
+            with Image.open(path) as image:
+                lines.append(f"  {path.stem}: [{image.width}, {image.height}]")
+    SIZES.write_text("\n".join(lines) + "\n")
+    print(f"{SIZES}  (sizes of the photos)")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("--force", action="store_true", help="redo every photo, not just new or changed ones")
-    force = parser.parse_args().force
+    parser.add_argument("--sizes", action="store_true", help="only write the photos' sizes to " + str(SIZES))
+    args = parser.parse_args()
+    force = args.force
+    if args.sizes:
+        write_sizes()
+        return
 
     for source_dir, web_dir in FOLDERS.items():
         for path in sorted(Path(source_dir).glob("*")):
@@ -74,6 +100,8 @@ def main():
                 save(image, out, (width, 10 * width), icc, quality=80)
 
             print(f"{full}  ({image.width}x{image.height} original)")
+
+    write_sizes()
 
 
 if __name__ == "__main__":

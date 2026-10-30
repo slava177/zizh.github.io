@@ -278,6 +278,145 @@
   pointer-events: none;
 }
 
+/* "2 photos", for an entry with more than one (photos: in the data file). */
+.gallery__item .gallery__count {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(0.7rem, 4.2cqi, 0.95rem);
+}
+
+/*
+   Arrangements other than the grid (arrangement: in the page's front matter). Each tile
+   knows its photo's shape, width over height, as --r (_layouts/gallery.html).
+   ========================================================================== */
+
+/* Mosaic (Travel): cells of 3:2, a portrait two cells tall, a panorama two wide and an
+   entry with feature: true two of each, the cells filled in order as tightly as they go.
+   A row is a cell's height, worked out from the page's width. */
+.gallery--mosaic {
+  container-type: inline-size;
+
+  .gallery__grid {
+    --cols: var(--columns, 4);
+    --gap: max(4px, 0.45vw);
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-auto-rows: calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols) / 1.5);
+    grid-auto-flow: dense;
+    gap: var(--gap);
+
+    @media screen and (max-width: 900px) {
+      --cols: 3;
+    }
+
+    @media screen and (max-width: 600px) {
+      --cols: 2;
+    }
+  }
+
+  .gallery__item {
+    aspect-ratio: auto;
+  }
+
+  .gallery__item--tall {
+    grid-row: span 2;
+  }
+
+  .gallery__item--wide {
+    grid-column: span 2;
+  }
+
+  .gallery__item--feature {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
+/* Wall (Scale Models): each photo whole, on a mat with its name beneath, in up to
+   --columns columns (two on phones), like prints on a wall. */
+.gallery--wall {
+  .gallery__grid {
+    --mat: clamp(8px, 1vw, 14px);
+    display: block;
+    columns: var(--columns, 3) 150px;
+    column-gap: clamp(18px, 2.6vw, 40px);
+  }
+
+  .gallery__item {
+    break-inside: avoid;
+    margin: 0 0 clamp(18px, 2.6vw, 40px);
+    padding: var(--mat) var(--mat) 0;
+    aspect-ratio: auto;
+    overflow: visible;
+    border-radius: 2px;
+    background-color: var(--bg);
+    box-shadow: 0 0 0 1px var(--rule), var(--shadow);
+    transition: translate 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      translate: 0 -3px;
+      box-shadow: 0 0 0 1px var(--rule), 0 14px 30px rgba(0, 0, 0, 0.16);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--underline);
+      outline-offset: 3px;
+
+      figcaption {
+        outline: none;
+      }
+    }
+
+    img,
+    video {
+      position: relative;
+      inset: auto;
+      display: block;
+      height: auto;
+      aspect-ratio: var(--r, auto);
+    }
+
+    &:hover,
+    &:focus-visible {
+      img,
+      video {
+        transform: none;
+      }
+    }
+
+    figcaption {
+      position: static;
+      display: block;
+      padding: 0.7em 0.1em 0.85em;
+      background: none;
+      color: var(--text);
+      text-align: left;
+      opacity: 1;
+
+      > * {
+        transform: none;
+      }
+    }
+
+    h2 {
+      margin: 0;
+      color: var(--strong);
+      font-size: 1.05rem;
+    }
+
+    .gallery__subtitle,
+    .gallery__count {
+      display: block;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+  }
+
+  .gallery__item--video::after {
+    top: calc(var(--mat) + 8px);
+    right: calc(var(--mat) + 8px);
+  }
+}
+
 /*
    Full view: opens over the page when a tile is clicked, with the text on the left (a
    quarter of the width) and the photo, uncropped, on the right; on small screens the
@@ -414,6 +553,45 @@ html:has(.gallery) {
   dd {
     margin: 0;
   }
+
+  .gallery__count {
+    display: none;  /* the photos under the text say as much */
+  }
+}
+
+/* An entry's photos when it has more than one (photos: in the data file), under its text:
+   small buttons, the one shown outlined. On small screens they come first, under the photo. */
+.gallery-detail__photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 1.5em 0 0;
+
+  button {
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    opacity: 0.55;
+    cursor: pointer;
+    transition: opacity 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    &[aria-current="true"] {
+      opacity: 1;
+      box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--strong);
+    }
+  }
+
+  img {
+    display: block;
+    width: auto;
+    height: 56px;
+    border-radius: 4px;
+  }
 }
 
 .gallery-detail__media {
@@ -499,7 +677,14 @@ html:has(.gallery) {
   }
 
   .gallery-detail__info {
+    display: flex;
+    flex-direction: column;
     padding: 0 var(--gutter);
+  }
+
+  .gallery-detail__photos {
+    order: -1;
+    margin: 0 0 0.75em;
   }
 
   .gallery-detail__media {
@@ -542,6 +727,7 @@ html:has(.gallery) {
   .gallery__item video,
   .gallery__item figcaption,
   .gallery__item figcaption > *,
+  .gallery--wall .gallery__item,
   .gallery-detail {
     transition: none;
     animation: none;

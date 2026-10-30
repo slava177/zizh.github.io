@@ -57,8 +57,7 @@
   }
 }
 
-/* The menu, the light/dark button and, on the Travel and Scale Models pages, the button
-   that flips the order of the photos. Once the page has scrolled they sit together on a
+/* The menu and the light/dark button. Once the page has scrolled they sit together on a
    frosted, see-through island, which the photos or text show through, blurred. */
 .site-header__island {
   display: flex;
@@ -107,12 +106,14 @@
   }
 }
 
-/* Newest first / Oldest first, left of the menu. Phones have no room for it there: it sits
-   under the menu, level with the page's title, and goes once the page has scrolled. */
+/* Newest first / Oldest first, left of the menu with room between them, outlined like the
+   full view's Back button: a button, not a page. Once the page has scrolled it sits on a
+   frosted island of its own, as tall as the menu's. Phones have no room for it there: it
+   sits under the menu, level with the page's title, and goes once the page has scrolled. */
 .site-header .gallery__sort {
-  margin-right: 10px;
-  padding: 2px 12px;
-  border: 0;
+  margin: 0 24px 0 auto;
+  padding: 5px 14px;
+  border: 1px solid var(--rule);
   border-radius: 999px;
   background: none;
   color: var(--text);
@@ -120,11 +121,21 @@
   font-size: 16px;
   white-space: nowrap;
   cursor: pointer;
-  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.2s ease, color 0.2s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease, border-color 0.3s ease,
+    background-color 0.3s ease, box-shadow 0.3s ease, color 0.2s ease;
 
   &:hover {
-    background-color: var(--tint);
+    border-color: var(--underline);
     color: var(--strong);
+  }
+
+  & + .site-header__island {
+    margin-left: 0;  /* the button takes the room on the left */
+  }
+
+  @media (max-width: 640px) {  /* closer, for the name, it and the menu to fit */
+    margin-right: 0;
+    padding: 5px 12px;
   }
 
   @media (max-width: $phone) {
@@ -133,6 +144,15 @@
     right: clamp(16px, 3vw, 30px);
     margin: 0;
   }
+}
+
+.site-header--scrolled .gallery__sort {
+  border-color: transparent;
+  background-color: var(--island);
+  color: var(--strong);  /* as the menu's, to read over the photos */
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  -webkit-backdrop-filter: saturate(1.4) blur(16px);
+  backdrop-filter: saturate(1.4) blur(16px);
 }
 
 @media (max-width: $phone) {

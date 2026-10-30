@@ -4,8 +4,11 @@
 
 // A grid of photos and clips that open full-screen when clicked, as on Yingsi Qin's
 // photography page. Clips play while they are in view. The full view has arrows (and the
-// arrow keys, and swipes) for the previous and next item, Back or Escape to close, and its
+// arrow keys, and swipes) for the previous and next photo, Back or Escape to close, and its
 // own link: #photo-3 is the third entry in the page's data file, whichever order is shown.
+// An entry with more photos (photos: in the data file) shows them one after another
+// before the next entry, with small buttons for them under its text; #photo-3-2 is the
+// third entry's second photo.
 //
 // Motion (assets/js/motion.js, https://motion.dev) moves things: a photo grows out of its
 // tile into the full view and shrinks back into it, photos slide past in the full view,
@@ -355,14 +358,40 @@
   const nextButton = detail.querySelector('.gallery-detail__arrow--next');
   const around = [bar, info, previousButton, nextButton];  // all but the photo
   let current = null;
+  let photoIndex = 0;     // which of its photos: 0 for the one in its tile
   let shownMedia = null;  // the photo or clip in the full view
   let growing = null;     // its animation while it grows out of the tile
   let closing = false;
   let turn = 0;           // counts openings and closings, so a late step of an old one is dropped
 
-  // The photo or clip for an item. The grid's copy of a photo shows at once; the full-size
-  // one replaces it when it has loaded. A clip carries on from where the grid's copy was.
-  function mediaFor(item) {
+  // The file names of an item's photos: the one in its tile, then any more (photos: in the
+  // data file), all in the folder of its full-size file.
+  function photosOf(item) {
+    const full = item.dataset.full;
+    const first = full.slice(full.lastIndexOf('/') + 1).replace(/\.\w+$/, '');
+    return [first].concat(item.dataset.photos ? item.dataset.photos.split(' ') : []);
+  }
+
+  function folderOf(item) {
+    return item.dataset.full.slice(0, item.dataset.full.lastIndexOf('/'));
+  }
+
+  // The photo or clip for an item, or another of its photos. The grid's copy of a photo
+  // shows at once; the full-size one replaces it when it has loaded. A clip carries on from
+  // where the grid's copy was.
+  function mediaFor(item, index) {
+    if (index > 0) {
+      const names = photosOf(item);
+      const photo = document.createElement('img');
+      photo.alt = item.querySelector('h2').textContent + ', photo ' + (index + 1) + ' of ' + names.length;
+      photo.src = folderOf(item) + '/small/' + names[index] + '-800.jpg';
+      const full = new Image();
+      full.onload = function () {
+        photo.src = full.src;
+      };
+      full.src = folderOf(item) + '/' + names[index] + '.jpg';
+      return photo;
+    }
     const tileClip = item.querySelector('video');
     if (tileClip) {
       const clip = document.createElement('video');
@@ -392,18 +421,55 @@
     return photo;
   }
 
-  // Fills the full view with an item's text; its photo or clip is placed by open().
-  function show(item) {
+  // Fills the full view with an item's text and, if it has more than one photo, a button for
+  // each under the text; the photo or clip itself is placed by open().
+  function show(item, index) {
     current = item;
+    photoIndex = index;
     const caption = item.querySelector('figcaption');
     info.innerHTML = caption.innerHTML;
-    const order = shown();
-    const position = order.indexOf(item);
-    previousButton.hidden = position === 0;
-    nextButton.hidden = position === order.length - 1;
+    const names = photosOf(item);
+    if (names.length > 1) {
+      const buttons = document.createElement('div');
+      buttons.className = 'gallery-detail__photos';
+      buttons.setAttribute('role', 'group');
+      buttons.setAttribute('aria-label', 'Photos');
+      const tileClip = item.querySelector('video');
+      names.forEach(function (name, i) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute('aria-label', 'Photo ' + (i + 1) + ' of ' + names.length);
+        const thumb = document.createElement('img');
+        thumb.alt = '';
+        thumb.src = i === 0 && tileClip ? tileClip.poster : folderOf(item) + '/small/' + name + '-480.jpg';
+        button.appendChild(thumb);
+        button.addEventListener('click', function () {
+          turnTo(i);
+        });
+        buttons.appendChild(button);
+      });
+      info.appendChild(buttons);
+    }
+    markPhoto();
     const title = caption.querySelector('h2').textContent;
     detail.setAttribute('aria-label', title);
     document.title = title + ' - ' + documentTitle;
+  }
+
+  // Marks the photo shown among its item's buttons, and hides the arrows at the very first
+  // photo and the very last.
+  function markPhoto() {
+    info.querySelectorAll('.gallery-detail__photos button').forEach(function (button, i) {
+      if (i === photoIndex) {
+        button.setAttribute('aria-current', 'true');
+      } else {
+        button.removeAttribute('aria-current');
+      }
+    });
+    const order = shown();
+    const position = order.indexOf(current);
+    previousButton.hidden = position === 0 && photoIndex === 0;
+    nextButton.hidden = position === order.length - 1 && photoIndex === photosOf(current).length - 1;
   }
 
   // Whether a photo or clip knows its size, which a clip only does once it has started loading.
@@ -436,13 +502,21 @@
     };
   }
 
-  // What makes the full view's photo, laid out uncropped in `box`, look just like the same
-  // photo in its tile: a transform to the tile's place and size, and a clip-path cutting it
-  // down to the tile, which crops it to 3:2 around its object-position (zoomed on hover).
+  // What makes the full view's photo, laid out uncropped in `box`, look just like the photo
+  // in its tile: a transform to the tile photo's place and size, and a clip-path cutting it
+  // down to the part in view, where the photo and the tile overlap: the tile, which crops
+  // the photo around its object-position (and zooms it on hover), or on a wall the photo
+  // itself, shown whole on its mat.
   function crop(item, box) {
-    const tile = item.getBoundingClientRect();
     const tileMedia = item.querySelector('img, video');
     const seen = tileMedia.getBoundingClientRect();
+    const frame = item.getBoundingClientRect();
+    const tile = {
+      left: Math.max(seen.left, frame.left),
+      top: Math.max(seen.top, frame.top),
+      right: Math.min(seen.right, frame.right),
+      bottom: Math.min(seen.bottom, frame.bottom),
+    };
     const position = getComputedStyle(tileMedia).objectPosition.split(' ').map(function (value) {
       return parseFloat(value) / 100;
     });
@@ -508,7 +582,8 @@
   }
 
   // The photo shrinks back into its tile, cropping as it goes, while the page behind fades
-  // back in. Its animation finishes when the photo has landed.
+  // back in; another of the item's photos than the tile's fades into the tile's as it goes.
+  // Its animation finishes when the photo has landed.
   function shrink(item, photo) {
     if (growing) {
       growing.stop();
@@ -521,7 +596,12 @@
     }
     const to = crop(item, layoutBox(photo));
     const now = getComputedStyle(photo);
-    item.style.visibility = 'hidden';
+    if (photoIndex > 0) {
+      item.style.visibility = '';
+      motion.animate(photo, { opacity: 0 }, { duration: 0.4, ease: 'easeIn' });
+    } else {
+      item.style.visibility = 'hidden';
+    }
     detail.classList.add('gallery-detail--moving');
     motion.animate(around, { opacity: 0 }, { duration: 0.15 });
     motion.animate(backdrop, { opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
@@ -532,8 +612,8 @@
   }
 
   // The photo shown leaves to one side as the next one comes in from the other, and the
-  // text follows. `direction` is 1 for the next photo, -1 for the previous.
-  function slide(leaving, arriving, direction) {
+  // text follows if it changed. `direction` is 1 for the next photo, -1 for the previous.
+  function slide(leaving, arriving, direction, newText) {
     if (growing) {
       growing.complete();
     }
@@ -558,28 +638,32 @@
       });
     motion.animate(arriving, { opacity: [0, 1], transform: ['translateX(' + 80 * direction + 'px)', 'translateX(0px)'] },
       spring(0.5, 0.1));
-    motion.animate(info, { opacity: [0, 1], transform: ['translateX(' + 16 * direction + 'px)', 'translateX(0px)'] },
-      { duration: 0.45, ease: easeOut });
+    if (newText) {
+      motion.animate(info, { opacity: [0, 1], transform: ['translateX(' + 16 * direction + 'px)', 'translateX(0px)'] },
+        { duration: 0.45, ease: easeOut });
+    }
   }
 
-  function linkTo(item) {
-    return '#photo-' + (items.indexOf(item) + 1);
+  function linkTo(item, index) {
+    return '#photo-' + (items.indexOf(item) + 1) + (index > 0 ? '-' + (index + 1) : '');
   }
 
-  // Opens the full view on an item, or turns to it if the view is open. A click adds a step
-  // to the browser's history, so its Back button closes the view again; the arrows only
-  // change the link. `still` opens it without moving anything, as for a link followed.
-  function open(item, addToHistory, still) {
+  // Opens the full view on an item, at its photo `index` (0 for the one in its tile), or
+  // turns to it if the view is open. A click adds a step to the browser's history, so its
+  // Back button closes the view again; the arrows only change the link. `still` opens it
+  // without moving anything, as for a link followed.
+  function open(item, addToHistory, still, index) {
     if (closing) {
       return;
     }
+    index = index || 0;
     if (item.hidden && years) {
       showYear('', true);  // a link to a photo of another year than the one picked
     }
     const before = current;
     const leaving = detail.hidden ? null : shownMedia;
-    show(item);
-    shownMedia = mediaFor(item);
+    show(item, index);
+    shownMedia = mediaFor(item, index);
 
     if (!leaving) {
       media.textContent = '';
@@ -596,7 +680,7 @@
       }
     } else if (moving()) {
       const order = shown();
-      slide(leaving, shownMedia, order.indexOf(item) > order.indexOf(before) ? 1 : -1);
+      slide(leaving, shownMedia, order.indexOf(item) > order.indexOf(before) ? 1 : -1, true);
     } else {
       media.textContent = '';
       media.appendChild(shownMedia);
@@ -606,10 +690,29 @@
       // Chrome can put the page back where it was when the view opened, a moment after Back
       // closes it, undoing close() bringing the last photo's tile into view.
       history.scrollRestoration = 'manual';
-      history.pushState({ galleryDetail: true }, '', linkTo(item));
-    } else if (location.hash !== linkTo(item)) {
-      history.replaceState(history.state, '', linkTo(item));
+      history.pushState({ galleryDetail: true }, '', linkTo(item, index));
+    } else if (location.hash !== linkTo(item, index)) {
+      history.replaceState(history.state, '', linkTo(item, index));
     }
+  }
+
+  // Turns to another of the shown item's photos, its text staying.
+  function turnTo(index) {
+    if (index === photoIndex || closing) {
+      return;
+    }
+    const direction = index > photoIndex ? 1 : -1;
+    const leaving = shownMedia;
+    photoIndex = index;
+    shownMedia = mediaFor(current, index);
+    if (moving()) {
+      slide(leaving, shownMedia, direction, false);
+    } else {
+      media.textContent = '';
+      media.appendChild(shownMedia);
+    }
+    markPhoto();
+    history.replaceState(history.state, '', linkTo(current, index));
   }
 
   function close() {
@@ -662,18 +765,30 @@
     }
   }
 
+  // The previous or next photo: the item's own while it has more, else the item before's
+  // last or the item after's first.
   function step(by) {
+    const index = photoIndex + by;
+    if (index >= 0 && index < photosOf(current).length) {
+      turnTo(index);
+      return;
+    }
     const order = shown();
     const next = order[order.indexOf(current) + by];
     if (next) {
-      open(next, false);
+      open(next, false, false, by < 0 ? photosOf(next).length - 1 : 0);
     }
   }
 
-  // The item a link like #photo-3 points to, if any.
-  function linkedItem() {
-    const match = /^#photo-(\d+)$/.exec(location.hash);
-    return match ? items[Number(match[1]) - 1] : null;
+  // The item, and which of its photos, that a link like #photo-3 or #photo-3-2 points to.
+  function linkedPhoto() {
+    const match = /^#photo-(\d+)(?:-(\d+))?$/.exec(location.hash);
+    const item = match && items[Number(match[1]) - 1];
+    if (!item) {
+      return null;
+    }
+    const index = match[2] ? Number(match[2]) - 1 : 0;
+    return { item: item, index: index < photosOf(item).length ? index : 0 };
   }
 
   items.forEach(function (item) {
@@ -705,7 +820,7 @@
       step(1);
     } else if (event.key === 'Tab') {
       // Keep the focus on the view's own buttons while it is open.
-      const buttons = [closeButton, previousButton, nextButton].filter(function (button) {
+      const buttons = Array.from(detail.querySelectorAll('button')).filter(function (button) {
         return !button.hidden;
       });
       const at = buttons.indexOf(document.activeElement);
@@ -732,16 +847,16 @@
   });
 
   window.addEventListener('popstate', function () {
-    const item = linkedItem();
-    if (item) {
-      open(item, false);
+    const linked = linkedPhoto();
+    if (linked) {
+      open(linked.item, false, false, linked.index);
     } else {
       close();
     }
   });
 
-  const linked = linkedItem();
+  const linked = linkedPhoto();
   if (linked) {
-    open(linked, false, true);
+    open(linked.item, false, true, linked.index);
   }
 })();
