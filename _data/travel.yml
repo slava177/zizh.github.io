@@ -269,12 +269,72 @@
   date: December 2023
   description: The 14th-century covered wooden bridge and its Water Tower, with Mount Pilatus behind.
 
+- file: 2024-05-30-prague-old-town-bridge-tower
+  title: Old Town Bridge Tower
+  subtitle: Charles Bridge, Prague, Czech Republic
+  date: May 2024
+  description: The 14th-century Gothic gate at the Old Town end of the bridge; the green dome on the left is the Church of St. Francis of Assisi.
+
+- file: 2024-05-30-prague-charles-bridge
+  title: Charles Bridge
+  subtitle: Prague, Czech Republic
+  date: May 2024
+  description: Begun in 1357, and until 1841 the only way across the Vltava, with Prague Castle and St. Vitus Cathedral ahead.
+
+- file: 2024-05-30-prague-vltava
+  title: The Vltava
+  subtitle: Prague, Czech Republic
+  date: May 2024
+  description: Upriver from Charles Bridge, with the Old Town water tower on the left and the National Theatre by the next bridge.
+
 - file: 2024-05-31-prague-old-town-square
   feature: true
   title: Old Town Square
   subtitle: Prague, Czech Republic
   date: May 2024
   description: Under the Gothic spires of the Church of Our Lady before Týn.
+
+- file: 2024-05-31-prague-marian-column
+  title: Marian Column
+  subtitle: Old Town Square, Prague, Czech Republic
+  date: May 2024
+  description: Torn down in 1918 and put back up in 2020, between the Old Town Hall's tower and the Church of St. Nicholas.
+
+- file: 2024-05-31-prague-old-town-hall
+  title: Old Town Hall
+  subtitle: Prague, Czech Republic
+  date: May 2024
+  description: Its tower was finished in 1364; the bay window below it belongs to the hall's chapel, consecrated in 1381.
+
+- file: 2024-05-31-prague-astronomical-clock
+  title: Astronomical Clock
+  subtitle: Old Town Hall, Prague, Czech Republic
+  date: May 2024
+  description: Installed in 1410, the oldest astronomical clock still working, with its calendar dial below.
+
+- file: 2024-05-31-prague-charles-bridge-statues
+  title: Statues on Charles Bridge
+  subtitle: Prague, Czech Republic
+  date: May 2024
+  description: Thirty statues of saints, most of them put up around 1700, line the way to Prague Castle.
+
+- file: 2024-05-31-prague-old-town-rooftops
+  title: Over the Rooftops
+  subtitle: Prague, Czech Republic
+  date: May 2024
+  description: West from the Old Town Hall tower to Prague Castle, with the Petřín lookout tower on the hill at the left.
+
+- file: 2024-05-31-prague-st-nicholas-church
+  title: Church of St. Nicholas
+  subtitle: Old Town Square, Prague, Czech Republic
+  date: May 2024
+  description: Kilian Ignaz Dientzenhofer's Baroque church, built from 1732 to 1737, seen from the Old Town Hall tower.
+
+- file: 2024-05-31-prague-tyn-church
+  title: Týn Church from Above
+  subtitle: Old Town Square, Prague, Czech Republic
+  date: May 2024
+  description: The Church of Our Lady before Týn over the square, with the Jan Hus Memorial at the bottom left, seen from the Old Town Hall tower.
 
 - file: 2024-06-01-budapest-buda-castle
   title: Buda Castle at Night
@@ -288,6 +348,90 @@
   date: June 2024
   description: Seen across the Danube from the Buda side.
 
+- file: 2024-06-02-budapest-matthias-church
+  title: Matthias Church
+  subtitle: Castle Hill, Budapest, Hungary
+  date: June 2024
+  description: Roofed in colored Zsolnay tiles, with the statue of Saint Stephen, Hungary's first king, in front.
+  crop: 50% 25%
+
+- file: 2024-06-02-budapest-parliament-dusk
+  title: Parliament at Dusk
+  subtitle: Budapest, Hungary
+  date: June 2024
+  description: Lit up across the Danube, with Margaret Bridge on the left.
+
+- file: 2024-06-02-budapest-parliament-night
+  title: Parliament at Night
+  subtitle: Budapest, Hungary
+  date: June 2024
+  description: Finished in 1904, it is the largest building in Hungary.
+
+- file: 2024-06-05-vienna-belvedere
+  title: Upper Belvedere
+  subtitle: Vienna, Austria
+  date: June 2024
+  description: The Baroque palace finished in 1723 for Prince Eugene of Savoy, now the museum that holds Klimt's The Kiss.
+
+- file: 2024-06-05-vienna-hochstrahlbrunnen
+  title: Hochstrahlbrunnen
+  subtitle: Schwarzenbergplatz, Vienna, Austria
+  date: June 2024
+  description: Built in 1873 to celebrate the opening of Vienna's first mountain-spring water main.
+
+- file: 2024-06-06-vienna-schonbrunn-roman-ruin
+  title: Roman Ruin
+  subtitle: Schönbrunn Palace Gardens, Vienna, Austria
+  date: June 2024
+  description: Not Roman at all, but a folly built as a ruin in 1778; here fenced off for repairs.
+
+- file: 2024-06-14-beijing-old-summer-palace
+  title: Old Summer Palace
+  subtitle: Yuanmingyuan, Beijing, China
+  date: June 2024
+  description: Ruins of the European-style palaces built for the Qianlong Emperor, burned by British and French troops in 1860.
+
+- file: 2024-10-16-puerto-rico-horseback-ride
+  title: Horseback Ride
+  subtitle: Puerto Rico
+  date: October 2024
+  description: Along the coast in the late-afternoon sun.
+
+- file: 2024-10-18-san-juan-el-morro
+  title: El Morro
+  subtitle: San Juan, Puerto Rico
+  date: October 2024
+  description: Castillo San Felipe del Morro, the Spanish fortress begun in 1539 to guard the entrance to San Juan Bay.
+
+- file: 2024-10-18-san-juan-el-morro-gate
+  title: El Morro's Gate
+  subtitle: San Juan, Puerto Rico
+  date: October 2024
+  description: The bridge over the dry moat to the fortress's gate, with its lighthouse on the right.
+
+- file: 2024-10-18-san-juan-plaza-de-armas
+  title: Plaza de Armas
+  subtitle: Old San Juan, Puerto Rico
+  date: October 2024
+  description: The old city's main square at night, with the City Hall behind the fountain of the four seasons.
+
+- file: 2024-12-25-seattle-enchant-whale
+  title: Whale of Lights
+  subtitle: T-Mobile Park, Seattle, Washington, USA
+  date: December 2024
+
+- file: 2024-12-25-seattle-enchant-dome
+  title: Dome of Lights
+  subtitle: T-Mobile Park, Seattle, Washington, USA
+  date: December 2024
+  description: Looking up through a dome of lit branches at the 100-foot tree.
+
+- file: 2024-12-25-seattle-enchant
+  title: Enchant Christmas
+  subtitle: T-Mobile Park, Seattle, Washington, USA
+  date: December 2024
+  description: A Christmas light maze laid out on the Mariners' ballfield, around a 100-foot tree of lights.
+
 - file: 2025-07-19-mount-rainier
   feature: true
   title: Mount Rainier
@@ -295,16 +439,23 @@
   date: July 2025
   description: From Paradise, on the mountain's south side.
 
+- file: 2025-07-19-mount-rainier-marmot
+  title: Hoary Marmot
+  subtitle: Mount Rainier, Washington, USA
+  date: July 2025
+  description: One of the marmots that live in the meadows around Paradise.
+
 - file: 2025-07-19-mount-rainier-wildflowers
   title: Wildflowers at Paradise
   subtitle: Mount Rainier, Washington, USA
   date: July 2025
 
-- file: 2025-12-24-seattle-light-show
-  title: Field of Lights
-  subtitle: Seattle, Washington, USA
+- file: 2025-12-24-bellevue-snowflake-lane
+  video: true
+  title: Snowflake Lane
+  subtitle: Bellevue, Washington, USA
   date: December 2025
-  description: A winter light show on Christmas Eve.
+  description: The holiday parade of drummers, dancers and floats that comes down Bellevue Way every evening until Christmas Eve, the night this was filmed.
 
 - file: 2025-12-24-seattle-light-show-ring
   video: true
@@ -312,6 +463,12 @@
   subtitle: Seattle, Washington, USA
   date: December 2025
   crop: 50% 45%
+
+- file: 2025-12-24-seattle-light-show
+  title: Field of Lights
+  subtitle: Seattle, Washington, USA
+  date: December 2025
+  description: A winter light show on Christmas Eve.
 
 - file: 2026-01-02-fairbanks-moonrise
   feature: true
@@ -331,6 +488,31 @@
   subtitle: Honolulu, Hawaiʻi, USA
   date: January 2026
   description: One turtle resting on the reef while another swims past.
+
+- file: 2026-06-19-kilauea-glow
+  title: Kīlauea at Night
+  subtitle: Hawaiʻi Volcanoes National Park, Hawaiʻi, USA
+  date: June 2026
+  description: Between lava fountaining episodes, the vents in Halemaʻumaʻu crater still light up the volcanic gas, here under the Milky Way.
+  crop: 50% 75%
+
+- file: 2026-06-19-hawaii-volcanoes-ohia-lehua
+  title: ʻŌhiʻa Lehua
+  subtitle: Hawaiʻi Volcanoes National Park, Hawaiʻi, USA
+  date: June 2026
+  description: Often the first tree to grow on new lava, in bloom above flows that run down to the sea.
+  crop: 50% 70%
+
+- file: 2026-06-19-hawaii-volcanoes-sea-cliffs
+  title: Lava Sea Cliffs
+  subtitle: Hawaiʻi Volcanoes National Park, Hawaiʻi, USA
+  date: June 2026
+  description: Waves breaking against cliffs of black lava near the end of Chain of Craters Road.
+
+- file: 2026-06-19-hawaii-pineapple-drink
+  title: Served in a Pineapple
+  subtitle: Hawaiʻi, USA
+  date: June 2026
 
 - file: 2026-06-20-mauna-kea-sunset
   title: Sunset on Mauna Kea
