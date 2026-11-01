@@ -72,6 +72,7 @@ exclude:
   - package.json*
   - photography      # originals of the Travel page's photos and clips; the site uses images/travel/
   - scaled_models    # originals of the Scale Models page's; the site uses images/models/
+  - trivia/          # the original of the Trivia page's clip; the site uses images/trivia/ (with the slash, or Jekyll leaves out _layouts/trivia.html too)
   - scripts
   - Rakefile
   - README

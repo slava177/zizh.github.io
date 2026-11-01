@@ -1,0 +1,22 @@
+# The clips the Trivia page can open with; `clip:` in _pages/trivia.md picks one. Each is
+# images/trivia/<name>.mp4, with <name>.jpg as its first frame, cut from its original in
+# trivia/ by scripts/trivia_clip.swift (see README.md).
+#
+#   end    seconds into the clip when the dark closes in on the page's text
+#   roll   only for a clip filmed by a phone turning: how far it had turned, clockwise in
+#          degrees, at each tenth of a second, as scripts/trivia_clip.swift prints it. The
+#          clip turns as much, the same way, so its picture stays upright.
+
+2020-10-15-feeding-a-squirrel:
+  end: 9.3
+
+# Its video isn't kept: make it again with the command in README.md before picking it.
+2024-09-02-feeding-a-bird:
+  end: 9
+  roll: [
+    0, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, 0.1, 0, 0, 0, 0, -0.1, -0.1, -0.1, -0.1, -0.1,
+    -0.1, 0, 0, 0, 0.2, 0.3, 0.6, 1, 1.6, 2.4, 3.3, 4.5, 5.9, 7.6, 9.5, 11.6, 14, 16.7, 19.6, 22.7,
+    26, 29.5, 33.3, 37.2, 41.1, 45.1, 49.2, 53.4, 57.4, 61.3, 64.9, 68.2, 71.1, 73.7, 76.1, 78.1, 79.9, 81.5, 82.6, 83.7,
+    84.7, 85.6, 86.3, 86.9, 87.4, 87.8, 88.1, 88.3, 88.5, 88.6, 88.6, 88.6, 88.6, 88.6, 88.5, 88.4, 88.4, 88.5, 88.5, 88.6,
+    88.6, 88.6, 88.5, 88.4, 88.3, 88.1, 87.9, 87.8, 87.6, 87.5, 87.3, 87.2, 87.1, 87, 86.9, 86.8, 86.8, 86.8, 86.8, 86.8,
+  ]

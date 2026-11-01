@@ -26,6 +26,7 @@ package-lock.json
 # repository (one video is 288 MB), and the site uses the smaller copies in images/
 /photography/
 /scaled_models/
+/trivia/
 
 .jekyll-cache/
 .jekyll-metadata

@@ -1,0 +1,154 @@
+/* ==========================================================================
+   TRIVIA
+   The Trivia page (_layouts/trivia.html): the opening, a black screen over everything
+   until assets/js/trivia.js is done with it, and the text it leaves
+   ========================================================================== */
+
+/* If the script never runs, the opening fades away by itself after a few seconds; the
+   script stops that (--on). Without JavaScript it doesn't show at all. */
+.trivia-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 40;  /* over the menu at the top (_header.scss) */
+  overflow: hidden;
+  background-color: #000;
+  cursor: pointer;  /* a click skips it */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  animation: trivia-intro-away 0.6s ease 5s forwards;
+
+  &--on {
+    animation: none;
+  }
+}
+
+@keyframes trivia-intro-away {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+html.trivia-intro-open {
+  overflow: hidden;
+}
+
+/* The clip, in the middle; the script sizes it to the window and turns it. */
+.trivia-intro__clip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: none;
+  background-color: #000;
+  object-fit: cover;
+  transform: translate(-50%, -50%);
+}
+
+/* The characters, and the dark around the windows they become. */
+.trivia-intro__ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* In spaced capitals, like the menu on Jimmy Chin's site. */
+.trivia-intro__skip {
+  position: absolute;
+  right: clamp(16px, 3vw, 30px);
+  bottom: clamp(12px, 3vw, 26px);
+  padding: 6px 0 6px 6px;
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.5);
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+/* The bars the dark closes into, one over each line of the text, before they slide
+   off it (the script places them). */
+.trivia-bar {
+  position: fixed;
+  z-index: 41;
+  background-color: var(--strong);
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+/*
+   The page: its line in the middle of the window, and the quotation it ends on
+   ========================================================================== */
+
+.trivia {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--header-height));
+  min-height: calc(100svh - var(--header-height));
+  padding: 0 clamp(20px, 6vw, 80px);
+
+  .site-footer {
+    margin-top: 0;
+  }
+}
+
+/* For screen readers and search engines only: the text is the page. */
+.trivia__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.trivia__text {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 24em;
+  margin: 0 auto;
+  padding: 4vh 0 9vh;
+  color: var(--strong);
+  font-size: clamp(1.35rem, 0.95rem + 1.4vw, 2rem);
+  line-height: 1.5;
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+}
+
+/* The quotation, on lines of its own under the page's own words: further in, in italics,
+   its opening quotation mark hanging in the margin, the name under it. */
+.trivia__quote {
+  margin: 0.7em 0 0 1.6em;
+  font-style: italic;
+
+  p {
+    text-indent: -0.4em;
+  }
+
+  footer {
+    margin-top: 1.4em;
+    color: var(--muted);
+    font-size: 14px;
+    font-style: normal;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 560px) {
+    margin-left: 0.9em;
+  }
+}

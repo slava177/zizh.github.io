@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+{% comment %}
+  The Trivia page: a line ending on a quotation (the page's own content), after an
+  opening on a black screen, as on Jimmy Chin's site (https://jimmychin.com): 一曰慈
+  written with a brush, then a clip, images/trivia/<clip>.mp4 (clip: in the front
+  matter, with <clip>.jpg as its first frame and its settings in _data/trivia.yml), then
+  the dark closing in on the text. assets/js/trivia.js runs the opening, with the
+  characters in assets/js/calligraphy.js. Styles: _sass/_trivia.scss.
+{% endcomment %}
+
+{% include base_path %}
+{% assign clip = base_path | append: "/images/trivia/" | append: page.clip %}
+{% assign settings = site.data.trivia[page.clip] %}
+
+<div class="trivia-intro" aria-hidden="true" data-end="{{ settings.end }}"{% if settings.roll %} data-roll="{{ settings.roll | join: ' ' }}"{% endif %}>
+  <video class="trivia-intro__clip" src="{{ clip }}.mp4" poster="{{ clip }}.jpg" muted playsinline preload="none"></video>
+  <canvas class="trivia-intro__ink"></canvas>
+  <button type="button" class="trivia-intro__skip" tabindex="-1">Skip</button>
+</div>
+<noscript><style>.trivia-intro { display: none; }</style></noscript>
+
+<main id="main" class="trivia">
+  <h1 class="trivia__title">{{ page.title }}</h1>
+  {{ content }}
+  {% include footer.html %}
+</main>
+
+<script src="{{ base_path }}/assets/js/calligraphy.js" defer></script>
+<script src="{{ base_path }}/assets/js/trivia.js" defer></script>

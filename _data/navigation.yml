@@ -10,3 +10,6 @@ main:
 
   - title: "Scale Models"
     url: /models/
+
+  - title: "Trivia"
+    url: /trivia/
