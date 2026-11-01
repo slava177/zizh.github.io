@@ -50,6 +50,79 @@
   description: Sunlight reflected down between the walls makes the sandstone glow.
   crop: 50% 35%
 
+- file: 2019-07-04-moscow-state-university
+  feature: true
+  title: Moscow State University
+  subtitle: Sparrow Hills, Moscow, Russia
+  date: July 2019
+  description: The main building, finished in 1953, the tallest of the seven Stalin-era skyscrapers known as the Seven Sisters.
+
+- file: 2019-07-05-moscow-st-basils-cathedral
+  title: St. Basil's Cathedral
+  subtitle: Red Square, Moscow, Russia
+  date: July 2019
+  description: Begun in 1555 on the orders of Ivan the Terrible, to mark the capture of Kazan.
+
+- file: 2019-07-05-moscow-nikolskaya-street
+  title: Nikolskaya Street
+  subtitle: Moscow, Russia
+  date: July 2019
+  description: A pedestrian street off Red Square, roofed with strings of lights, with flower beds along the side of GUM.
+
+- file: 2019-07-09-moscow-kremlin-tsar-cannon
+  title: Tsar Cannon
+  subtitle: Moscow Kremlin, Russia
+  date: July 2019
+  description: Cast in bronze in 1586 and never fired in war, with the Kremlin's cathedrals behind.
+
+- file: 2019-07-09-moscow-kremlin-tsar-bell
+  title: Tsar Bell
+  subtitle: Moscow Kremlin, Russia
+  date: July 2019
+  description: The largest bell in the world, cast in the 1730s; a slab broke off in a fire in 1737, and it has never been rung.
+
+- file: 2019-07-13-st-petersburg-general-staff-arch
+  title: General Staff Arch
+  subtitle: Palace Square, Saint Petersburg, Russia
+  date: July 2019
+  description: A triumphal arch for the victory over Napoleon, topped by Victory in a chariot drawn by six horses.
+
+- file: 2019-07-13-st-petersburg-winter-palace
+  title: Winter Palace
+  subtitle: Palace Square, Saint Petersburg, Russia
+  date: July 2019
+  description: The tsars' winter residence, now part of the Hermitage Museum, behind the Alexander Column.
+
+- file: 2019-07-14-st-petersburg-peter-and-paul-fortress
+  title: Peter and Paul Fortress
+  subtitle: Saint Petersburg, Russia
+  date: July 2019
+  description: On the Neva, where Peter the Great founded the city in 1703, with the dome of St. Isaac's Cathedral in the distance.
+
+- file: 2022-05-30-greenwich-bellona-model
+  title: Model of the Bellona
+  subtitle: National Maritime Museum, Greenwich, London, England
+  date: May 2022
+  description: The 74-gun Bellona of 1760 on her slipway, one of the earliest models with a coppered hull, probably made to persuade George III to copper the fleet.
+
+- file: 2022-05-30-greenwich-warship-model
+  title: Warship Model
+  subtitle: National Maritime Museum, Greenwich, London, England
+  date: May 2022
+  description: Unrigged, with its decks left open to show the beams, as the Navy Board models of the 17th and 18th centuries were made.
+
+- file: 2022-05-30-cutty-sark-opium-wars
+  title: The Opium Wars
+  subtitle: Cutty Sark, Greenwich, London, England
+  date: May 2022
+  description: An exhibit in the ship's hold, built to look like tea chests, on how the tea trade led Britain to smuggle opium into China, and to two wars when China resisted.
+
+- file: 2022-05-30-cutty-sark-opium-war-panel
+  title: Opium War Battle
+  subtitle: Cutty Sark, Greenwich, London, England
+  date: May 2022
+  description: Chinese and British soldiers fighting over a cannon, on one of the exhibit's tea-chest panels.
+
 - file: 2022-05-30-london-cutty-sark
   title: Cutty Sark
   subtitle: Greenwich, London, England
@@ -64,11 +137,34 @@
   date: May 2022
   description: Opened across the Thames in 1894, with the Shard rising behind it.
 
+- file: 2022-05-31-bath-high-street
+  title: Bath Abbey from High Street
+  subtitle: Bath, England
+  date: May 2022
+
+- file: 2022-05-31-bath-roman-baths
+  title: The Roman Baths
+  subtitle: Bath, England
+  date: May 2022
+  description: The Great Bath, still fed by the hot spring the Romans built it around; the terrace and statues above are Victorian.
+
+- file: 2022-05-31-bath-abbey
+  title: Bath Abbey
+  subtitle: Bath, England
+  date: May 2022
+  description: The west front, where carved angels climb ladders up the towers, with the Pump Room on the right.
+
 - file: 2022-05-31-portsmouth-hms-warrior
   title: HMS Warrior
   subtitle: Portsmouth, England
   date: May 2022
   description: Britain's first iron-hulled, armoured warship, launched in 1860, seen across the harbour mud at low tide.
+
+- file: 2022-06-01-portsmouth-hms-warrior-deck
+  title: On Board HMS Warrior
+  subtitle: Portsmouth, England
+  date: June 2022
+  description: One of the pivot guns on her upper deck, with the Spinnaker Tower behind.
 
 - file: 2022-06-01-portsmouth-mary-rose
   title: The Mary Rose
@@ -117,12 +213,57 @@
   description: The waterfall drops straight into the sea from the cliffs by Kilt Rock.
   crop: 50% 70%
 
+- file: 2022-06-06-skye-fairy-glen-spiral
+  title: Stone Spiral
+  subtitle: Fairy Glen, Isle of Skye, Scotland
+  date: June 2022
+  description: Laid out by visitors on the grass among the glen's small, terraced hills.
+
 - file: 2022-06-06-skye-trotternish-coast
   title: Trotternish Coast
   subtitle: Isle of Skye, Scotland
   date: June 2022
   description: Sea cliffs along the east side of the Trotternish peninsula.
   crop: 50% 75%
+
+- file: 2022-10-18-niagara-horseshoe-falls
+  video: true
+  title: Horseshoe Falls
+  subtitle: Niagara Falls, Ontario, Canada
+  date: October 2022
+  description: From the boat, in the spray at the foot of the falls.
+
+- file: 2022-12-31-reykjavik-rainbow-street
+  title: Rainbow Street
+  subtitle: Reykjavík, Iceland
+  date: December 2022
+  description: Skólavörðustígur, painted in rainbow colors, at half past nine on a late-December morning, still two hours before sunrise.
+
+- file: 2022-12-31-reykjavik-boat-trip
+  video: true
+  title: Out on the Bay
+  subtitle: Reykjavík, Iceland
+  date: December 2022
+  description: A boat trip from Reykjavík on New Year's Eve, everyone in flotation suits against the cold.
+
+- file: 2022-12-31-reykjavik-fireworks
+  video: true
+  title: New Year's Eve Fireworks
+  subtitle: Laugavegur, Reykjavík, Iceland
+  date: December 2022
+  description: Fireworks go up all over the city through the evening, here above the main shopping street.
+
+- file: 2022-12-31-reykjavik-hallgrimskirkja
+  title: Hallgrímskirkja
+  subtitle: Reykjavík, Iceland
+  date: December 2022
+  description: Half an hour before midnight on New Year's Eve, with crowds gathering around the church for the fireworks.
+
+- file: 2023-01-01-thingvellir-almannagja
+  title: Almannagjá
+  subtitle: Þingvellir National Park, Iceland
+  date: January 2023
+  description: The path through the gorge along the edge of the North American plate.
 
 - file: 2023-01-03-iceland-reynisfjara-basalt-columns
   title: Basalt Columns
@@ -138,6 +279,12 @@
   date: January 2023
   description: Strokkur erupts every few minutes, throwing boiling water some twenty meters into the air; here against the low midwinter sun.
   crop: 50% 35%
+
+- file: 2023-01-01-thingvellir-dawn
+  title: Þingvellir at Dawn
+  subtitle: Þingvellir National Park, Iceland
+  date: January 2023
+  description: The rift valley between the North American and Eurasian plates, before sunrise on New Year's Day.
 
 - file: 2023-01-01-iceland-geysir-steam-vents
   video: true
@@ -196,6 +343,12 @@
   subtitle: Teotihuacan, Mexico
   date: January 2023
 
+- file: 2023-01-10-mexico-city-feathered-serpent-temple
+  title: Temple of the Feathered Serpent
+  subtitle: National Museum of Anthropology, Mexico City, Mexico
+  date: January 2023
+  description: A full-size reconstruction of part of the temple's front at Teotihuacan, in color, with its feathered serpent heads.
+
 - file: 2023-01-11-mexico-city-metropolitan-cathedral
   title: Metropolitan Cathedral
   subtitle: Mexico City, Mexico
@@ -214,11 +367,47 @@
   date: January 2023
   description: The Temple of Kukulcán. Its four stairways of 91 steps, plus the top platform, make 365, one for each day of the year.
 
+- file: 2023-05-18-paris-eiffel-tower
+  title: The Seine and the Eiffel Tower
+  subtitle: Paris, France
+  date: May 2023
+  description: Looking upriver past the small Statue of Liberty on the Île aux Cygnes.
+
 - file: 2023-05-19-mont-saint-michel
   title: Mont-Saint-Michel
   subtitle: Normandy, France
   date: May 2023
   description: The abbey on its tidal island, seen across the sands at low tide.
+
+- file: 2023-05-20-paris-louvre-pyramid
+  title: Louvre Pyramid
+  subtitle: Paris, France
+  date: May 2023
+  description: I. M. Pei's glass pyramid, opened in 1989 as the museum's main entrance.
+
+- file: 2023-05-23-florence-cathedral
+  title: Florence Cathedral
+  subtitle: Florence, Italy
+  date: May 2023
+  description: Santa Maria del Fiore and Giotto's bell tower; the marble front was only finished in 1887.
+
+- file: 2023-05-24-florence-san-lorenzo
+  title: Over the Roofs of Florence
+  subtitle: Florence, Italy
+  date: May 2023
+  description: From the cathedral's roof terraces to the dome of the Medici Chapels at San Lorenzo.
+
+- file: 2023-05-24-florence-brunelleschi-dome
+  title: Brunelleschi's Dome
+  subtitle: Florence Cathedral, Florence, Italy
+  date: May 2023
+  description: From the terraces along the cathedral roof; finished in 1436, it is still the largest brick dome ever built.
+
+- file: 2023-05-27-vatican-st-peters-square
+  title: St. Peter's Square
+  subtitle: Vatican City
+  date: May 2023
+  description: From the top of St. Peter's dome, over Bernini's colonnade and down Via della Conciliazione toward the Tiber.
 
 - file: 2023-05-27-rome-castel-sant-angelo
   title: Castel Sant'Angelo
@@ -231,6 +420,60 @@
   subtitle: Rome, Italy
   date: May 2023
   description: Rome's largest Baroque fountain, finished in 1762.
+
+- file: 2023-05-28-rome-forum
+  title: Roman Forum
+  subtitle: Rome, Italy
+  date: May 2023
+  description: From the Capitoline Hill, with the Arch of Septimius Severus on the left and the Temple of Saturn on the right.
+
+- file: 2023-05-28-rome-colosseum
+  title: Inside the Colosseum
+  subtitle: Rome, Italy
+  date: May 2023
+  description: Part of the arena floor has been rebuilt over the hypogeum, the tunnels where animals and gladiators waited.
+
+- file: 2023-05-28-rome-forum-from-palatine
+  title: The Forum from the Palatine
+  subtitle: Rome, Italy
+  date: May 2023
+  description: Over the House of the Vestal Virgins to the Temple of Antoninus and Faustina, which became a church.
+
+- file: 2023-05-30-naples-castel-dell-ovo
+  title: Castel dell'Ovo
+  subtitle: Naples, Italy
+  date: May 2023
+  description: The seaside castle on the islet of Megaride, on the Bay of Naples.
+
+- file: 2023-06-01-naples-castel-nuovo
+  title: Castel Nuovo
+  subtitle: Naples, Italy
+  date: June 2023
+  description: Its white marble gate is a triumphal arch celebrating Alfonso of Aragon's entry into Naples in 1443.
+
+- file: 2023-07-19-cusco-sacsayhuaman-gateway
+  title: Inca Gateway
+  subtitle: Sacsayhuamán, Cusco, Peru
+  date: July 2023
+  description: A doorway through the walls, its huge stones cut to fit without mortar.
+
+- file: 2023-07-19-cusco-sacsayhuaman
+  title: Sacsayhuamán
+  subtitle: Cusco, Peru
+  date: July 2023
+  description: The zigzag walls of the Inca citadel above Cusco, where the Inti Raymi sun festival is staged every June.
+
+- file: 2023-07-19-cusco-tambomachay
+  title: Tambomachay
+  subtitle: Cusco, Peru
+  date: July 2023
+  description: Inca terraces where water still runs through the stone channels and fountains.
+
+- file: 2023-07-19-cusco-plaza-de-armas
+  title: Plaza de Armas
+  subtitle: Cusco, Peru
+  date: July 2023
+  description: Cusco's main square at night, with the statue of the Inca ruler Pachacuti on its fountain.
 
 - file: 2023-07-21-peru-rainbow-mountain
   title: Rainbow Mountain
