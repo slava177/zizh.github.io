@@ -2,7 +2,7 @@
 
 Source for [ziyi-zhang.com](https://ziyi-zhang.com), built with Jekyll. It started from the
 [Academic Pages](https://github.com/academicpages/academicpages.github.io) template; its design
-now follows [Yingsi Qin's website](https://yingsiqin.github.io).
+is inspired by [Yingsi Qin's website](https://yingsiqin.github.io).
 GitHub Actions (`.github/workflows/jekyll.yml`) builds and deploys the site on every push to `master`.
 
 ## Where things live
