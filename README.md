@@ -55,14 +55,15 @@ avconvert --source photography/my-clip.mov --preset Preset960x540 --start 12 --d
 
 ## The Trivia page
 
-The page opens on a black screen, where 一曰慈 is written with a brush, stroke by stroke,
-beside 《道德经》第六十七章 and a seal, 李耳. The characters then become windows onto a clip of
-an animal being fed, and the view flies into it through 慈; if the phone filming it turned,
-the clip turns as much, so the picture stays upright. Then the dark closes in on the page's
-text. A click or a key skips it. The characters are glyphs of the brush font
+The page opens on a black screen, where 一曰慈，二曰俭 is written with a brush, stroke by
+stroke, in two columns read from the right, beside 《道德经》第六十七章 and a seal, 李耳. The
+characters then become windows onto a clip of an animal being fed, and the view flies into it
+through 慈; if the phone filming it turned, the clip turns as much, so the picture stays
+upright. Then the dark closes in on the page's text. A click or a key skips it. The
+characters are glyphs of the brush font
 [Ma Shan Zheng](https://github.com/googlefonts/mashanzheng) (SIL Open Font License, in
 `assets/js/calligraphy-license.txt`), kept as outlines in `assets/js/calligraphy.js` with the
-strokes of 一曰慈 traced along them by hand for the writing.
+strokes of 一曰慈二俭 traced along them by hand for the writing.
 
 `clip:` in `_pages/trivia.md` picks the clip in `images/trivia/`, with its settings in
 `_data/trivia.yml`: `2020-10-15-feeding-a-squirrel`. The bird clip tried before,

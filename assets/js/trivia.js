@@ -3,18 +3,20 @@
    ========================================================================== */
 
 // The page opens as Jimmy Chin's site does (https://jimmychin.com), on a black screen with
-// a name: here 一曰慈, "the first is compassion", from chapter 67 of the Tao Te Ching,
-// written with a brush stroke by stroke down the middle, with the chapter beside it and a
-// red seal under that, as on a hanging scroll. The ink then turns into windows onto a clip
-// of an animal being fed (`clip:` in the page's front matter), and the view flies through
-// 慈 into it. If the phone filming it turned, as it did on its side for the bird, the clip
-// turns with it, so the picture stays upright, and grows or shrinks to fit the window the
-// other way round. Last the dark closes in on the lines of the page's text, like a
-// censor's bars, which then slide off them.
+// a name: here 一曰慈，二曰俭, "the first is compassion, the second is frugality", from
+// chapter 67 of the Tao Te Ching, written with a brush stroke by stroke in two columns in
+// the middle, read from the right, with the chapter beside them and a red seal under that,
+// as on a hanging scroll. The ink then turns into windows onto a clip of an animal being
+// fed (`clip:` in the page's front matter), and the view flies through 慈 into it. If the
+// phone filming it turned, as it did on its side for the bird, the clip turns with it, so
+// the picture stays upright, and grows or shrinks to fit the window the other way round.
+// Last the dark closes in on the lines of the page's text, like a censor's bars, which
+// then slide off them.
 //
 // The characters are glyphs of the brush font Ma Shan Zheng (assets/js/calligraphy.js),
-// drawn on a canvas. Each bit of a character's ink belongs to the stroke whose middle line
-// it is nearest, and shows once the brush, moving along that line, has passed it.
+// drawn on a canvas. Each bit of a character's ink shows once a brush, moving along the
+// middle line of a stroke, has passed it: the first brush to cover it, where strokes cross
+// or meet, or else the one whose line it is nearest.
 //
 // A click, a tap or a key skips to the page. When the system asks for reduced motion the
 // characters show for a moment, already written, without the clip. Without JavaScript the
@@ -43,7 +45,7 @@
     return;
   }
 
-  const WRITTEN = '一曰慈';
+  const WRITTEN = ['一曰慈', '二曰俭'];  // its columns, from the right
   const CHAPTER = '《道德经》第六十七章';
   const SEAL = '李耳';  // Laozi's own name, the chapter's author
   const INK = [243, 238, 227];
@@ -60,11 +62,12 @@
   const ROLL = (intro.dataset.roll || '').split(' ').filter(Boolean).map(Number);
 
   // Timing of the writing, in seconds.
-  const BRUSH_SPEED = 3400;  // font units a second along a stroke
-  const STROKE_GAP = 0.04;
-  const CHARACTER_GAP = 0.22;
-  const SOFT = 0.022;        // how long a bit of ink takes to darken fully
-  const SPREAD = 0.001;      // and how much later the edges of a stroke come, a second a unit
+  const BRUSH_SPEED = 4080;  // font units a second along a stroke
+  const STROKE_GAP = 0.033;
+  const CHARACTER_GAP = 0.18;
+  const COLUMN_GAP = 0.33;
+  const SOFT = 0.018;        // how long a bit of ink takes to darken fully
+  const SPREAD = 0.00083;    // and how much later the edges of a stroke come, a second a unit
 
   const easeInOut = function (p) {
     return (1 - Math.cos(Math.PI * p)) / 2;
@@ -116,18 +119,24 @@
   /* When each stroke is written, from the start of the writing */
 
   let clock = 0.45;  // a moment of black first
-  const written = WRITTEN.split('').map(function (ch) {
-    const strokes = font.strokes[ch].map(function (points) {
-      const middle = line(points);
-      const stroke = { line: middle, start: clock, time: 0.07 + middle.length / BRUSH_SPEED };
-      clock += stroke.time + STROKE_GAP;
-      return stroke;
+  const written = [];
+  WRITTEN.forEach(function (characters, column) {
+    if (column) {
+      clock += COLUMN_GAP - CHARACTER_GAP;
+    }
+    characters.split('').forEach(function (ch, row) {
+      const strokes = font.strokes[ch].map(function (points) {
+        const middle = line(points);
+        const stroke = { line: middle, start: clock, time: 0.058 + middle.length / BRUSH_SPEED };
+        clock += stroke.time + STROKE_GAP;
+        return stroke;
+      });
+      clock += CHARACTER_GAP - STROKE_GAP;
+      written.push({ ch: ch, column: column, row: row, path: new Path2D(font.glyphs[ch]), box: font.boxes[ch], strokes: strokes });
     });
-    clock += CHARACTER_GAP - STROKE_GAP;
-    return { ch: ch, path: new Path2D(font.glyphs[ch]), box: font.boxes[ch], strokes: strokes };
   });
   const CHAPTER_START = clock + 0.05;
-  const SEAL_START = CHAPTER_START + 0.085 * CHAPTER.length + 0.3;
+  const SEAL_START = CHAPTER_START + 0.07 * CHAPTER.length + 0.3;
   const WRITTEN_END = SEAL_START + 0.4;
 
   const chapter = CHAPTER.split('').map(function (ch) {
@@ -154,8 +163,9 @@
     return { x: DOOR.x, y: DOOR.y, room: room || 20 };
   })();
 
-  /* Where everything goes: the characters down the middle, a little right of it, the
-     chapter in small ones to their left and the seal under the chapter. Sizes in CSS px. */
+  /* Where everything goes: the characters in two columns in the middle, a little right of
+     it, in rows as tall as their taller character, the chapter in small ones to their left
+     and the seal under the chapter. Sizes in CSS px. */
 
   let dpr = 1;
   let width = 0;
@@ -170,28 +180,38 @@
     height = intro.clientHeight;
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
-    size = Math.min(height * 0.36, width * 0.66, 340);
+    size = Math.min(height * 0.31, width * 0.36, 340);
 
     const k = size / 1000;
     const gap = 200;  // between characters, in font units
-    let column = 2 * gap;
+    const rows = [];  // how tall each row is, in font units
     written.forEach(function (character) {
-      column += character.box[3] - character.box[1];
+      rows[character.row] = Math.max(rows[character.row] || 0, character.box[3] - character.box[1]);
     });
-    const middle = width / 2 + 0.08 * size;
-    let top = (height - column * k) / 2 - 0.015 * height;
+    const column = rows.reduce(function (sum, row) {
+      return sum + gap + row;
+    }, -gap);
+    const columnTop = (height - column * k) / 2 - 0.015 * height;
+    let top = columnTop;
+    const rowTops = rows.map(function (row) {
+      const at = top;
+      top += (row + gap) * k;
+      return at;
+    });
+    const pitch = 1.2 * size;                // from one column's middle to the next's
+    const middle = width / 2 + 0.16 * size;  // between the two
     written.forEach(function (character) {
+      const ink = character.box[3] - character.box[1];
       character.k = k;
-      character.x = middle - 500 * k;           // the em's left edge
-      character.baseline = top + character.box[3] * k;
-      top += (character.box[3] - character.box[1] + gap) * k;
+      character.x = middle + (0.5 - character.column) * pitch - 500 * k;  // the em's left edge
+      character.baseline = rowTops[character.row] + ((rows[character.row] - ink) / 2 + character.box[3]) * k;
     });
-    const columnTop = written[0].baseline - written[0].box[3] * k;
 
-    // The chapter, from below the top of the column; brackets take about half a cell.
+    // The chapter, from below the top of the columns, left of the last; brackets take about
+    // half a cell.
     const small = 0.14 * size;
     let y = columnTop + 0.5 * size;
-    const x = middle - 0.6 * size;
+    const x = middle - pitch / 2 - 0.68 * size;
     chapter.forEach(function (glyph) {
       const cell = (glyph.turned ? 0.55 : 0.93) * small;
       glyph.k = small / 1000;
@@ -236,9 +256,12 @@
   }
 
   /* The writing. Each character's ink is a picture the size of its em, in device pixels;
-     for each of its pixels, the time it darkens: when the brush, along the stroke nearest
-     it, passes it (slow off the mark and into the end, like a hand), a little later toward
-     the edges of the stroke, as ink spreads. */
+     for each of its pixels, the time it darkens: when a brush passes it (slow off the mark
+     and into the end, like a hand), a little later toward the edges of the stroke, as ink
+     spreads. At each point of a stroke's middle line its brush is as wide as the ink there
+     lets a round one be, and a pixel darkens with the first brush to cover it, so that a
+     stroke doesn't cut into one written before it where they cross or meet; or, covered by
+     none, with the brush of the stroke whose line it is nearest. */
 
   function rasterize(character) {
     const scale = character.k * dpr;
@@ -246,14 +269,17 @@
     const top = Math.floor((character.baseline - 880 * character.k) * dpr);
     const w = Math.ceil(1000 * scale) + 2;
     const h = w;
+    const ox = character.x * dpr - left;  // where the font's origin is in the picture
+    const oy = character.baseline * dpr - top;
     const picture = character.canvas || document.createElement('canvas');
     picture.width = w;
     picture.height = h;
     const pen = picture.getContext('2d', { willReadFrequently: true });
-    pen.setTransform(scale, 0, 0, -scale, character.x * dpr - left, character.baseline * dpr - top);
+    pen.setTransform(scale, 0, 0, -scale, ox, oy);
     pen.fill(character.path);
     const image = pen.getImageData(0, 0, w, h);
     const data = image.data;
+    const room = inside(data, w, h);
 
     const offsets = [];
     const alphas = [];
@@ -265,13 +291,18 @@
         if (!alpha) {
           continue;
         }
-        const fx = (i + 0.5 + left - character.x * dpr) / scale;
-        const fy = (character.baseline * dpr - (j + 0.5 + top)) / scale;
-        let best = Infinity;
-        let along = 0;
-        let stroke = character.strokes[0];
+        const fx = (i + 0.5 - ox) / scale;
+        const fy = (oy - j - 0.5) / scale;
+        let first = Infinity;  // when the first brush to cover it passes
+        let nearest = Infinity;
+        let near = 0;          // and when the nearest one does
         character.strokes.forEach(function (s) {
+          // The nearest point of the stroke's line, and how far along the line it is.
           const p = s.line.points;
+          let best = Infinity;
+          let along = 0;
+          let x = 0;
+          let y = 0;
           for (let n = 1; n < p.length; n++) {
             const ax = p[n - 1][0];
             const ay = p[n - 1][1];
@@ -283,15 +314,28 @@
             const d = ex * ex + ey * ey;
             if (d < best) {
               best = d;
-              stroke = s;
               along = s.line.at[n - 1] + t * Math.sqrt(dx * dx + dy * dy);
+              x = ax + t * dx;
+              y = ay + t * dy;
+            }
+          }
+          const d = Math.sqrt(best);
+          const brush = room[Math.round(oy - y * scale - 0.5) * w + Math.round(x * scale + ox - 0.5)] || 0;
+          const covers = d * scale <= brush + 1.5;  // and the edge's half-covered pixels
+          if (covers || d < nearest) {
+            const passes = s.start + s.time * Math.acos(1 - 2 * clamp(along / s.line.length)) / Math.PI + SPREAD * d;
+            if (covers) {
+              first = Math.min(first, passes);
+            }
+            if (d < nearest) {
+              nearest = d;
+              near = passes;
             }
           }
         });
-        const p = along / stroke.line.length;
         offsets.push(o);
         alphas.push(alpha);
-        times.push(stroke.start + stroke.time * Math.acos(1 - 2 * p) / Math.PI + SPREAD * Math.sqrt(best));
+        times.push(first < Infinity ? first : near);
         data[o] = INK[0];
         data[o + 1] = INK[1];
         data[o + 2] = INK[2];
@@ -308,6 +352,30 @@
     character.times = Float32Array.from(times);
     character.from = character.strokes[0].start;
     character.shown = -1;  // how far into the writing its picture was last drawn
+  }
+
+  // For each pixel of a picture, how far it is from the nearest one less than half inked,
+  // in pixels: how far a round brush centered there reaches, keeping to the ink. Counted
+  // in steps of 1 and √2, near enough; the picture's edge is clear.
+  function inside(data, w, h) {
+    const room = new Float32Array(w * h);
+    for (let j = 1; j < h - 1; j++) {
+      for (let i = 1; i < w - 1; i++) {
+        const n = j * w + i;
+        if (data[n * 4 + 3] >= 128) {
+          room[n] = Math.min(room[n - 1] + 1, room[n - w] + 1, room[n - w - 1] + Math.SQRT2, room[n - w + 1] + Math.SQRT2);
+        }
+      }
+    }
+    for (let j = h - 2; j > 0; j--) {
+      for (let i = w - 2; i > 0; i--) {
+        const n = j * w + i;
+        if (room[n]) {
+          room[n] = Math.min(room[n], room[n + 1] + 1, room[n + w] + 1, room[n + w + 1] + Math.SQRT2, room[n + w - 1] + Math.SQRT2);
+        }
+      }
+    }
+    return room;
   }
 
   // Brings a character's picture to `t` seconds into the writing.
@@ -438,7 +506,7 @@
     if (state.labels > 0) {
       ctx.fillStyle = 'rgb(' + INK.join(',') + ')';
       chapter.forEach(function (glyph, n) {
-        const p = clamp((t - CHAPTER_START - 0.085 * n) / 0.25);
+        const p = clamp((t - CHAPTER_START - 0.07 * n) / 0.21);
         if (p <= 0) {
           return;
         }
