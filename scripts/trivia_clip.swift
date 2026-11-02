@@ -2,14 +2,18 @@
 //
 //     swift scripts/trivia_clip.swift trivia/IMG_7563.MOV images/trivia/2020-10-15-feeding-a-squirrel 3.5 10
 //     swift scripts/trivia_clip.swift trivia/IMG_3388.MOV images/trivia/2024-09-02-feeding-a-bird 2.5 10 arm
+//     swift scripts/trivia_clip.swift trivia/IMG_3388.MOV images/trivia/2024-09-02-feeding-a-bird-wide 12.25 7 side
 //
 // cuts `duration` seconds from `start` into <name>.mp4 (H.264, 1080x1920, no sound, HDR
-// turned into ordinary color), saves its first frame as <name>.jpg, and prints how far the
-// phone had turned by each tenth of a second, in degrees clockwise: the clip's `roll` in
-// _data/trivia.yml, if it turned enough to be worth turning the clip back. The angles
-// come from lining up each frame with the one before it (Vision), added up and smoothed.
-// With `arm` at the end, it also makes the hair on the arm in the bird clip less plain
-// (where and when: `arm` below).
+// turned into ordinary color), saves its first frame at two thirds of that size as
+// <name>.jpg, and prints how far the phone had turned by each tenth of a second, in
+// degrees clockwise: the clip's `roll` in _data/trivia.yml, if it turned enough to be
+// worth turning the clip back. The angles come from lining up each frame with the one
+// before it (Vision), added up and smoothed. With `arm` at the end, it also makes the hair
+// on the arm in the bird clip less plain (where and when: `arm` below). With `side`, for a
+// part filmed with the phone on its side, turned a quarter clockwise (as the bird's was
+// after its first 9 seconds), it turns the picture back upright, which makes the clip
+// 1920x1080.
 //
 // If Swift stops at "redefinition of module 'SwiftBridging'", the Command Line Tools have
 // an old module.modulemap in usr/include/swift; point the compiler at an empty file in
@@ -20,13 +24,14 @@ import AppKit
 import CoreImage
 import Vision
 
-let width = 1080, height = 1920, bitRate = 4_500_000
 let args = CommandLine.arguments
-guard args.count == 5 || args.count == 6 && args[5] == "arm",
+guard args.count == 5 || args.count == 6 && ["arm", "side"].contains(args[5]),
       let start = Double(args[3]), let duration = Double(args[4]) else {
-    print("usage: swift scripts/trivia_clip.swift <video> <output name> <start> <duration> [arm]")
+    print("usage: swift scripts/trivia_clip.swift <video> <output name> <start> <duration> [arm | side]")
     exit(1)
 }
+let onItsSide = args.count == 6 && args[5] == "side"
+let width = onItsSide ? 1920 : 1080, height = onItsSide ? 1080 : 1920, bitRate = 4_500_000
 let source = URL(fileURLWithPath: args[1])
 let clip = URL(fileURLWithPath: args[2] + ".mp4")
 let poster = URL(fileURLWithPath: args[2] + ".jpg")
@@ -45,7 +50,7 @@ let arm: (skin: Stretch, edge: Stretch) = (
     skin: (from: 3.6, until: 10, area: CGRect(x: 0.58, y: 0.5, width: 0.42, height: 0.5)),
     edge: (from: 4.6, until: 7.3, area: CGRect(x: 0.68, y: 0.66, width: 0.32, height: 0.34))
 )
-let smoothingArm = args.count == 6
+let smoothingArm = args.count == 6 && args[5] == "arm"
 
 // How much of a stretch `time` is in, from 0 to 1, easing in and out over 0.3 seconds.
 func within(_ stretch: Stretch, _ time: Double) -> Double {
@@ -187,7 +192,12 @@ func cut() async throws {
     let asset = AVURLAsset(url: source)
     let track = try await asset.loadTracks(withMediaType: .video)[0]
     let size = try await track.load(.naturalSize)
-    let turn = try await track.load(.preferredTransform)
+    var turn = try await track.load(.preferredTransform)
+    if onItsSide {  // a quarter clockwise more, and back into the frame
+        turn = turn.concatenating(CGAffineTransform(rotationAngle: .pi / 2))
+        let turned = CGRect(origin: .zero, size: size).applying(turn)
+        turn = turn.concatenating(CGAffineTransform(translationX: -turned.minX, y: -turned.minY))
+    }
     let upright = CGRect(origin: .zero, size: size).applying(turn)
     let scale = CGFloat(width) / abs(upright.width)
     let range = CMTimeRange(start: CMTime(seconds: start, preferredTimescale: 600),
@@ -274,6 +284,7 @@ func cut() async throws {
 func savePoster() async throws {
     let images = AVAssetImageGenerator(asset: AVURLAsset(url: clip))
     images.requestedTimeToleranceAfter = .zero
+    images.maximumSize = CGSize(width: width * 2 / 3, height: height * 2 / 3)
     let (frame, _) = try await images.image(at: .zero)
     let jpeg = NSBitmapImageRep(cgImage: frame).representation(using: .jpeg, properties: [.compressionFactor: 0.8])!
     try jpeg.write(to: poster)

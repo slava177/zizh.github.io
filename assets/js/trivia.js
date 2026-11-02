@@ -3,15 +3,18 @@
    ========================================================================== */
 
 // The page opens as Jimmy Chin's site does (https://jimmychin.com), on a black screen with
-// a name: here 一曰慈，二曰俭, "the first is compassion, the second is frugality", from
-// chapter 67 of the Tao Te Ching, written with a brush stroke by stroke in two columns in
-// the middle, read from the right, with the chapter beside them and a red seal under that,
-// as on a hanging scroll. The ink then turns into windows onto a clip of an animal being
-// fed (`clip:` in the page's front matter), and the view flies through 慈 into it. If the
-// phone filming it turned, as it did on its side for the bird, the clip turns with it, so
-// the picture stays upright, and grows or shrinks to fit the window the other way round.
-// Last the dark closes in on the lines of the page's text, like a censor's bars, which
-// then slide off them.
+// a name, written with a brush stroke by stroke in columns in the middle, read from the
+// right, with the chapter it comes from beside them and a red seal under that, as on a
+// hanging scroll. On a screen taller than it is wide, as a phone's, it is 一曰慈，二曰俭,
+// "the first is compassion, the second is frugality", from chapter 67 of the Tao Te Ching,
+// in two columns; on a wider one, as a laptop's, 不行而知，不见而明，不为而成, "knows
+// without going, sees clearly without looking, achieves without doing", from chapter 47, in
+// three. The ink then turns into windows onto a clip of an animal being fed, one for each
+// shape of screen (`clips:` in the page's front matter), and the view flies into it through
+// a character next to the middle of the window, 曰 or 而. If the phone filming it turned,
+// the clip turns with it, so the picture stays upright, and grows or shrinks to fit the
+// window the other way round. Last the dark closes in on the lines of the page's text, like
+// a censor's bars, which then slide off them.
 //
 // The characters are glyphs of the brush font Ma Shan Zheng (assets/js/calligraphy.js),
 // drawn on a canvas. Each bit of a character's ink shows once a brush, moving along the
@@ -45,29 +48,49 @@
     return;
   }
 
-  const WRITTEN = ['一曰慈', '二曰俭'];  // its columns, from the right
-  const CHAPTER = '《道德经》第六十七章';
-  const SEAL = '李耳';  // Laozi's own name, the chapter's author
+  // The two openings, each in columns read from the right. `door` is where the view flies
+  // into the clip: a point in a broad stroke of the character in that column and row,
+  // counted from 0, near the middle of the window, in the font's units.
+  const OPENINGS = {
+    tall: {
+      written: ['一曰慈', '二曰俭'],  // its columns, from the right
+      chapter: '《道德经》第六十七章',
+      door: { column: 1, row: 1, x: 720, y: 160 },  // at the foot of the right side of 二曰俭's 曰
+      pace: 1,
+    },
+    wide: {
+      written: ['不行而知', '不见而明', '不为而成'],
+      chapter: '《道德经》第四十七章',
+      door: { column: 1, row: 2, x: 340, y: 630 },  // in the stroke across the top of the middle 而
+      pace: 1.8,  // with twice as many strokes, written in not much more time
+    },
+  };
+  const shape = intro.clientWidth > intro.clientHeight ? 'wide' : 'tall';
+  const opening = OPENINGS[shape];
+  const WRITTEN = opening.written;
+  const CHAPTER = opening.chapter;
+  const DOOR = opening.door;
+  const SEAL = '李耳';  // Laozi's own name, the chapters' author
   const INK = [243, 238, 227];
   const RED = '#c33b2c';
 
-  // Where the view flies into the clip, in the font's units: in 慈's long stroke across, a
-  // little left of the middle, where the animal is as each clip starts.
-  const DOOR = { x: 430, y: 612 };
+  // The clip, images/trivia/<name>.mp4 with <name>.jpg as its first frame, and its settings
+  // from _data/trivia.yml: when the dark closes in, in seconds into it, and if the phone
+  // filming it turned, how far it had turned at each tenth of a second, clockwise in
+  // degrees: the clip turns as much, the same way.
+  clip.poster = intro.dataset[shape] + '.jpg';
+  clip.src = intro.dataset[shape] + '.mp4';
+  const CLIP_END = Number(intro.dataset[shape + 'End']) || 9;
+  const ROLL = (intro.dataset[shape + 'Roll'] || '').split(' ').filter(Boolean).map(Number);
 
-  // The clip's settings, from _data/trivia.yml: when the dark closes in, in seconds into it,
-  // and if the phone filming it turned, how far it had turned at each tenth of a second,
-  // clockwise in degrees: the clip turns as much, the same way.
-  const CLIP_END = Number(intro.dataset.end) || 9;
-  const ROLL = (intro.dataset.roll || '').split(' ').filter(Boolean).map(Number);
-
-  // Timing of the writing, in seconds.
-  const BRUSH_SPEED = 4080;  // font units a second along a stroke
-  const STROKE_GAP = 0.033;
-  const CHARACTER_GAP = 0.18;
-  const COLUMN_GAP = 0.33;
-  const SOFT = 0.018;        // how long a bit of ink takes to darken fully
-  const SPREAD = 0.00083;    // and how much later the edges of a stroke come, a second a unit
+  // Timing of the writing, in seconds, at the opening's pace.
+  const PACE = opening.pace;
+  const BRUSH_SPEED = 4080 * PACE;  // font units a second along a stroke
+  const STROKE_GAP = 0.033 / PACE;
+  const CHARACTER_GAP = 0.18 / PACE;
+  const COLUMN_GAP = 0.33 / PACE;
+  const SOFT = 0.018;               // how long a bit of ink takes to darken fully
+  const SPREAD = 0.00083 / PACE;    // and how much later the edges of a stroke come, a second a unit
 
   const easeInOut = function (p) {
     return (1 - Math.cos(Math.PI * p)) / 2;
@@ -127,7 +150,7 @@
     characters.split('').forEach(function (ch, row) {
       const strokes = font.strokes[ch].map(function (points) {
         const middle = line(points);
-        const stroke = { line: middle, start: clock, time: 0.058 + middle.length / BRUSH_SPEED };
+        const stroke = { line: middle, start: clock, time: 0.058 / PACE + middle.length / BRUSH_SPEED };
         clock += stroke.time + STROKE_GAP;
         return stroke;
       });
@@ -146,10 +169,13 @@
     return { path: new Path2D(font.glyphs[ch]), box: font.boxes[ch] };
   });
 
-  // The way into the clip: how far it is from DOOR to the edge of 慈, in font units.
+  // The way into the clip: how far it is from DOOR to the edge of its character, in font units.
+  const doorway = written.find(function (character) {
+    return character.column === DOOR.column && character.row === DOOR.row;
+  });
   const door = (function () {
     const probe = document.createElement('canvas').getContext('2d');
-    const path = written[2].path;
+    const path = doorway.path;
     let room = Infinity;
     for (let a = 0; a < 360; a += 10) {
       const dx = Math.cos(a * Math.PI / 180);
@@ -163,9 +189,9 @@
     return { x: DOOR.x, y: DOOR.y, room: room || 20 };
   })();
 
-  /* Where everything goes: the characters in two columns in the middle, a little right of
-     it, in rows as tall as their taller character, the chapter in small ones to their left
-     and the seal under the chapter. Sizes in CSS px. */
+  /* Where everything goes: the characters in columns in the middle, a little right of it,
+     in rows as tall as their tallest character, the chapter in small ones to their left and
+     the seal under the chapter. Sizes in CSS px. */
 
   let dpr = 1;
   let width = 0;
@@ -180,9 +206,7 @@
     height = intro.clientHeight;
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
-    size = Math.min(height * 0.31, width * 0.36, 340);
 
-    const k = size / 1000;
     const gap = 200;  // between characters, in font units
     const rows = [];  // how tall each row is, in font units
     written.forEach(function (character) {
@@ -191,6 +215,12 @@
     const column = rows.reduce(function (sum, row) {
       return sum + gap + row;
     }, -gap);
+    // As large as lets the columns take 74% of the window's height and, with the chapter,
+    // 88% of its width, up to 340 px.
+    const first = (WRITTEN.length - 1) / 2;  // the first column's place right of the middle, in pitches
+    size = Math.min(0.74 * height * 1000 / column, 0.88 * width / (2.4 * first + 1.25), 340);
+
+    const k = size / 1000;
     const columnTop = (height - column * k) / 2 - 0.015 * height;
     let top = columnTop;
     const rowTops = rows.map(function (row) {
@@ -199,11 +229,11 @@
       return at;
     });
     const pitch = 1.2 * size;                // from one column's middle to the next's
-    const middle = width / 2 + 0.16 * size;  // between the two
+    const middle = width / 2 + 0.16 * size;  // of the columns
     written.forEach(function (character) {
       const ink = character.box[3] - character.box[1];
       character.k = k;
-      character.x = middle + (0.5 - character.column) * pitch - 500 * k;  // the em's left edge
+      character.x = middle + (first - character.column) * pitch - 500 * k;  // the em's left edge
       character.baseline = rowTops[character.row] + ((rows[character.row] - ink) / 2 + character.box[3]) * k;
     });
 
@@ -211,7 +241,7 @@
     // half a cell.
     const small = 0.14 * size;
     let y = columnTop + 0.5 * size;
-    const x = middle - pitch / 2 - 0.68 * size;
+    const x = middle - first * pitch - 0.68 * size;
     chapter.forEach(function (glyph) {
       const cell = (glyph.turned ? 0.55 : 0.93) * small;
       glyph.k = small / 1000;
@@ -230,7 +260,7 @@
 
   // The clip as large as fits upright, and how much larger (or smaller) once on its side.
   function fitClip() {
-    const aspect = clip.videoWidth ? clip.videoWidth / clip.videoHeight : 9 / 16;
+    const aspect = clip.videoWidth ? clip.videoWidth / clip.videoHeight : shape === 'wide' ? 16 / 9 : 9 / 16;
     clipFit.width = Math.min(width, height * aspect);
     clipFit.height = clipFit.width / aspect;
     clipFit.turned = Math.min(width / clipFit.height, height / clipFit.width);
@@ -458,7 +488,7 @@
     ink: 1,       // how much the ink shows, fading as it turns into windows
     labels: 1,    // the chapter and the seal, the same
     windows: false,
-    zoom: 0,      // from 0 to 1, flying through 慈
+    zoom: 0,      // from 0 to 1, flying through the door
   };
   let drawing = 0;
 
@@ -473,7 +503,7 @@
 
     // The view flies toward DOOR, faster and faster, until the window covers everything:
     // scaled by `zoom` about (px, py).
-    const character = written[2];
+    const character = doorway;
     const px = (character.x + door.x * character.k) * dpr;
     const py = (character.baseline - door.y * character.k) * dpr;
     const far = Math.max(Math.hypot(px, py), Math.hypot(canvas.width - px, py),
@@ -736,7 +766,7 @@
       return;
     }
 
-    // The ink turns into windows onto the clip, and the view flies through 慈.
+    // The ink turns into windows onto the clip, and the view flies through the door.
     const ready = await clipReady(3);
     rolling = ready;
     if (ready) {

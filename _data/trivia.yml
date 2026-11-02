@@ -1,4 +1,5 @@
-# The clips the Trivia page can open with; `clip:` in _pages/trivia.md picks one. Each is
+# The clips the Trivia page can open with; `clips:` in _pages/trivia.md picks one for a
+# screen taller than it is wide (tall) and one for a wider screen (wide). Each is
 # images/trivia/<name>.mp4, with <name>.jpg as its first frame, cut from its original in
 # trivia/ by scripts/trivia_clip.swift (see README.md).
 #
@@ -9,6 +10,11 @@
 
 2020-10-15-feeding-a-squirrel:
   end: 9.3
+
+# From the end of the bird's video, after the phone had turned on its side, turned back
+# upright (`side` in the script), so it's wide.
+2024-09-02-feeding-a-bird-wide:
+  end: 5.6
 
 # Its video isn't kept: make it again with the command in README.md before picking it.
 2024-09-02-feeding-a-bird:

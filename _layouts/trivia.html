@@ -4,19 +4,24 @@ layout: default
 
 {% comment %}
   The Trivia page: a line ending on a quotation (the page's own content), after an
-  opening on a black screen, as on Jimmy Chin's site (https://jimmychin.com): 一曰慈，
-  二曰俭 written with a brush, then a clip, images/trivia/<clip>.mp4 (clip: in the front
-  matter, with <clip>.jpg as its first frame and its settings in _data/trivia.yml), then
-  the dark closing in on the text. assets/js/trivia.js runs the opening, with the
+  opening on a black screen, as on Jimmy Chin's site (https://jimmychin.com): words of
+  Laozi written with a brush, 一曰慈，二曰俭 on a screen taller than it is wide and
+  不行而知，不见而明，不为而成 on a wider one, then a clip, images/trivia/<clip>.mp4
+  (clips: in the front matter, tall and wide, each with <clip>.jpg as its first frame and
+  its settings in _data/trivia.yml), then the dark closing in on the text.
+  assets/js/trivia.js runs the opening, picks the clip and sets its source, with the
   characters in assets/js/calligraphy.js. Styles: _sass/_trivia.scss.
 {% endcomment %}
 
 {% include base_path %}
-{% assign clip = base_path | append: "/images/trivia/" | append: page.clip %}
-{% assign settings = site.data.trivia[page.clip] %}
+{% assign folder = base_path | append: "/images/trivia/" %}
+{% assign tall = site.data.trivia[page.clips.tall] %}
+{% assign wide = site.data.trivia[page.clips.wide] %}
 
-<div class="trivia-intro" aria-hidden="true" data-end="{{ settings.end }}"{% if settings.roll %} data-roll="{{ settings.roll | join: ' ' }}"{% endif %}>
-  <video class="trivia-intro__clip" src="{{ clip }}.mp4" poster="{{ clip }}.jpg" muted playsinline preload="none"></video>
+<div class="trivia-intro" aria-hidden="true"
+  data-tall="{{ folder }}{{ page.clips.tall }}" data-tall-end="{{ tall.end }}"{% if tall.roll %} data-tall-roll="{{ tall.roll | join: ' ' }}"{% endif %}
+  data-wide="{{ folder }}{{ page.clips.wide }}" data-wide-end="{{ wide.end }}"{% if wide.roll %} data-wide-roll="{{ wide.roll | join: ' ' }}"{% endif %}>
+  <video class="trivia-intro__clip" muted playsinline preload="none"></video>
   <canvas class="trivia-intro__ink"></canvas>
   <button type="button" class="trivia-intro__skip" tabindex="-1">Skip</button>
 </div>

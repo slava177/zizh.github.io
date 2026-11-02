@@ -17,7 +17,7 @@ GitHub Actions (`.github/workflows/jekyll.yml`) builds and deploys the site on e
 | Menu at the top | `_data/navigation.yml` |
 | PDFs and images | `files/`, `images/` |
 | Travel and Scale Models pages | `_data/travel.yml` (one entry per photo or clip, shown as a mosaic) and `_data/models.yml` (one entry per model, which can have several photos, shown as a wall of framed prints); the photos' sizes in `_data/photo_sizes.yml`, written by `scripts/gallery_images.py`; the format is in `_layouts/gallery.html`, `_sass/_gallery.scss` and `assets/js/gallery.js`, which animates them with [Motion](https://motion.dev) (`assets/js/motion.js`, a cut-down copy remade by `sh scripts/motion.sh`, which needs Node.js) |
-| Trivia page | `_pages/trivia.md` (its text and which clip opens it), shown after an opening run by `assets/js/trivia.js` (see below), with the clips' settings in `_data/trivia.yml`; the format is in `_layouts/trivia.html` and `_sass/_trivia.scss` |
+| Trivia page | `_pages/trivia.md` (its text and which clips open it), shown after an opening run by `assets/js/trivia.js` (see below), with the clips' settings in `_data/trivia.yml`; the format is in `_layouts/trivia.html` and `_sass/_trivia.scss` |
 | The look of every page | `_layouts/`, `_includes/`, `_sass/` (colors and fonts in `_sass/_base.scss`) and `assets/js/site.js` |
 
 ## Adding a paper
@@ -55,21 +55,27 @@ avconvert --source photography/my-clip.mov --preset Preset960x540 --start 12 --d
 
 ## The Trivia page
 
-The page opens on a black screen, where 一曰慈，二曰俭 is written with a brush, stroke by
-stroke, in two columns read from the right, beside 《道德经》第六十七章 and a seal, 李耳. The
-characters then become windows onto a clip of an animal being fed, and the view flies into it
-through 慈; if the phone filming it turned, the clip turns as much, so the picture stays
-upright. Then the dark closes in on the page's text. A click or a key skips it. The
-characters are glyphs of the brush font
+The page opens on a black screen, where words of Laozi are written with a brush, stroke by
+stroke, in columns read from the right, beside the chapter they come from and a seal, 李耳.
+On a screen taller than it is wide, as a phone's, it is 一曰慈，二曰俭 in two columns, beside
+《道德经》第六十七章; on a wider one, as a laptop's, 不行而知，不见而明，不为而成 in three,
+beside 第四十七章, written faster so that twice as many strokes take not much longer
+(`pace` in `assets/js/trivia.js`). The characters then become windows onto a clip of an
+animal being fed, and the view flies into it through a character next to the middle of the
+screen, 曰 or 而 (`door` in the script); if the phone filming it turned, the clip turns as
+much, so the picture stays upright. Then the dark closes in on the page's text. A click or a
+key skips it. The characters are glyphs of the brush font
 [Ma Shan Zheng](https://github.com/googlefonts/mashanzheng) (SIL Open Font License, in
 `assets/js/calligraphy-license.txt`), kept as outlines in `assets/js/calligraphy.js` with the
-strokes of 一曰慈二俭 traced along them by hand for the writing.
+strokes of 一曰慈二俭 and 不行而知见明为成 traced along them by hand for the writing.
 
-`clip:` in `_pages/trivia.md` picks the clip in `images/trivia/`, with its settings in
-`_data/trivia.yml`: `2020-10-15-feeding-a-squirrel`. The bird clip tried before,
-`2024-09-02-feeding-a-bird`, has its settings there too, but its video isn't kept; the
-second command below makes it again. Both come from the originals in `trivia/` (kept out of
-git and out of the site, like `photography/`):
+`clips:` in `_pages/trivia.md` picks a clip in `images/trivia/` for each shape of screen,
+with its settings in `_data/trivia.yml`: `2020-10-15-feeding-a-squirrel` (tall) and
+`2024-09-02-feeding-a-bird-wide`, from the end of the bird's video, after the phone had
+turned on its side. The bird clip tried first, `2024-09-02-feeding-a-bird`, from the start
+of that video, with the phone turning, has its settings there too, but its video isn't
+kept; the second command below makes it again. All come from the originals in `trivia/`
+(kept out of git and out of the site, like `photography/`):
 
 ```bash
 swift scripts/trivia_clip.swift trivia/IMG_7563.MOV images/trivia/2020-10-15-feeding-a-squirrel 3.5 10
@@ -79,10 +85,15 @@ swift scripts/trivia_clip.swift trivia/IMG_7563.MOV images/trivia/2020-10-15-fee
 swift scripts/trivia_clip.swift trivia/IMG_3388.MOV images/trivia/2024-09-02-feeding-a-bird 2.5 10 arm
 ```
 
+```bash
+swift scripts/trivia_clip.swift trivia/IMG_3388.MOV images/trivia/2024-09-02-feeding-a-bird-wide 12.25 7 side
+```
+
 The script prints how far the phone turned, which goes in the clip's `roll` if it turned
-enough to matter (the bird's phone turned on its side; the squirrel's hardly moved), and
-`arm` makes the hair on the arm in the bird clip less plain (where and when: `arm` in the
-script).
+enough to matter (in the bird's first clip it turned on its side; the squirrel's and the
+wide bird clip's hardly moved). `arm` makes the hair on the arm in that first clip less
+plain (where and when: `arm` in the script), and `side` turns a part filmed with the phone
+on its side back upright, which makes the clip wide.
 
 ## Run locally
 
