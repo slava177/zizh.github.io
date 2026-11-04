@@ -506,11 +506,55 @@
   date: December 2023
   description: Gaudí's basilica, under construction since 1882.
 
+- file: 2023-12-27-zurich-limmat
+  title: The Limmat
+  subtitle: Zürich, Switzerland
+  date: December 2023
+  description: From the Lindenhof, where the Romans built a fort, across the river to the spire of the Predigerkirche and, up the hill, the domed main building of ETH Zürich.
+
 - file: 2023-12-27-lucerne-chapel-bridge
   title: Chapel Bridge
   subtitle: Lucerne, Switzerland
   date: December 2023
   description: The 14th-century covered wooden bridge and its Water Tower, with Mount Pilatus behind.
+
+- file: 2023-12-28-lucerne-chapel-bridge-night
+  title: Chapel Bridge at Night
+  subtitle: Lucerne, Switzerland
+  date: December 2023
+  description: The verse over its entrance has the bridge say that it comes from olden times, has seen much joy and sorrow, and asks to be protected still. In 1993 it almost burned down.
+  crop: 50% 20%
+
+- file: 2023-12-28-lucerne-seebrucke-lights
+  title: Lights over the Seebrücke
+  subtitle: Lucerne, Switzerland
+  date: December 2023
+  description: Christmas lights hung across the bridge where the Reuss leaves Lake Lucerne, seen from the Chapel Bridge. On the right stands the arch of the old railway station, which burned down in 1971.
+
+- file: 2023-12-30-grindelwald-eiger-express
+  title: Eiger Express
+  subtitle: Grindelwald, Switzerland
+  date: December 2023
+  description: The gondola from Grindelwald up to Eigergletscher, at the foot of the Eiger, opened in 2020 and climbs nearly 1,400 meters in fifteen minutes.
+
+- file: 2023-12-30-eigergletscher-murren
+  title: Ski Slopes at Eigergletscher
+  subtitle: Bernese Oberland, Switzerland
+  date: December 2023
+  description: Across the Lauterbrunnen Valley to Mürren, on its ledge above the cliffs, with the Schilthorn rising behind.
+
+- file: 2023-12-30-jungfraujoch-view-north
+  title: Over the Bernese Oberland
+  subtitle: Jungfraujoch, Switzerland
+  date: December 2023
+  description: North from about 3,500 meters, over the lower mountains to the haze above the Swiss Plateau.
+  crop: 50% 75%
+
+- file: 2023-12-30-jungfraujoch-jungfrau
+  title: The Jungfrau
+  subtitle: Jungfraujoch, Switzerland
+  date: December 2023
+  description: 4,158 meters high, and first climbed in 1811. The railway up to the Jungfraujoch, opened in 1912, is still the highest in Europe.
 
 - file: 2024-05-30-prague-old-town-bridge-tower
   title: Old Town Bridge Tower
