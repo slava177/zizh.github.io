@@ -42,6 +42,9 @@ and record its size, then add an entry for it to the data file, which explains i
 second photo of a model goes in its entry's `photos:` instead of an entry of its own. To take a
 photo off the site, delete its entry and its copies, and move the original into a folder inside
 `photography/` or `scaled_models/` (such as `photography/not-on-site/`), which the script skips.
+To show only part of a photo, save the cropped part in its place as a full-quality `.jpg` and
+keep the whole one in such a folder: David and the Bridge of Sighs are cropped to leave out
+strangers' faces, with the whole photos in `photography/uncropped/`.
 
 For a clip, put an H.264 `.mp4` of about 10 seconds in `images/travel/` or `images/models/`, with
 a still from it saved as a `.jpg` of the same name (shown until the clip loads), run

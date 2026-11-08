@@ -259,18 +259,17 @@
   date: December 2022
   description: Half an hour before midnight on New Year's Eve, with crowds gathering around the church for the fireworks.
 
+- file: 2023-01-01-thingvellir-dawn
+  title: Þingvellir at Dawn
+  subtitle: Þingvellir National Park, Iceland
+  date: January 2023
+  description: The rift valley between the North American and Eurasian plates, before sunrise on New Year's Day.
+
 - file: 2023-01-01-thingvellir-almannagja
   title: Almannagjá
   subtitle: Þingvellir National Park, Iceland
   date: January 2023
   description: The path through the gorge along the edge of the North American plate.
-
-- file: 2023-01-03-iceland-reynisfjara-basalt-columns
-  title: Basalt Columns
-  subtitle: Reynisfjara, Iceland
-  date: January 2023
-  description: Columns of basalt, formed as lava cooled and cracked, above the black sand beach near Vík.
-  crop: 70% 50%
 
 - file: 2023-01-01-iceland-strokkur-eruption
   video: true
@@ -280,12 +279,6 @@
   description: Strokkur erupts every few minutes, throwing boiling water some twenty meters into the air; here against the low midwinter sun.
   crop: 50% 35%
 
-- file: 2023-01-01-thingvellir-dawn
-  title: Þingvellir at Dawn
-  subtitle: Þingvellir National Park, Iceland
-  date: January 2023
-  description: The rift valley between the North American and Eurasian plates, before sunrise on New Year's Day.
-
 - file: 2023-01-01-iceland-geysir-steam-vents
   video: true
   title: Geysir Geothermal Field
@@ -293,6 +286,13 @@
   date: January 2023
   description: Steam drifting off the hot springs around the Great Geysir, the spring that gave all geysers their name.
   crop: 50% 45%
+
+- file: 2023-01-03-iceland-reynisfjara-basalt-columns
+  title: Basalt Columns
+  subtitle: Reynisfjara, Iceland
+  date: January 2023
+  description: Columns of basalt, formed as lava cooled and cracked, above the black sand beach near Vík.
+  crop: 70% 50%
 
 - file: 2023-01-05-stockholm-vasa-scale-model
   feature: true
@@ -385,6 +385,20 @@
   date: May 2023
   description: I. M. Pei's glass pyramid, opened in 1989 as the museum's main entrance.
 
+- file: 2023-05-22-venice-campanile
+  title: St. Mark's Campanile
+  subtitle: Venice, Italy
+  date: May 2023
+  description: Over the Piazzetta, with St. Mark's Basilica ahead and the Doge's Palace on the right. The bell tower fell down in 1902 and was rebuilt as it was, where it was, by 1912.
+  crop: 50% 10%
+
+- file: 2023-05-22-venice-bridge-of-sighs
+  title: Bridge of Sighs
+  subtitle: Venice, Italy
+  date: May 2023
+  description: Built around 1600 to take prisoners from the Doge's Palace, on the left, to the New Prisons. Its name is a 19th-century Romantic invention, picturing prisoners sighing at their last view of Venice through its windows.
+  crop: 50% 75%
+
 - file: 2023-05-23-florence-cathedral
   title: Florence Cathedral
   subtitle: Florence, Italy
@@ -403,11 +417,35 @@
   date: May 2023
   description: From the terraces along the cathedral roof; finished in 1436, it is still the largest brick dome ever built.
 
+- file: 2023-05-24-florence-david
+  title: David
+  subtitle: Galleria dell'Accademia, Florence, Italy
+  date: May 2023
+  description: Michelangelo carved him from 1501 to 1504, out of a block of marble that two sculptors before him had given up on. He stood outside the Palazzo Vecchio until 1873; this domed hall was built to house him.
+
 - file: 2023-05-27-vatican-st-peters-square
   title: St. Peter's Square
   subtitle: Vatican City
   date: May 2023
   description: From the top of St. Peter's dome, over Bernini's colonnade and down Via della Conciliazione toward the Tiber.
+
+- file: 2023-05-27-vatican-square-garden
+  title: The Square Garden
+  subtitle: Vatican Museums, Vatican City
+  date: May 2023
+  description: The dome of St. Peter's rises over a garden laid out for Pope Paul III in the 16th century and open to visitors only since 2013.
+
+- file: 2023-05-27-vatican-pigna
+  title: The Pigna
+  subtitle: Vatican Museums, Vatican City
+  date: May 2023
+  description: A Roman bronze pine cone four meters tall, once a fountain. In Dante's time it stood in the forecourt of the old St. Peter's, and the plaque quotes his Inferno, where a giant's face is as long and broad as this cone.
+
+- file: 2023-05-27-rome-view-from-castel-sant-angelo
+  title: From Castel Sant'Angelo
+  subtitle: Rome, Italy
+  date: May 2023
+  description: Down the Tiber to the Ponte Vittorio Emanuele II, and across to the dome of St. Peter's.
 
 - file: 2023-05-27-rome-castel-sant-angelo
   title: Castel Sant'Angelo
@@ -433,6 +471,12 @@
   date: May 2023
   description: Part of the arena floor has been rebuilt over the hypogeum, the tunnels where animals and gladiators waited.
 
+- file: 2023-05-28-rome-basilica-of-maxentius
+  title: Basilica of Maxentius
+  subtitle: Roman Forum, Rome, Italy
+  date: May 2023
+  description: From the Palatine. Maxentius began it in 308, and Constantine finished it after defeating him in 312; only the three vaults of one aisle still stand. On the right, the bell tower of Santa Francesca Romana.
+
 - file: 2023-05-28-rome-forum-from-palatine
   title: The Forum from the Palatine
   subtitle: Rome, Italy
@@ -444,6 +488,25 @@
   subtitle: Naples, Italy
   date: May 2023
   description: The seaside castle on the islet of Megaride, on the Bay of Naples.
+
+- file: 2023-05-31-pompeii-villa-of-diomedes
+  title: Villa of Diomedes
+  subtitle: Pompeii, Italy
+  date: May 2023
+  description: A large villa just outside the city walls, dug out in the 1770s. In its garden, a pool lies in front of a raised summer dining room, once shaded by a pergola.
+  crop: 50% 80%
+
+- file: 2023-05-31-pompeii-tower-of-mercury
+  title: Via di Mercurio
+  subtitle: Pompeii, Italy
+  date: May 2023
+  description: From the Tower of Mercury, a watchtower added to the city walls in the early first century BC, down the street toward the Forum. The tall bell tower on the left belongs to the shrine in the modern town.
+
+- file: 2023-05-31-pompeii-panorama
+  title: Over Pompeii
+  subtitle: Pompeii, Italy
+  date: May 2023
+  description: From the top of the Tower of Mercury, the highest place to look out over the ancient city, opened to visitors in December 2022. The walls run off to the left, while rain falls on the mountains to the east.
 
 - file: 2023-06-01-naples-castel-nuovo
   title: Castel Nuovo
@@ -832,3 +895,9 @@
   date: August 2026
   description: The moai stand with their backs to the sea.
   crop: 50% 75%
+
+- file: 2026-11-07-pittsburgh-aviary-condors
+  title: Andean Condors
+  subtitle: National Aviary, Pittsburgh, Pennsylvania, USA
+  date: November 2026
+  description: Two young condors at the glass, not yet black and white like the adults. Andean condors are among the largest flying birds, with wings up to 3.3 meters across.
