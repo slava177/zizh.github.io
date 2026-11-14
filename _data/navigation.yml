@@ -1,5 +1,7 @@
 # The menu at the top right of every page (_includes/site-header.html), in this order.
 # The first entry is the home page; the CV and paper pages count as part of it.
+# An entry's chinese, if it has one, takes the place of its title while the pointer is on
+# it, written with a brush (_sass/_header.scss).
 
 main:
   - title: "Research"
@@ -7,6 +9,7 @@ main:
 
   - title: "Travel"
     url: /travel/
+    chinese: "五洲四海"
 
   - title: "Scale Models"
     url: /models/

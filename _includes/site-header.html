@@ -5,7 +5,9 @@
   the light/dark button at the right; on the Travel and Scale Models pages, the button that
   flips the order of the photos too (assets/js/gallery.js), left of the menu and apart from
   it. A page is under the first menu entry ("/") unless its address starts with another
-  entry's, so the CV and paper pages count as the home page's.
+  entry's, so the CV and paper pages count as the home page's. An entry with chinese:, as
+  Travel, has it beside its title, hidden until the pointer is on the entry (_header.scss);
+  --chars, how many characters it has, is how wide the entry grows for them.
 {% endcomment %}
 
 {% assign current = "/" %}
@@ -21,7 +23,11 @@
   <div class="site-header__island">
     <nav class="site-header__tabs" aria-label="Pages">
       {% for link in site.data.navigation.main %}
-        <a href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+        {% if link.chinese %}
+          <a class="site-header__brush" href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %} style="--chars: {{ link.chinese | size }}"><span class="site-header__title">{{ link.title }}</span><span class="site-header__chinese" lang="zh" aria-hidden="true">{{ link.chinese }}</span></a>
+        {% else %}
+          <a href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+        {% endif %}
       {% endfor %}
     </nav>
     <button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false" hidden>

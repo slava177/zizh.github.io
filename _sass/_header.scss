@@ -113,6 +113,98 @@
   }
 }
 
+/* An entry with Chinese (chinese: in _data/navigation.yml), as Travel's five continents
+   and four seas, 五洲四海: while the pointer is on it, or it has the keyboard's focus, the
+   Chinese takes the title's place, in the brush font Ma Shan Zheng (_includes/head.html),
+   whose characters the Trivia page writes too, and the entry widens to fit it. Phones,
+   with no pointer, keep the title, and so do windows where the menu has no room to
+   widen: from 481px to $phone wide, where the name is beside it (narrower windows leave
+   the name out), and up to 400px, where the entries are smaller and closer together. */
+.site-header__brush {
+  position: relative;
+}
+
+.site-header__chinese {
+  display: none;
+}
+
+@media (hover: hover) and (min-width: 401px) and (max-width: 480px),
+  (hover: hover) and (min-width: #{$phone + 1px}) {
+  .site-header__title {
+    display: inline-block;
+    /* Half as wide as the Chinese: less than the title already is (Travel is 40px wide,
+       五洲四海 74px), so this changes nothing, but close enough that the entry starts to
+       widen as soon as the pointer comes. */
+    min-width: calc(var(--chars) * 0.575em);
+    text-align: center;
+    transition: opacity 0.2s ease;
+  }
+
+  .site-header__chinese {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    font-family: "Ma Shan Zheng", "Kaiti TC", "Kaiti SC", STKaiti, BiauKai, DFKai-SB, KaiTi, serif;
+    font-size: 1.15em;  /* each character 1.15em wide, as --chars counts them */
+    opacity: 0;
+    transform: translateX(-50%);
+    pointer-events: none;  /* hidden, it is wider than the title, reaching over the entries beside it */
+    transition: opacity 0.2s ease;
+  }
+
+  .site-header__brush:hover,
+  .site-header__brush:focus-visible {
+    .site-header__title {
+      min-width: calc(var(--chars) * 1.15em);
+      opacity: 0;
+    }
+
+    .site-header__chinese {
+      opacity: 1;
+    }
+  }
+
+  /* Unless the system asks for less motion, the entry widens smoothly as the title fades,
+     and the Chinese is written from left to right: a soft edge, a third as wide as the
+     characters, sweeps across them, showing them as it goes. When the pointer leaves,
+     the Chinese fades and the edge goes back for the next time. */
+  @media (prefers-reduced-motion: no-preference) {
+    .site-header__title {
+      transition: opacity 0.3s ease 0.1s, min-width 0.45s cubic-bezier(0.3, 0.6, 0.2, 1);
+    }
+
+    .site-header__chinese {
+      -webkit-mask-image: linear-gradient(to right, #000 43.5%, transparent 56.5%);
+      mask-image: linear-gradient(to right, #000 43.5%, transparent 56.5%);
+      -webkit-mask-size: 230% 100%;
+      mask-size: 230% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: 100% 0;
+      mask-position: 100% 0;
+      transition: opacity 0.2s ease, -webkit-mask-position 0s 0.2s, mask-position 0s 0.2s;
+    }
+
+    .site-header__brush:hover,
+    .site-header__brush:focus-visible {
+      .site-header__title {
+        transition: opacity 0.15s ease, min-width 0.45s cubic-bezier(0.3, 0.6, 0.2, 1);
+      }
+
+      .site-header__chinese {
+        -webkit-mask-position: 0 0;
+        mask-position: 0 0;
+        transition: opacity 0.1s ease,
+          -webkit-mask-position 0.8s cubic-bezier(0.4, 0.1, 0.3, 1) 0.05s,
+          mask-position 0.8s cubic-bezier(0.4, 0.1, 0.3, 1) 0.05s;
+      }
+    }
+  }
+}
+
 /* Newest first / Oldest first, left of the menu with room between them, outlined like the
    full view's Back button: a button, not a page. Once the page has scrolled it sits on a
    frosted island of its own, as tall as the menu's. Up to $sort-below there is no room for

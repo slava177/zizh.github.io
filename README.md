@@ -14,7 +14,7 @@ GitHub Actions (`.github/workflows/jekyll.yml`) builds and deploys the site on e
 | Home page: the About Me text and the list of sections | `_pages/about.md` |
 | Education, experience, teaching, skills | `_data/cv.yml`, shown on the CV page (`_pages/cv.md`); the home page shows the experience and teaching too |
 | Publications | one file per paper in `_publications/`; `category:` is `conferences`, `manuscripts` (journals) or `preprints`, and `cover:` is its picture in `images/papers/` |
-| Menu at the top | `_data/navigation.yml` |
+| Menu at the top, and the Chinese written with a brush in an entry's place while the pointer is on it (五洲四海 for Travel) | `_data/navigation.yml` |
 | PDFs and images | `files/`, `images/` |
 | Travel and Scale Models pages | `_data/travel.yml` (one entry per photo or clip, shown as a mosaic) and `_data/models.yml` (one entry per model, which can have several photos, shown as a wall of framed prints); the photos' sizes in `_data/photo_sizes.yml`, written by `scripts/gallery_images.py`; the format is in `_layouts/gallery.html`, `_sass/_gallery.scss` and `assets/js/gallery.js`, which animates them with [Motion](https://motion.dev) (`assets/js/motion.js`, a cut-down copy remade by `sh scripts/motion.sh`, which needs Node.js) |
 | Trivia page | `_pages/trivia.md` (its text and which clips open it), shown after an opening run by `assets/js/trivia.js` (see below), with the clips' settings in `_data/trivia.yml`; the format is in `_layouts/trivia.html` and `_sass/_trivia.scss` |
