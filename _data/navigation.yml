@@ -1,18 +1,27 @@
 # The menu at the top right of every page (_includes/site-header.html), in this order.
 # The first entry is the home page; the CV and paper pages count as part of it.
 # An entry's chinese, if it has one, takes the place of its title while the pointer is on
-# it, written with a brush (_sass/_header.scss).
+# it, written with a brush (_sass/_header.scss). On a Chinese page (lang: zh-CN), the menu
+# says each entry's zh instead, with the brush; it still leads to the English pages, except
+# for the page itself. On a page in both languages, the entry with key: true has the key to
+# the other page under it, made of the strokes of its title, or of its zh on a Chinese page
+# (assets/js/strokes.js, which has the outlines of Trivia's letters and of 杂记 only).
 
 main:
   - title: "Research"
     url: /
+    zh: "研究"
 
   - title: "Travel"
     url: /travel/
     chinese: "五洲四海"
+    zh: "游记"
 
   - title: "Scale Models"
     url: /models/
+    zh: "模型"
 
   - title: "Trivia"
     url: /trivia/
+    key: true
+    zh: "杂记"

@@ -113,6 +113,67 @@
   }
 }
 
+/* The menu's labels in each language: on a Chinese page (zh: in _data/navigation.yml)
+   written with the brush, a little larger than the English, as the brush font Ma Shan
+   Zheng's characters (_includes/head.html) are smaller for their size; and either way on
+   lines as tall, so the menu stays where it is when it turns from one to the other with
+   the page (assets/js/strokes.js), as the labels of the other language come in. */
+@mixin label-zh {
+  font-family: var(--brush);
+  font-size: 18px;
+  line-height: 25.6px;
+
+  @media (max-width: 400px) {
+    font-size: 17px;
+    line-height: 24px;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 16px;
+    line-height: 22.4px;
+  }
+}
+
+@mixin label-en {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 25.6px;
+
+  @media (max-width: 400px) {
+    font-size: 15px;
+    line-height: 24px;
+  }
+
+  @media (max-width: 359px) {
+    font-size: 14px;
+    line-height: 22.4px;
+  }
+}
+
+.site-header__tabs--zh a:not(.site-header__key),
+.site-header__zh {
+  @include label-zh;
+}
+
+.site-header__en {
+  @include label-en;
+}
+
+/* An entry turning: the label coming in, in the entry's middle, and the one going over it. */
+.site-header__tabs a.is-turning {
+  position: relative;
+  text-align: center;
+}
+
+.site-header__was {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
 /* An entry with Chinese (chinese: in _data/navigation.yml), as Travel's five continents
    and four seas, 五洲四海: while the pointer is on it, or it has the keyboard's focus, the
    Chinese takes the title's place, in the brush font Ma Shan Zheng (_includes/head.html),
@@ -147,7 +208,7 @@
     left: 50%;
     display: flex;
     align-items: center;
-    font-family: "Ma Shan Zheng", "Kaiti TC", "Kaiti SC", STKaiti, BiauKai, DFKai-SB, KaiTi, serif;
+    font-family: var(--brush);
     font-size: 1.15em;  /* each character 1.15em wide, as --chars counts them */
     opacity: 0;
     transform: translateX(-50%);
@@ -202,6 +263,103 @@
           mask-position 0.8s cubic-bezier(0.4, 0.1, 0.3, 1) 0.05s;
       }
     }
+  }
+}
+
+/* The key to the page in the other language, on a page in both languages: a small round
+   button under the entry with key: in _data/navigation.yml, Trivia, hidden until
+   assets/js/strokes.js shows it (.is-on) as the pointer rests on the entry, or until it
+   has the keyboard's focus. In it, 文 or A, made of the entry's own strokes, which the
+   script draws over the entry (.site-header__strokes) while the entry's letters are
+   hidden (.is-lending); or, if it can't draw them (no .is-drawn), the other language's
+   name, 中文 or English. A long press on the entry shows the key on a phone, so the press
+   doesn't select the word or open the link's menu. */
+.site-header__keyed {
+  position: relative;
+  display: flex;
+
+  > a:first-child {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+
+    &.is-lending {
+      color: transparent;
+    }
+  }
+}
+
+.site-header__tabs .site-header__key {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 16px;
+  background-color: var(--tint);
+  font-size: 14px;
+  line-height: 1;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.5);
+  pointer-events: none;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.3, 0.6, 0.2, 1), background-color 0.2s ease;
+  }
+
+  &.is-on,
+  &:focus-visible {
+    opacity: 1;
+    transform: translateX(-50%);
+    pointer-events: auto;
+  }
+
+  &:hover {
+    background-color: var(--tint-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--strong);
+    outline-offset: 2px;
+  }
+
+  &:lang(zh) {
+    font-family: var(--song);
+  }
+
+  &.is-drawn {
+    width: 32px;
+    padding: 0;
+    color: transparent;
+  }
+}
+
+/* At the entry's right, which stays put as the menu turns to the other language */
+.site-header__strokes {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  overflow: visible;
+  fill: var(--strong);
+  pointer-events: none;
+}
+
+/* Arriving from the other page through the key, the strokes are still out of the word at
+   first, under it: its letters are hidden until the script has drawn the strokes over
+   them, or for a moment, should the script not come. */
+.strokes-arrive .site-header__keyed > a:first-child {
+  color: transparent;
+  animation: strokes-arrive 0s 1.2s forwards;
+}
+
+@keyframes strokes-arrive {
+  to {
+    color: var(--strong);
   }
 }
 

@@ -6,6 +6,7 @@ clips:  # the clip that opens the page, on a screen taller than it is wide and o
   tall: 2020-10-15-feeding-a-squirrel  # or 2024-09-02-feeding-a-bird, once made again (README.md)
   wide: 2024-09-02-feeding-a-bird-wide
 excerpt: "This page contains mysterious material not beknown to your present interlocutor himself."
+translation: /zh/trivia/  # the page in Chinese, which the key under Trivia in the menu leads to
 ---
 
 <div class="trivia__text">

@@ -11,7 +11,7 @@ layout: compress
 {% include base_path %}
 
 <!doctype html>
-<html lang="{{ site.locale | slice: 0,2 }}">
+<html lang="{% if page.lang %}{{ page.lang }}{% else %}{{ site.locale | slice: 0,2 }}{% endif %}">
   <head>
     {% include head.html %}
   </head>
@@ -22,6 +22,7 @@ layout: compress
     {{ content }}
 
     <script src="{{ base_path }}/assets/js/site.js" defer></script>
+    {% if page.translation %}<script src="{{ base_path }}/assets/js/strokes.js" defer></script>{% endif %}
     {% include analytics.html %}
   </body>
 </html>

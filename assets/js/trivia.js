@@ -14,7 +14,8 @@
 // a character next to the middle of the window, 曰 or 而. If the phone filming it turned,
 // the clip turns with it, so the picture stays upright, and grows or shrinks to fit the
 // window the other way round. Last the dark closes in on the lines of the page's text, like
-// a censor's bars, which then slide off them.
+// a censor's bars, which then slide off them; on the Chinese page, whose text is a poem, the
+// dark pales into fog instead, which a long wind clears as the poem condenses out of it.
 //
 // The characters are glyphs of the brush font Ma Shan Zheng (assets/js/calligraphy.js),
 // drawn on a canvas. Each bit of a character's ink shows once a brush, moving along the
@@ -29,6 +30,580 @@
   'use strict';
 
   const intro = document.querySelector('.trivia-intro');
+  const text = document.querySelector('.trivia__text');
+  const root = document.documentElement;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Turning to the page in the other language (_pages/zh/trivia.md for this one, and
+     back) through the key under Trivia in the menu, made of the word's strokes
+     (assets/js/strokes.js, which tells of it with the event "pageturn"). Each way has its
+     weather from the poem, 青玉案. To the poem, mist drifts in over the English lines,
+     which dissolve into it, until the page is all fog; the poem's page opens in that fog,
+     and a long wind from the left tears it away in streaks while the poem condenses out of
+     the clear air, line by line (长风破雾云烟幻). Back to English, a tide runs up the page
+     and washes the poem out (浪拍岸); the English page opens deep in it, and as it draws
+     back down it leaves the English lines behind, top line first.
+
+     The page turned to knows from sessionStorage ("trivia-turned", its own address), which
+     the script in _layouts/trivia.html reads before anything shows, and skips its opening;
+     while it is still arriving it says so on <html> (data-arriving), for the key's script,
+     which waits for it. The fog is drawn on a small canvas stretched over the window,
+     which softens it; the tide is drawn sharp. Their colors are --fog and --tide
+     (_sass/_base.scss). Meanwhile each character of the text moves by itself, in a span
+     of its own, and is put back as it was after. */
+
+  const chinese = /^zh/.test(root.lang);
+  let cover = null;    // what covers the page as it turns: its canvas, and how to put the text back
+  let leaving = null;  // the way out, once begun
+
+  // From 0 to 1, slow at both ends
+  function sway(p) {
+    return (1 - Math.cos(Math.PI * Math.min(Math.max(p, 0), 1))) / 2;
+  }
+
+  // Calls step(t) every frame, with the time in ms since the first of them, until step
+  // returns false or stopped() is true. The time starts when the first frame is drawn, not
+  // before, as a page just opened may take a while to draw it; the characters' own moves
+  // (`moves`, animations) start with it.
+  function frames(step, stopped, moves) {
+    return new Promise(function (resolve) {
+      let start = -1;
+      requestAnimationFrame(function frame(now) {
+        if (start < 0) {
+          start = now;
+          (moves || []).forEach(function (move) {
+            move.startTime = now;
+          });
+        }
+        if ((stopped && stopped()) || step(now - start) === false) {
+          resolve();
+          return;
+        }
+        requestAnimationFrame(frame);
+      });
+    });
+  }
+
+  // A color from the stylesheet's custom property, as [r, g, b], or `fallback`
+  function color(name, fallback) {
+    const hex = getComputedStyle(root).getPropertyValue(name).trim().replace(/^#/, '');
+    if (/^[0-9a-f]{6}$/i.test(hex)) {
+      return [0, 2, 4].map(function (i) {
+        return parseInt(hex.slice(i, i + 2), 16);
+      });
+    }
+    return fallback;
+  }
+
+  function mix(a, b, t) {
+    return a.map(function (v, i) {
+      return Math.round(v + (b[i] - v) * t);
+    });
+  }
+
+  function rgba(c, alpha) {
+    return 'rgba(' + c.join(',') + ',' + alpha + ')';
+  }
+
+  // Smooth noise from 0 to 1, the same every time, and three octaves of it, for clouds
+  const PERM = new Uint8Array(512);
+  (function () {
+    let seed = 11;
+    for (let i = 0; i < 256; i++) {
+      PERM[i] = i;
+    }
+    for (let i = 255; i > 0; i--) {
+      seed = (seed * 16807) % 2147483647;
+      const j = seed % (i + 1);
+      const swap = PERM[i];
+      PERM[i] = PERM[j];
+      PERM[j] = swap;
+    }
+    PERM.copyWithin(256, 0, 256);
+  })();
+
+  function noise(x, y) {
+    const i = Math.floor(x);
+    const j = Math.floor(y);
+    const u = x - i;
+    const v = y - j;
+    const su = u * u * (3 - 2 * u);
+    const sv = v * v * (3 - 2 * v);
+    const a = PERM[PERM[i & 255] + (j & 255)];
+    const b = PERM[PERM[(i + 1) & 255] + (j & 255)];
+    const c = PERM[PERM[i & 255] + ((j + 1) & 255)];
+    const d = PERM[PERM[(i + 1) & 255] + ((j + 1) & 255)];
+    return (a + (b - a) * su + (c - a) * sv + (a - b - c + d) * su * sv) / 255;
+  }
+
+  function clouds(x, y) {
+    return 0.55 * noise(x, y) + 0.3 * noise(2.1 * x + 13.7, 2.1 * y + 5.3) + 0.15 * noise(4.3 * x + 31.1, 4.3 * y + 17.9);
+  }
+
+  // Puts each character of the text, but not its spaces, in a span of its own, which
+  // doesn't change where the lines break, and returns them, each with its middle in the
+  // window, its line (from the top, 0 first) and its place in the line. Begins the cover,
+  // with how to put the text back.
+  function spell() {
+    const before = text.innerHTML;
+    cover = {
+      canvas: null,
+      restore: function () {
+        text.innerHTML = before;
+      },
+    };
+    const nodes = [];
+    const walk = document.createTreeWalker(text, NodeFilter.SHOW_TEXT);
+    while (walk.nextNode()) {
+      nodes.push(walk.currentNode);
+    }
+    const spans = [];
+    nodes.forEach(function (node) {
+      if (!node.data.trim()) {
+        return;
+      }
+      const parts = document.createDocumentFragment();
+      node.data.split(/(\s+)/).forEach(function (run) {
+        if (/^\s*$/.test(run)) {
+          parts.appendChild(document.createTextNode(run));
+          return;
+        }
+        Array.from(run).forEach(function (ch) {
+          const span = document.createElement('span');
+          span.className = 'trivia-char';
+          span.textContent = ch;
+          parts.appendChild(span);
+          spans.push(span);
+        });
+      });
+      node.parentNode.replaceChild(parts, node);
+    });
+    const lines = [];
+    return spans.map(function (span) {
+      const box = span.getBoundingClientRect();
+      let line = lines.length - 1;
+      if (line < 0 || Math.abs(lines[line].top - box.top) > box.height / 2) {
+        lines.push({ top: box.top, count: 0 });
+        line += 1;
+      }
+      return { span: span, x: box.left + box.width / 2, y: box.top + box.height / 2, line: line, place: lines[line].count++ };
+    });
+  }
+
+  // A canvas over the window, under the menu, or over it too (over): a pixel to every
+  // `cell` CSS px, or to each of the screen's own.
+  function lay(over, cell) {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const scale = cell ? 1 / cell : Math.min(window.devicePixelRatio || 1, 2);
+    const canvas = document.createElement('canvas');
+    canvas.className = 'trivia-cover' + (over ? ' trivia-cover--over' : '');
+    canvas.setAttribute('aria-hidden', 'true');
+    canvas.width = Math.ceil(width * scale) + 1;
+    canvas.height = Math.ceil(height * scale) + 1;
+    canvas.style.width = canvas.width / scale + 'px';
+    canvas.style.height = canvas.height / scale + 'px';
+    document.body.appendChild(canvas);
+    cover.canvas = canvas;
+    return { canvas: canvas, pen: canvas.getContext('2d'), width: width, height: height, scale: scale };
+  }
+
+  /* The fog */
+
+  function makeFog(over) {
+    const layer = lay(over, Math.max(5, Math.sqrt(window.innerWidth * window.innerHeight / 16000)));
+    const bg = color('--bg', [255, 255, 255]);
+    layer.fog = color('--fog', mix(bg, [128, 132, 140], 0.1));
+    layer.lift = layer.fog.map(function (v, i) {  // how a cloud's shade moves the color, from the page's
+      return 1.5 * (v - bg[i]);
+    });
+    layer.image = layer.pen.createImageData(layer.canvas.width, layer.canvas.height);
+    return layer;
+  }
+
+  // Paints the fog: at each point, field(x, y, out) sets how thick it is (out[0], from 0 to
+  // 1) and its shade (out[1], from -1 to 1, 0 being --fog itself, below about -0.65 the
+  // page's own color); `dark`, from 0 to 1, turns it toward black.
+  function paintFog(layer, field, dark) {
+    const data = layer.image.data;
+    const w = layer.canvas.width;
+    const h = layer.canvas.height;
+    const cell = 1 / layer.scale;
+    const light = 1 - (dark || 0);
+    const out = [0, 0];
+    for (let j = 0; j < h; j++) {
+      const y = (j + 0.5) * cell;
+      for (let i = 0; i < w; i++) {
+        field((i + 0.5) * cell, y, out);
+        const shade = out[1] < -0.65 ? -0.65 : out[1];
+        const o = (j * w + i) * 4;
+        data[o] = light * (layer.fog[0] + shade * layer.lift[0]);
+        data[o + 1] = light * (layer.fog[1] + shade * layer.lift[1]);
+        data[o + 2] = light * (layer.fog[2] + shade * layer.lift[2]);
+        data[o + 3] = 255 * out[0];
+      }
+    }
+    layer.pen.putImageData(layer.image, 0, 0);
+  }
+
+  // Leaving the English page for the poem's: mist blown in from the left in patches,
+  // thicker and thicker, and each letter dissolving into it as it comes, carried off a
+  // little on the wind, until the page is all fog, even. Resolves then.
+  function fogIn() {
+    const TIME = 1100;
+    const chars = spell();
+    const layer = makeFog(false);
+    const cloud = function (x, y, p) {
+      return clouds(x / 300 - 0.6 * p, y / 220);
+    };
+    // How far the mist has come at p, from 0 to 1 of the way: thick where its cloud is
+    // more than 1 - reach(p), half thick at 0.15 less.
+    const reach = function (p) {
+      return -0.15 + 1.6 * Math.pow(p, 1.4);
+    };
+    const moves = chars.map(function (ch) {
+      const p = Math.pow(Math.min(Math.max((1.3 - cloud(ch.x, ch.y, 0.5)) / 1.6, 0), 1), 1 / 1.4);
+      return ch.span.animate([
+        { opacity: 1, filter: 'blur(0px)', left: '0px' },
+        { opacity: 0, filter: 'blur(4px)', left: '12px' },
+      ], { duration: 520, delay: Math.max(0, p * TIME - 260), easing: 'ease-in', fill: 'forwards' });
+    });
+    return frames(function (t) {
+      const p = Math.min(t / TIME, 1);
+      const r = reach(p);
+      const shade = p < 0.7 ? 1 : (1 - p) / 0.3;  // the clouds evening out, at the end, into one fog
+      paintFog(layer, function (x, y, out) {
+        const n = cloud(x, y, p);
+        const d = (r - 1 + n) / 0.3;
+        out[0] = d <= 0 ? 0 : d >= 1 ? 1 : d * d * (3 - 2 * d);
+        out[1] = (n - 0.5) * 2 * shade;
+      });
+      return p < 1;
+    }, null, moves);
+  }
+
+  // The poem's page out of the fog: the window all fog at first, or, as the opening ends,
+  // all dark, which pales into fog (over the menu too, as the opening was: over); the fog
+  // stirs, then a long wind from the left tears it away to the right in streaks, and the
+  // poem condenses out of the clear air, line by line, each from its start, 唯有真解在
+  // last. Resolves once the poem is all there, or once stopped() says it's no longer wanted.
+  async function clearFog(over, stopped) {
+    const STIR = over ? 900 : 300;  // the dark paling, or the fog stirring, before the wind
+    const WIND = 1300;              // the wind's way across the window
+    const chars = spell();
+    const layer = makeFog(over);
+    const W = layer.width;
+    const H = layer.height;
+    const BAND = 0.2 * W + 120;     // how wide the torn edge is
+    const TILT = 0.35;              // how much further behind the wind is lower down
+    const front = function (q) {    // where it is at q, from 0 to 1 of its way
+      return -BAND - 140 + (W + TILT * H + 2 * BAND + 280) * sway(q);
+    };
+    const ragged = function (y, t) {
+      return (clouds(y / 120 + 3.7, t / 2500) - 0.5) * 260;
+    };
+
+    // When the wind is past a point, in ms
+    const passes = function (x, y) {
+      const goal = x + TILT * y + ragged(y, STIR + WIND / 2) + 0.5 * BAND;
+      let lo = 0;
+      let hi = 1;
+      for (let k = 0; k < 18; k++) {
+        const mid = (lo + hi) / 2;
+        if (front(mid) < goal) {
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+      return STIR + lo * WIND;
+    };
+    // The characters condense in reading order, a line after another, each once the wind
+    // has passed it.
+    const start = chars.length ? passes(chars[0].x, chars[0].y) : 0;
+    let end = STIR + WIND;
+    const moves = chars.map(function (ch) {
+      const at = Math.max(start + 125 * ch.line + 18 * ch.place, passes(ch.x, ch.y) + 60);
+      end = Math.max(end, at + 650);
+      return ch.span.animate([
+        { opacity: 0, filter: 'blur(6px)', left: '-8px' },
+        { opacity: 1, filter: 'blur(0px)', left: '0px' },
+      ], { duration: 650, delay: at, easing: 'cubic-bezier(0.2, 0.6, 0.3, 1)', fill: 'backwards' });
+    });
+
+    const draw = function (t) {
+      const f = front((t - STIR) / WIND);
+      const stir = Math.min(t / STIR, 1);  // how much the clouds show yet
+      const shift = 0.3 * t;               // the streaks blown on to the right
+      let rowY = -1;
+      let rowRagged = 0;
+      paintFog(layer, function (x, y, out) {
+        if (y !== rowY) {
+          rowY = y;
+          rowRagged = ragged(y, t);
+        }
+        const s = (f - x - TILT * y - rowRagged) / BAND;  // past the wind's edge: from 0 to 1 across it
+        if (s >= 1) {
+          out[0] = 0;
+          out[1] = 0;
+          return;
+        }
+        const shade = (clouds((x - 0.08 * t) / 360, y / 180) - 0.5) * 2 * stir;
+        if (s <= 0) {
+          out[0] = 1;
+          out[1] = shade;
+          return;
+        }
+        const c = s * s * (3 - 2 * s);
+        const edge = 4 * c * (1 - c);
+        const streak = clouds((x - shift) / 280, y / 24) - 0.5;
+        out[0] = 1 - Math.min(Math.max(c + 1.2 * streak * edge, 0), 1);
+        out[1] = shade + 1.4 * streak * edge;
+      }, over ? 1 - sway(t / STIR) : 0);
+    };
+    draw(0);  // all fog (or all dark) at once
+    if (!over) {
+      root.classList.remove('trivia-turned');  // the text under the fog now, waiting
+    }
+    await frames(function (t) {
+      draw(t);
+      return t < STIR + WIND;
+    }, stopped, moves);
+    if (stopped && stopped()) {
+      return;
+    }
+    await wait(Math.max(0, end - STIR - WIND) / 1000);
+    cover.canvas.remove();
+    cover.restore();
+    cover = null;
+  }
+
+  /* The tide */
+
+  // How far past its line the water reaches up the page at x, at t ms, in px
+  function swash(x, t) {
+    return 9 * Math.sin(x / 70 - t / 380) + 6 * Math.sin(x / 31 + t / 260 + 1.3) + 16 * Math.sin(x / 190 + t / 900 + 0.4);
+  }
+
+  function makeTide() {
+    const layer = lay(false);
+    const bg = color('--bg', [255, 255, 255]);
+    const ink = color('--strong', [17, 17, 17]);
+    const dark = bg[0] + bg[1] + bg[2] < ink[0] + ink[1] + ink[2];
+    layer.water = color('--tide', mix(bg, [120, 140, 160], 0.15));
+    layer.crest = mix(layer.water, ink, dark ? 0.3 : 0.22);
+    layer.foam = dark ? mix(layer.water, ink, 0.12) : mix(layer.water, bg, 0.65);
+    return layer;
+  }
+
+  // Draws the tide, its edge along `line` (px from the top of the window) give or take the
+  // swash: the water below it, see-through at the edge and deep further down, a dark crest
+  // along the edge with foam under it, and lines of the waves behind; and the page above
+  // the edge wet a little way (wet, from 0 to 1), darker.
+  function paintTide(layer, line, t, wet) {
+    const pen = layer.pen;
+    const W = layer.width;
+    const H = layer.height;
+    pen.setTransform(layer.scale, 0, 0, layer.scale, 0, 0);
+    pen.clearRect(0, 0, W + 1, H + 1);
+    const trace = function (behind, damp) {
+      const edge = function (x) {
+        return line + behind - damp * swash(x + 37 * behind, t - 40 * behind);
+      };
+      pen.moveTo(-8, edge(-8));
+      for (let x = 0; x < W + 16; x += 8) {
+        pen.lineTo(x, edge(x));
+      }
+    };
+    let shade;
+    if (wet > 0) {
+      shade = pen.createLinearGradient(0, line - 160, 0, line + 20);
+      shade.addColorStop(0, rgba(layer.water, 0));
+      shade.addColorStop(1, rgba(layer.water, 0.45 * wet));
+      pen.fillStyle = shade;
+      pen.beginPath();
+      trace(0, 1);
+      pen.lineTo(W + 16, line - 200);
+      pen.lineTo(-8, line - 200);
+      pen.fill();
+    }
+    shade = pen.createLinearGradient(0, line - 30, 0, line + 150);
+    shade.addColorStop(0, rgba(layer.water, 0.5));
+    shade.addColorStop(1, rgba(layer.water, 1));
+    pen.fillStyle = shade;
+    pen.beginPath();
+    trace(0, 1);
+    pen.lineTo(W + 16, H + 40);
+    pen.lineTo(-8, H + 40);
+    pen.fill();
+    pen.lineCap = 'round';
+    pen.lineJoin = 'round';
+    for (let k = 1; k <= 3; k++) {
+      pen.strokeStyle = rgba(layer.crest, 0.35 / k);
+      pen.lineWidth = 1.2;
+      pen.beginPath();
+      trace(14 + 22 * k, 0.75);
+      pen.stroke();
+    }
+    pen.strokeStyle = rgba(layer.foam, 0.9);
+    pen.lineWidth = 5;
+    pen.beginPath();
+    trace(4, 1);
+    pen.stroke();
+    pen.strokeStyle = rgba(layer.crest, 0.9);
+    pen.lineWidth = 1.6;
+    pen.beginPath();
+    trace(0, 1);
+    pen.stroke();
+  }
+
+  // Leaving the poem's page for the English one: a tide runs up the page from the bottom
+  // and washes the poem out, each character rocked a moment under the water before it
+  // goes, until the window is all deep water, even. Resolves then.
+  function tideIn() {
+    const TIME = 1150;
+    const chars = spell();
+    const layer = makeTide();
+    const H = layer.height;
+    const rise = function (p) {  // fast in, slowing
+      return 1 - Math.pow(1 - Math.min(Math.max(p, 0), 1), 2);
+    };
+    const line = function (t) {  // from under the window to over it
+      return H + 60 - (H + 260) * rise(t / TIME);
+    };
+    // When the water is over a point
+    const under = function (x, y) {
+      let t = TIME / 2;
+      for (let k = 0; k < 3; k++) {
+        const r = Math.min(Math.max((H + 60 - y - swash(x, t)) / (H + 260), 0), 1);
+        t = TIME * (1 - Math.sqrt(1 - r));
+      }
+      return t;
+    };
+    const moves = chars.map(function (ch) {
+      return ch.span.animate([
+        { opacity: 1, filter: 'blur(0px)', left: '0px', top: '0px' },
+        { opacity: 0.75, filter: 'blur(0.8px)', left: '3px', top: '-3px', offset: 0.3 },
+        { opacity: 0.35, filter: 'blur(1.6px)', left: '-3px', top: '2px', offset: 0.65 },
+        { opacity: 0, filter: 'blur(3px)', left: '5px', top: '6px' },
+      ], { duration: 650, delay: under(ch.x, ch.y + 8), easing: 'ease-in-out', fill: 'forwards' });
+    });
+    return frames(function (t) {
+      paintTide(layer, line(t), t, 0);
+      return t < TIME;
+    }, null, moves);
+  }
+
+  // The English page out of the tide: the window all deep water at first, which draws back
+  // down the page, leaving the lines behind it, top line first, each character settling as
+  // the water leaves it, the page wet for a moment behind it. Resolves once it's gone.
+  async function ebb() {
+    const TIME = 1500;
+    const chars = spell();
+    const layer = makeTide();
+    const H = layer.height;
+    const line = function (t) {  // from over the window to under it
+      return -200 + (H + 420) * sway(t / TIME);
+    };
+    // When the water has left a point
+    const left = function (x, y) {
+      let t = TIME / 2;
+      for (let k = 0; k < 3; k++) {
+        const s = Math.min(Math.max((y + swash(x, t) + 200) / (H + 420), 0), 1);
+        t = TIME * Math.acos(1 - 2 * s) / Math.PI;
+      }
+      return t;
+    };
+    let end = TIME;
+    const moves = chars.map(function (ch) {
+      const at = Math.max(0, left(ch.x, ch.y - 6) - 60);
+      end = Math.max(end, at + 700);
+      return ch.span.animate([
+        { opacity: 0, filter: 'blur(3px)', left: '-3px', top: '4px' },
+        { opacity: 0.7, filter: 'blur(1px)', left: '2px', top: '-1px', offset: 0.45 },
+        { opacity: 1, filter: 'blur(0px)', left: '0px', top: '0px' },
+      ], { duration: 700, delay: at, easing: 'ease-out', fill: 'backwards' });
+    });
+    paintTide(layer, line(0), 0, 1);
+    root.classList.remove('trivia-turned');  // the text under the water now, waiting
+    await frames(function (t) {
+      paintTide(layer, line(t), t, 1);
+      return t < TIME;
+    }, null, moves);
+    await wait(Math.max(0, end - TIME) / 1000);
+    cover.canvas.remove();
+    cover.restore();
+    cover = null;
+  }
+
+  /* Turning */
+
+  // Leaving: the key's script waits for this before it goes to the other page.
+  document.addEventListener('pageturn', function (event) {
+    try {
+      sessionStorage.setItem('trivia-turned', new URL(event.detail.to, location.href).pathname);
+    } catch (e) {}
+    if (!text) {
+      return;
+    }
+    if (!leaving) {
+      leaving = reduceMotion ?
+        text.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 250, fill: 'forwards' }).finished :
+        chinese ? tideIn() : fogIn();
+    }
+    event.detail.wait(leaving);
+  });
+
+  // Arriving: out of the fog to the poem, or out of the tide to the English page; or, when
+  // the system asks for less motion, the text just fades in.
+  async function arrive() {
+    if (!text || reduceMotion) {
+      root.classList.remove('trivia-turned');
+      if (text) {
+        await text.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 400 }).finished;
+      }
+      return;
+    }
+    if (document.fonts) {
+      await Promise.race([document.fonts.ready, wait(1)]);  // so the characters are where they'll stay
+    }
+    await (chinese ? clearFog(false) : ebb());
+  }
+
+  // Back to this page from the other one, as the browser kept it: uncovered.
+  window.addEventListener('pageshow', function (event) {
+    if (!event.persisted) {
+      return;
+    }
+    if (cover) {
+      if (cover.canvas) {
+        cover.canvas.remove();
+      }
+      cover.restore();
+      cover = null;
+    }
+    if (text) {
+      text.getAnimations().forEach(function (animation) {
+        animation.cancel();
+      });
+    }
+    leaving = null;
+  });
+
+  if (root.classList.contains('trivia-turned')) {
+    if (intro) {
+      intro.remove();
+    }
+    root.setAttribute('data-arriving', '');
+    const arrived = function () {
+      root.removeAttribute('data-arriving');
+    };
+    arrive().then(arrived, arrived);
+    return;
+  }
+
+  /* The opening */
+
   if (!intro) {
     return;
   }
@@ -36,9 +611,6 @@
   const canvas = intro.querySelector('.trivia-intro__ink');
   const ctx = canvas.getContext && canvas.getContext('2d');
   const clip = intro.querySelector('.trivia-intro__clip');
-  const text = document.querySelector('.trivia__text');
-  const root = document.documentElement;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Missing what it needs, or so late that the stylesheet is fading the opening away by
   // itself, in case this script never came: just the page. (Should anything here fail
@@ -639,7 +1211,8 @@
 
   let bars = [];
 
-  // The box of each line of the page's text, the name under the quotation too, in the window.
+  // The box of each line of the page's text, the name under the quotation too, in the
+  // window.
   function lines() {
     const range = document.createRange();
     const boxes = [];
@@ -713,9 +1286,13 @@
     document.removeEventListener('keydown', onKey);
     document.removeEventListener('pointerdown', onPointer);
     root.classList.remove('trivia-intro-open');
-    const leaving = [intro].concat(bars).filter(function (element) {
+    const leaving = [intro].concat(bars, cover && cover.canvas ? [cover.canvas] : []).filter(function (element) {
       return element.isConnected;
     });
+    if (cover) {  // the poem's characters, each by itself as they condensed, back as they were
+      cover.restore();
+      cover = null;
+    }
     const remove = function () {
       leaving.forEach(function (element) {
         element.remove();
@@ -817,7 +1394,18 @@
     }
     following = false;
     cancelAnimationFrame(drawing);
-    await declassify();
+    if (chinese) {
+      // The poem's page: the dark pales into fog, which the wind clears, as when the key
+      // turns to it.
+      const clearing = clearFog(true, function () {
+        return finished;
+      });
+      intro.remove();
+      root.classList.remove('trivia-intro-open');
+      await clearing;
+    } else {
+      await declassify();
+    }
     finish(false);
   }
 

@@ -11,12 +11,28 @@ layout: default
   its settings in _data/trivia.yml), then the dark closing in on the text.
   assets/js/trivia.js runs the opening, picks the clip and sets its source, with the
   characters in assets/js/calligraphy.js. Styles: _sass/_trivia.scss.
+
+  The page is in English (_pages/trivia.md), a line ending on a quotation, and in Chinese
+  (_pages/zh/trivia.md), a ci to the tune 青玉案; the key under Trivia in the menu,
+  hidden, leads from each to the other (assets/js/strokes.js). Arriving through it, the
+  page skips its opening: the script below marks that on <html> (trivia-turned) before
+  anything shows, and trivia.js brings the page out of the fog the other page left (the
+  poem) or out of the tide (the English).
 {% endcomment %}
 
 {% include base_path %}
 {% assign folder = base_path | append: "/images/trivia/" %}
 {% assign tall = site.data.trivia[page.clips.tall] %}
 {% assign wide = site.data.trivia[page.clips.wide] %}
+
+<script>
+  try {
+    if (sessionStorage.getItem('trivia-turned') === location.pathname) {
+      sessionStorage.removeItem('trivia-turned');
+      document.documentElement.classList.add('trivia-turned');
+    }
+  } catch (e) {}
+</script>
 
 <div class="trivia-intro" aria-hidden="true"
   data-tall="{{ folder }}{{ page.clips.tall }}" data-tall-end="{{ tall.end }}"{% if tall.roll %} data-tall-roll="{{ tall.roll | join: ' ' }}"{% endif %}

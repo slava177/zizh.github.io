@@ -8,6 +8,17 @@
   entry's, so the CV and paper pages count as the home page's. An entry with chinese:, as
   Travel, has it beside its title, hidden until the pointer is on the entry (_header.scss);
   --chars, how many characters it has, is how wide the entry grows for them.
+
+  On a Chinese page (lang: zh-CN) the menu is in Chinese, each entry's zh, with the brush;
+  the entries still lead to the English pages, except the page's own, which stays. On a
+  page in both languages each entry has its label in the other language too (data-turn),
+  for the menu to turn to it as the page turns (assets/js/strokes.js).
+
+  On a page in both languages (translation:, the other one's address, in its front
+  matter), the entry with key:, Trivia, has after it the key to the other page: a small
+  round button under the entry, hidden until the pointer rests there, with 文 or A in it
+  made of the entry's own strokes (assets/js/strokes.js). Without that script it shows
+  only with the keyboard's focus, as the other language's name.
 {% endcomment %}
 
 {% assign current = "/" %}
@@ -17,16 +28,27 @@
   {% endif %}
 {% endfor %}
 
+{% if page.lang contains "zh" %}{% assign zh = true %}{% else %}{% assign zh = false %}{% endif %}
+
 <header class="site-header">
   <a class="site-header__name" href="{{ base_path }}/">{{ site.author.name }}</a>
   {% if page.gallery %}<button type="button" class="gallery__sort">Newest first</button>{% endif %}
   <div class="site-header__island">
-    <nav class="site-header__tabs" aria-label="Pages">
+    <nav class="site-header__tabs{% if zh %} site-header__tabs--zh{% endif %}" aria-label="{% if zh %}页面{% else %}Pages{% endif %}">
       {% for link in site.data.navigation.main %}
-        {% if link.chinese %}
-          <a class="site-header__brush" href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %} style="--chars: {{ link.chinese | size }}"><span class="site-header__title">{{ link.title }}</span><span class="site-header__chinese" lang="zh" aria-hidden="true">{{ link.chinese }}</span></a>
+        {% if zh %}
+          {% if link.url == current %}{% assign href = page.url %}{% else %}{% assign href = link.url %}{% endif %}
+          {% if link.key and page.translation %}
+            <span class="site-header__keyed"><a href="{{ base_path }}{{ href }}"{% if link.url == current %} aria-current="page"{% endif %} data-turn="{{ link.title }}">{{ link.zh }}</a><a class="site-header__key" href="{{ base_path }}{{ page.translation }}" hreflang="en" lang="en">English</a></span>
+          {% else %}
+            <a href="{{ base_path }}{{ href }}"{% if link.url == current %} aria-current="page"{% endif %}{% if page.translation %} data-turn="{{ link.title }}"{% endif %}>{{ link.zh | default: link.title }}</a>
+          {% endif %}
+        {% elsif link.chinese %}
+          <a class="site-header__brush" href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %}{% if page.translation and link.zh %} data-turn="{{ link.zh }}"{% endif %} style="--chars: {{ link.chinese | size }}"><span class="site-header__title">{{ link.title }}</span><span class="site-header__chinese" lang="zh" aria-hidden="true">{{ link.chinese }}</span></a>
+        {% elsif link.key and page.translation %}
+          <span class="site-header__keyed"><a href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %}{% if link.zh %} data-turn="{{ link.zh }}"{% endif %}>{{ link.title }}</a><a class="site-header__key" href="{{ base_path }}{{ page.translation }}" hreflang="zh-CN" lang="zh-CN">中文</a></span>
         {% else %}
-          <a href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+          <a href="{{ base_path }}{{ link.url }}"{% if link.url == current %} aria-current="page"{% endif %}{% if page.translation and link.zh %} data-turn="{{ link.zh }}"{% endif %}>{{ link.title }}</a>
         {% endif %}
       {% endfor %}
     </nav>

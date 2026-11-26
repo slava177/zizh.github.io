@@ -23,6 +23,25 @@
 <meta property="og:description" content="{{ description }}">
 <meta property="og:url" content="{{ page.url | replace: 'index.html', '' | prepend: base_path }}">
 <meta property="og:image" content="{{ share_image | prepend: base_path }}">
+{% comment %}
+  A page in both languages: where the other one is, for search engines. Arriving from it
+  through the key under Trivia in the menu, whose strokes are then still out of the word
+  (assets/js/strokes.js, which leaves this page's address in sessionStorage as
+  "strokes-arrive"), the page marks that on <html> before anything shows.
+{% endcomment %}
+{% if page.translation %}
+  {% if page.lang contains "zh" %}{% assign other_lang = "en" %}{% else %}{% assign other_lang = "zh-CN" %}{% endif %}
+  <link rel="alternate" hreflang="{{ page.lang | default: 'en' }}" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" hreflang="{{ other_lang }}" href="{{ page.translation | absolute_url }}">
+  <script>
+    try {
+      if (sessionStorage.getItem('strokes-arrive') === location.pathname) {
+        sessionStorage.removeItem('strokes-arrive');
+        document.documentElement.classList.add('strokes-arrive');
+      }
+    } catch (e) {}
+  </script>
+{% endif %}
 {% if site.google_site_verification %}<meta name="google-site-verification" content="{{ site.google_site_verification }}">{% endif %}
 
 {% comment %}
@@ -47,13 +66,22 @@
   The brush font Ma Shan Zheng for the menu's Chinese (chinese: in _data/navigation.yml),
   cut down to just those characters, a few kilobytes. It is needed only once the pointer
   is on the menu, so the page doesn't wait for it: it loads as a stylesheet for print and
-  is switched on when it arrives.
+  is switched on when it arrives. A page whose own text is written with the brush says so
+  in its front matter (brush: true, as the Chinese Trivia page does for its poem); then
+  the characters of its text come too, each once, and the page waits for them, as a
+  Chinese page does anyway, whose menu is written with the brush. A page in both languages
+  has the menu's Chinese too, for its menu to turn to it with the page.
 {% endcomment %}
 {% assign brush = "" %}
+{% if page.brush %}{% assign brush = page.content | strip_html | strip_newlines | remove: " " %}{% endif %}
 {% for link in site.data.navigation.main %}
   {% if link.chinese %}{% assign brush = brush | append: link.chinese %}{% endif %}
+  {% if page.translation and link.zh %}{% assign brush = brush | append: link.zh %}{% endif %}
 {% endfor %}
-{% if brush != "" %}
+{% assign brush = brush | split: "" | uniq | join: "" %}
+{% if page.brush or page.lang contains "zh" %}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text={{ brush | url_encode }}&display=swap">
+{% elsif brush != "" %}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text={{ brush | url_encode }}&display=swap" media="print" onload="this.media='all'">
 {% endif %}
 <link rel="stylesheet" href="{{ base_path }}/assets/css/main.css">

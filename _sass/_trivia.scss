@@ -84,6 +84,67 @@ html.trivia-intro-open {
   pointer-events: none;
 }
 
+/* What covers the page as it turns to the other language through the key under Trivia
+   in the menu (assets/js/strokes.js): fog, or the tide, drawn by the script, over the window
+   and under the menu, or over the menu too as the Chinese page's opening ends; and each
+   character of the text, moving by itself meanwhile. */
+.trivia-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 15;
+  pointer-events: none;
+
+  &--over {
+    z-index: 41;  /* as the bars */
+  }
+}
+
+.trivia-char {
+  position: relative;
+}
+
+/* Arriving that way: no opening, the text hidden until the script has it, and the window
+   as the other page left it, deep in the tide, or in fog on the Chinese page, until the
+   script takes over; or, should it not come, for a moment. */
+.trivia-turned {
+  .trivia-intro {
+    display: none;
+  }
+
+  .trivia__text {
+    visibility: hidden;
+    animation: trivia-text-shows 0s 1.5s forwards;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    background-color: var(--tide);
+    pointer-events: none;
+    animation: trivia-cover-lifts 0.5s ease 1.8s forwards;
+  }
+
+  &:lang(zh) body::after {
+    background-color: var(--fog);
+  }
+}
+
+@keyframes trivia-cover-lifts {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes trivia-text-shows {
+  to {
+    visibility: visible;
+  }
+}
+
 /*
    The page: its line in the middle of the window, and the quotation it ends on
    ========================================================================== */
@@ -127,6 +188,16 @@ html.trivia-intro-open {
     margin: 0;
     text-wrap: pretty;
   }
+
+  /* Chinese breaks only after its punctuation, so a line ends with a phrase, and its
+     lines are evened out, so the last isn't left with a word or two. */
+  &:lang(zh) {
+    word-break: keep-all;
+
+    p {
+      text-wrap: balance;
+    }
+  }
 }
 
 /* The quotation, on lines of its own under the page's own words: further in, in italics,
@@ -150,5 +221,36 @@ html.trivia-intro-open {
 
   @media (max-width: 560px) {
     margin-left: 0.9em;
+  }
+}
+
+/* The Chinese page's poem, a ci to the tune 青玉案 (_pages/zh/trivia.md), in the middle:
+   written with the brush that writes Laozi's words in the opening, under the tune's name
+   in small letters, as the English page has the name under its quotation. Each half on
+   its own, each sentence in it on a line of its own; one too long for the window goes on
+   after a comma, further in. */
+.trivia__poem {
+  width: fit-content;
+  max-width: 100%;
+  font-family: var(--brush);
+  line-height: 1.7;
+
+  .trivia__tune {
+    margin-bottom: 1.3em;
+    color: var(--muted);
+    font-family: var(--song);
+    font-size: 15px;
+    letter-spacing: 0.4em;
+  }
+}
+
+.trivia__stanza {
+  & + & {
+    margin-top: 0.8em;
+  }
+
+  p {
+    padding-left: 1em;
+    text-indent: -1em;
   }
 }

@@ -17,7 +17,8 @@ GitHub Actions (`.github/workflows/jekyll.yml`) builds and deploys the site on e
 | Menu at the top, and the Chinese written with a brush in an entry's place while the pointer is on it (五洲四海 for Travel) | `_data/navigation.yml` |
 | PDFs and images | `files/`, `images/` |
 | Travel and Scale Models pages | `_data/travel.yml` (one entry per photo or clip, shown as a mosaic) and `_data/models.yml` (one entry per model, which can have several photos, shown as a wall of framed prints); the photos' sizes in `_data/photo_sizes.yml`, written by `scripts/gallery_images.py`; the format is in `_layouts/gallery.html`, `_sass/_gallery.scss` and `assets/js/gallery.js`, which animates them with [Motion](https://motion.dev) (`assets/js/motion.js`, a cut-down copy remade by `sh scripts/motion.sh`, which needs Node.js) |
-| Trivia page | `_pages/trivia.md` (its text and which clips open it), shown after an opening run by `assets/js/trivia.js` (see below), with the clips' settings in `_data/trivia.yml`; the format is in `_layouts/trivia.html` and `_sass/_trivia.scss` |
+| Trivia page | `_pages/trivia.md` (its text and which clips open it) and the same page in Chinese, `_pages/zh/trivia.md`, shown after an opening run by `assets/js/trivia.js` (see below), with the clips' settings in `_data/trivia.yml`; the format is in `_layouts/trivia.html` and `_sass/_trivia.scss` |
+| The hidden key to a page in the other language, under Trivia in the menu | on any page with `translation:` (the other page's address) in its front matter; `_includes/site-header.html` (the entry with `key: true` in `_data/navigation.yml`), `assets/js/strokes.js` and `_sass/_header.scss` |
 | The look of every page | `_layouts/`, `_includes/`, `_sass/` (colors and fonts in `_sass/_base.scss`) and `assets/js/site.js` |
 
 ## Adding a paper
@@ -66,8 +67,8 @@ beside 第四十七章, written faster so that twice as many strokes take not mu
 (`pace` in `assets/js/trivia.js`). The characters then become windows onto a clip of an
 animal being fed, and the view flies into it through a character next to the middle of the
 screen, 曰 or 而 (`door` in the script); if the phone filming it turned, the clip turns as
-much, so the picture stays upright. Then the dark closes in on the page's text. A click or a
-key skips it. The characters are glyphs of the brush font
+much, so the picture stays upright. Then the dark closes in on the page's text, or, on the
+Chinese page, pales into fog that a long wind clears. A click or a key skips it. The characters are glyphs of the brush font
 [Ma Shan Zheng](https://github.com/googlefonts/mashanzheng) (SIL Open Font License, in
 `assets/js/calligraphy-license.txt`), kept as outlines in `assets/js/calligraphy.js` with the
 strokes of 一曰慈二俭 and 不行而知见明为成 traced along them by hand for the writing.
@@ -97,6 +98,32 @@ enough to matter (in the bird's first clip it turned on its side; the squirrel's
 wide bird clip's hardly moved). `arm` makes the hair on the arm in that first clip less
 plain (where and when: `arm` in the script), and `side` turns a part filmed with the phone
 on its side back upright, which makes the clip wide.
+
+The page is in Chinese too, at `/zh/trivia/` (`_pages/zh/trivia.md`, with `lang: zh-CN`): a ci
+to the tune 青玉案, written with the same brush (`brush: true` in its front matter, so the
+font comes with the poem's characters; edit the poem and they follow). On a Chinese page the
+menu is in Chinese too, with the brush (`zh:` in `_data/navigation.yml`: 研究, 游记, 模型,
+杂记), and still leads to the English pages, but for the page itself.
+
+Neither page shows the way to the other. Rest the pointer on Trivia in the menu, and the bar
+of its T, the dot of its i and the two strokes of its v come out of the word and make 文
+under it, in a small round button; on the Chinese page, the 横, 撇 and 点 of the 木 in 杂
+make A. On a phone, a long press on the entry does it. Clicked, the strokes make the other
+sign (文 from 杂记 takes the dot of 记 too) as the page turns, each way in weather from the
+poem. To the poem, mist drifts in over the English lines until the page is all fog; the
+Chinese page opens in it, and a long wind tears it away in streaks while the poem condenses
+out of the clear air line by line (长风破雾云烟幻). Back to English, a tide runs up the page
+and washes the poem out; the English page opens deep in it, and as it draws back down it
+leaves the lines behind, top line first. Meanwhile the menu turns to the other language
+from the left, each label dissolving as the other condenses in its place, and on Trivia the
+strokes of one word give way to the other's making the same sign, so the other page opens
+just as this one ends. The strokes stay out under the menu until the page has arrived, the
+way back. They are the fonts' own outlines, in `assets/js/strokes.js`
+(Crimson Pro's for Trivia, Ma Shan Zheng's for 杂记); where a font can't load, the button
+just says 中文 or English. The fog and the tide are drawn in `assets/js/trivia.js`, in
+`--fog` and `--tide` (`_sass/_base.scss`). Any page can have a version in the other language
+the same way: `translation:` in the front matter of each, pointing at the other, and
+`lang: zh-CN` in the Chinese one's.
 
 ## Run locally
 
